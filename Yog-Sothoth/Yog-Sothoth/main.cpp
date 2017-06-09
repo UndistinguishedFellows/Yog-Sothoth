@@ -1,45 +1,87 @@
 #include <iostream>
 #include <SDL.h>
+#include "Application.h"
 
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+
+enum main_states
+{
+	MAIN_CREATION,
+	MAIN_START,
+	MAIN_UPDATE,
+	MAIN_FINISH,
+	MAIN_EXIT
+};
+
+
+Application* App = nullptr;
 
 int main(int argc, char** argv)
 {
-	//The window we'll be rendering to
-	SDL_Window* window = NULL;
+	int main_return = EXIT_FAILURE;
+	main_states state = MAIN_CREATION;
 
-	//The surface contained by the window
-	SDL_Surface* screenSurface = NULL;
-
-	//Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	while (state != MAIN_EXIT)
 	{
-		SDL_Log("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-	}
-	else
-	{
-		//Create window
-		window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		if (window == NULL)
+		switch (state)
 		{
-			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		}
-		else
-		{
-			//Get window surface
-			screenSurface = SDL_GetWindowSurface(window);
+			case MAIN_CREATION:
 
-			//Fill the surface white
-			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+				SDL_Log("-------------- Application Creation --------------");
+				App = new Application();
+				state = MAIN_START;
+				break;
 
-			//Update the surface
-			SDL_UpdateWindowSurface(window);
+			case MAIN_START:
 
-			//Wait two seconds
-			SDL_Delay(2000);
+				SDL_Log("-------------- Application Init --------------");
+				if (App->Init() == false)
+				{
+					SDL_Log("Application Init exits with ERROR");
+					state = MAIN_EXIT;
+				}
+				else
+				{
+					state = MAIN_UPDATE;
+					SDL_Log("-------------- Application Update --------------");
+				}
+
+				break;
+
+			case MAIN_UPDATE:
+			{
+				int update_return = App->Update(0);
+
+				if (update_return == UPDATE_ERROR)
+				{
+					SDL_Log("Application Update exits with ERROR");
+					state = MAIN_EXIT;
+				}
+
+				if (update_return == UPDATE_STOP)
+					state = MAIN_FINISH;
+			}
+			break;
+
+			case MAIN_FINISH:
+
+				SDL_Log("-------------- Application CleanUp --------------");
+				if (App->CleanUp() == false)
+				{
+					SDL_Log("Application CleanUp exits with ERROR");
+				}
+				else
+					main_return = EXIT_SUCCESS;
+
+				state = MAIN_EXIT;
+
+				break;
+			default: 
+				SDL_Log("Application MainLoop exits with ERROR");
+				main_return = EXIT_FAILURE;
 		}
 	}
-	return 0;
+
+	delete App;
+	return main_return;
+
 }
