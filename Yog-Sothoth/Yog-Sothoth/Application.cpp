@@ -7,8 +7,12 @@ Application::Application()
 {
 	window = new M_Window();
 	renderer = new M_Renderer();
+	uiManager = new M_UIManager();
+	input = new M_Input();
 	
 	addModule(window);
+	addModule(input);
+	addModule(uiManager);
 	addModule(renderer);
 }
 Application::~Application()

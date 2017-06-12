@@ -1,10 +1,10 @@
-#include "../Globals.h"
-#include "../Application.h"
+#include "../../Globals.h"
+#include "../../Application.h"
 #include "M_Window.h"
 
 
 
-M_Window::M_Window(bool enabled) : Module(enabled)
+M_Window::M_Window(bool enabled) : Module(enabled), window(nullptr), screen_surface(nullptr)
 {
 	name.assign("window");
 }

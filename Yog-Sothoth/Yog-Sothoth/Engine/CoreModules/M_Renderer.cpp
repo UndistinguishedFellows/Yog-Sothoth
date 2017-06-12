@@ -1,9 +1,9 @@
-﻿#include "../Globals.h"
-#include "../Application.h"
+﻿#include "../../Globals.h"
+#include "../../Application.h"
 #include "M_Renderer.h"
 #include "M_Window.h"
 #include "M_Camera3D.h"
-#include "../OpenGL.h"
+#include "../../OpenGL.h"
 
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
