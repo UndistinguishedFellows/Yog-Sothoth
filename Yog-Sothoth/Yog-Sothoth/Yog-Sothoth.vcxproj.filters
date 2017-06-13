@@ -19,6 +19,7 @@
     <ClCompile Include="Engine\CoreModules\M_Window.cpp" />
     <ClCompile Include="Engine\UI_Modules\M_UIManager.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Input.cpp" />
+    <ClCompile Include="jsoncpp\jsoncpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -36,5 +37,6 @@
     <ClInclude Include="Engine\CoreModules\M_Window.h" />
     <ClInclude Include="Engine\UI_Modules\M_UIManager.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
+    <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
   </ItemGroup>
 </Project>
