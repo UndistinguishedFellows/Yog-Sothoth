@@ -2,8 +2,10 @@
 
 #include "Globals.h"
 #include <list>
-#include "Modules/M_Window.h"
-#include "Modules/M_Renderer.h"
+#include "Engine/CoreModules/M_Window.h"
+#include "Engine/CoreModules/M_Renderer.h"
+#include "Engine/UI_Modules/M_UIManager.h"
+#include "Engine/CoreModules/M_Input.h"
 
 class Module;
 
@@ -13,6 +15,8 @@ public:
 	bool quit;
 	M_Window* window = nullptr;
 	M_Renderer* renderer = nullptr;
+	M_UIManager* uiManager = nullptr;
+	M_Input* input = nullptr;
 
 private:
 	std::list<Module*> list_modules;
