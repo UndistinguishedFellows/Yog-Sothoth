@@ -6,8 +6,10 @@
 #include "Engine/CoreModules/M_Renderer.h"
 #include "Engine/UI_Modules/M_UIManager.h"
 #include "Engine/CoreModules/M_Input.h"
+#include "Engine/CoreModules/M_FileSystem.h"
 
 class Module;
+class M_FileSystem;
 
 class Application
 {
@@ -17,6 +19,7 @@ public:
 	M_Renderer* renderer = nullptr;
 	M_UIManager* uiManager = nullptr;
 	M_Input* input = nullptr;
+	M_FileSystem* fs = nullptr;
 
 private:
 	std::list<Module*> list_modules;

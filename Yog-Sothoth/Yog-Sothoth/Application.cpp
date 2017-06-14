@@ -9,8 +9,10 @@ Application::Application()
 	renderer = new M_Renderer();
 	uiManager = new M_UIManager();
 	input = new M_Input();
+	fs = new M_FileSystem();
 	
 	addModule(window);
+	addModule(fs);
 	addModule(input);
 	addModule(uiManager);
 	addModule(renderer);

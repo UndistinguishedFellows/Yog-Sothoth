@@ -1,12 +1,6 @@
 #pragma once
 
-enum update_status
-{
-	UPDATE_CONTINUE = 1,
-	UPDATE_STOP,
-	UPDATE_ERROR
-};
-
+#define ROOT "root/"
 #define RELEASE( x )\
     {\
        if( x != nullptr )\
@@ -15,8 +9,6 @@ enum update_status
 	     x = nullptr;\
        }\
     }
-
-// Deletes an array of buffers
 #define RELEASE_ARRAY( x )\
 	{\
        if( x != nullptr )\
@@ -25,3 +17,12 @@ enum update_status
 	       x = nullptr;\
 		 }\
 	 }
+
+enum update_status
+{
+	UPDATE_CONTINUE = 1,
+	UPDATE_STOP,
+	UPDATE_ERROR
+};
+
+typedef unsigned int uint;
