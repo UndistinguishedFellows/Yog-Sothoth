@@ -55,3 +55,19 @@ bool M_UIManager::CleanUp()
 	ImGui_ImplSdlGL3_Shutdown();
 	return true;
 }
+
+void M_UIManager::Serialize(Json::Value& root)
+{
+}
+
+void M_UIManager::Deserialize(Json::Value& root)
+{
+}
+
+void M_UIManager::LoadConfig()
+{
+}
+
+void M_UIManager::SaveConfig()
+{
+}

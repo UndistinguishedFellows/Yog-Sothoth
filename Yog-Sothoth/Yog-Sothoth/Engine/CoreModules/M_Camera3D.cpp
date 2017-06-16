@@ -39,3 +39,19 @@ bool M_Camera3D::CleanUp()
 {
 	return true;
 }
+
+void M_Camera3D::Serialize(Json::Value& root)
+{
+}
+
+void M_Camera3D::Deserialize(Json::Value& root)
+{
+}
+
+void M_Camera3D::LoadConfig()
+{
+}
+
+void M_Camera3D::SaveConfig()
+{
+}

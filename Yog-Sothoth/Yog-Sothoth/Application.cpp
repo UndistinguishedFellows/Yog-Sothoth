@@ -11,8 +11,8 @@ Application::Application()
 	input = new M_Input();
 	fs = new M_FileSystem();
 	
-	addModule(window);
 	addModule(fs);
+	addModule(window);	
 	addModule(input);
 	addModule(uiManager);
 	addModule(renderer);
@@ -24,7 +24,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
-	// Call Init() in all modules
+
 	std::list<Module*>::iterator item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == true)

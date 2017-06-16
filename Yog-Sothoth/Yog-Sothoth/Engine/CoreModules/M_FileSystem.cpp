@@ -35,7 +35,6 @@ bool M_FileSystem::Init()
 	bool ret = true;
 
 	std::string writeLocalPath = SDL_GetBasePath();
-	writeLocalPath.append("..");
 
 	if (PHYSFS_setWriteDir(writeLocalPath.c_str()) == 0)
 	{
@@ -44,7 +43,7 @@ bool M_FileSystem::Init()
 	else
 	{
 		SDL_Log("Writing directory is %s\n", writeLocalPath);
-		addPath(writeLocalPath.c_str(), getSaveLocalDirectory());
+		addPath(writeLocalPath.c_str());
 	}
 
 	return ret;
@@ -206,6 +205,22 @@ unsigned int M_FileSystem::save(const char * file, const char * buffer, unsigned
 		SDL_Log("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
+}
+
+void M_FileSystem::Serialize(Json::Value& root)
+{
+}
+
+void M_FileSystem::Deserialize(Json::Value& root)
+{
+}
+
+void M_FileSystem::LoadConfig()
+{
+}
+
+void M_FileSystem::SaveConfig()
+{
 }
 
 

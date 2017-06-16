@@ -136,3 +136,19 @@ bool M_Input::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
+
+void M_Input::Serialize(Json::Value& root)
+{
+}
+
+void M_Input::Deserialize(Json::Value& root)
+{
+}
+
+void M_Input::LoadConfig()
+{
+}
+
+void M_Input::SaveConfig()
+{
+}

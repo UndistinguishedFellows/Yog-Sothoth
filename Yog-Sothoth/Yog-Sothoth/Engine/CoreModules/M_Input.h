@@ -14,6 +14,16 @@ enum KEY_STATE
 
 class M_Input : public Module
 {
+private:
+	KEY_STATE* keyboard;
+	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
+	int mouse_x;
+	int mouse_y;
+	int mouse_z;
+	int mouse_x_motion;
+	int mouse_y_motion;
+	//int mouse_z_motion;
+
 public:
 	
 	M_Input(bool enable = true);
@@ -58,14 +68,9 @@ public:
 		return mouse_y_motion;
 	}
 
-private:
-	KEY_STATE* keyboard;
-	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
-	int mouse_x;
-	int mouse_y;
-	int mouse_z;
-	int mouse_x_motion;
-	int mouse_y_motion;
-	//int mouse_z_motion;
+	void Serialize(Json::Value& root) override;
+	void Deserialize(Json::Value& root) override;
+	void LoadConfig() override;
+	void SaveConfig() override;
 
 };

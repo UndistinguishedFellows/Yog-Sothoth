@@ -1,13 +1,16 @@
 #pragma once
 #include "../../../Globals.h"
 #include <string>
+#include "../../../Tools/Interfaces/IJsonSerializable.h"
 class Application;
 
 
-class Module
+class Module : public IJsonSerializable
 {
 public:
 	std::string name;
+	std::string configPath;
+
 private:
 	bool enabled;
 
@@ -78,6 +81,11 @@ public:
 			ret = true;
 		return ret;
 	}
+
+	virtual void Serialize(Json::Value& root) = 0;
+	virtual void Deserialize(Json::Value& root) = 0;
+	virtual void LoadConfig() = 0;
+	virtual void SaveConfig() = 0;
 
 };
 

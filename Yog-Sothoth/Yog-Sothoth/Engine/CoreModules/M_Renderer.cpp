@@ -112,3 +112,19 @@ bool M_Renderer::CleanUp()
 	SDL_GL_DeleteContext(context);
 	return true;
 }
+
+void M_Renderer::Serialize(Json::Value& root)
+{
+}
+
+void M_Renderer::Deserialize(Json::Value& root)
+{
+}
+
+void M_Renderer::LoadConfig()
+{
+}
+
+void M_Renderer::SaveConfig()
+{
+}

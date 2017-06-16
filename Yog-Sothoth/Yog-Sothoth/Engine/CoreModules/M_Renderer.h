@@ -18,6 +18,9 @@ public:
 	update_status PostUpdate(float dt) override;
 	bool CleanUp() override;
 
-	
+	void Serialize(Json::Value& root) override;
+	void Deserialize(Json::Value& root) override;
+	void LoadConfig() override;
+	void SaveConfig() override;
 	
 };

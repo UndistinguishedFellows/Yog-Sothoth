@@ -2,9 +2,26 @@
 #include "BaseClass/Module.h"
 #include <SDL.h>
 
+struct Config
+{
+	bool vsync;
+	bool fullscreen;
+	bool borderless;
+	bool fullscreenDesktop;
+	bool maximized;
+	bool resizable;
+	int w_res;
+	int h_res;
+	std::string title;	
+};
+
 class M_Window : public Module
 {
 public:
+
+	Config config;
+	Json::Value root;
+
 	//The window we'll be rendering to
 	SDL_Window* window;
 
@@ -22,9 +39,12 @@ public:
 	update_status PostUpdate(float dt) override;
 	bool CleanUp() override;
 
-	SDL_Window* GetWindow() { return window; }
+	SDL_Window* GetWindow() const { return window; }
 
-
+	void Serialize(Json::Value& root) override;
+	void Deserialize(Json::Value& root) override;
+	void LoadConfig() override;
+	void SaveConfig() override;
 
 };
 
