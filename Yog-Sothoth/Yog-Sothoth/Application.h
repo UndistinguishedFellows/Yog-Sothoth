@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include <list>
+#include <string>
 #include "Engine/CoreModules/M_Window.h"
 #include "Engine/CoreModules/M_Renderer.h"
 #include "Engine/UI_Modules/M_UIManager.h"
@@ -12,9 +13,17 @@ class Module;
 class M_FileSystem;
 
 class Application
+class Application : public IJsonSerializable
 {
 public:
 	bool quit;
+	
+	/**
+	 * \brief A map to store config path of all modules
+	 * Key: module name
+	 * Value: path
+	 */
+	std::map<std::string, std::string> configPath;
 	M_Window* window = nullptr;
 	M_Renderer* renderer = nullptr;
 	M_UIManager* uiManager = nullptr;
@@ -41,6 +50,10 @@ public:
 	void addModule(Module* module);
 	void removeModule(Module* module);
 
+	void Serialize(Json::Value& root) override;
+	void Deserialize(Json::Value& root) override;
+	void LoadConfig();
+	void SaveConfig();
 private:
 	void PrepareUpdate();
 	void FinishUpdate();

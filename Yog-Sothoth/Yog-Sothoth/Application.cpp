@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include <list>
+#include "Tools/Static/JsonSerializer.h"
 
 Application::Application()
 {
@@ -125,4 +126,32 @@ void Application::addModule(Module* module)
 void Application::removeModule(Module* module)
 {
 	std::find(list_modules.begin(), list_modules.end(), module);
+}
+void Application::Serialize(Json::Value& root)
+{
+}
+/**
+ * \brief Fills configPath with the paths inside config.json
+ * \param root Parent node of the parsed jsonFile
+ */
+void Application::Deserialize(Json::Value& root)
+{
+	//appName = root["name"].asString();
+	//organization = root["organization"].asString();
+	Json::Value paths = root["config_paths"];
+	Json::Value::Members members =  paths.getMemberNames();
+	for (int i = 0; i < members.size(); ++i)
+	{
+		configPath[members[i].c_str()] = paths[members[i]].asString();
+	}
+}
+void Application::LoadConfig()
+{
+	JsonSerializer::DeserializeFormPath(this, "config.json");
+}
+void Application::SaveConfig()
+{
+	std::string output;
+	JsonSerializer::Serialize(this, output, "config.json");
+	SDL_Log("%s", output);
 }
