@@ -123,7 +123,7 @@ void M_Window::Deserialize(Json::Value& root)
 
 void M_Window::LoadConfig()
 {
-	JsonSerializer::Deserialize(this, "config/window.json"); //FIX: this should be a dinamic path in the future...
+	JsonSerializer::DeserializeFormPath(this, App->configPath[name]); //FIX: this should be a dinamic path in the future...
 }
 
 void M_Window::SaveConfig()
