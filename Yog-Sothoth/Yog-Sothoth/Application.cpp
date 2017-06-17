@@ -137,15 +137,18 @@ void Application::Serialize(Json::Value& root)
  * \param root Parent node of the parsed jsonFile
  */
 void Application::Deserialize(Json::Value& root)
-{
-	//appName = root["name"].asString();
-	//organization = root["organization"].asString();
+{	
+	organization = root.get("organization", "Org not loaded").asString();
+	appName = root.get("name", "AppName not loaded").asString();
+
 	Json::Value paths = root["config_paths"];
 	Json::Value::Members members =  paths.getMemberNames();
 	for (int i = 0; i < members.size(); ++i)
 	{
 		configPath[members[i].c_str()] = paths[members[i]].asString();
 	}
+
+
 }
 void Application::LoadConfig()
 {

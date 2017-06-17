@@ -12,12 +12,10 @@
 class Module;
 class M_FileSystem;
 
-class Application
 class Application : public IJsonSerializable
 {
 public:
 	bool quit;
-	
 	/**
 	 * \brief A map to store config path of all modules
 	 * Key: module name
@@ -29,6 +27,10 @@ public:
 	M_UIManager* uiManager = nullptr;
 	M_Input* input = nullptr;
 	M_FileSystem* fs = nullptr;
+
+	std::string organization;
+	std::string appName;
+
 
 private:
 	std::list<Module*> list_modules;
