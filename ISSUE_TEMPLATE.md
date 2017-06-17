@@ -3,20 +3,20 @@
 ###Type: ex(code/art/renderer/window)
 
 ###Description:
-### Expected Behaviour
-### Actual Behaviour
-### Steps to reproduce
-###Frequency
+Expected Behaviour
+Actual Behaviour
+Steps to reproduce
+Frequency
 
 ###Severity: 
-###[ ]Critical
-###[ ]Major
-###[ ]Minor
+[ ]Critical
+[ ]Major
+[ ]Minor
 
 ###Priority: 
-###[ ]Urgent
-###[ ]High
-###[ ]Normal
-###[ ]Low
+[ ]Urgent
+[ ]High
+[ ]Normal
+[ ]Low
 
 ###Screenshot(optional):
