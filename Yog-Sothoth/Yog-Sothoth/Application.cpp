@@ -25,12 +25,14 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	fs->Init();
+	LoadConfig();
 
 	std::list<Module*>::iterator item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == true)
 	{
-		if ((*item)->IsEnabled())
+		if ((*item)->IsEnabled() && (*item)->name.compare("filesystem") != 0)
 			ret = (*item)->Init();
 		item++;
 	}
