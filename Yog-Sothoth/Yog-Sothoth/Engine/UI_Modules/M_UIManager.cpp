@@ -1,10 +1,13 @@
 ﻿#include "M_UIManager.h"
 #include "../../Globals.h"
 #include "../../Application.h"
-#include <SDL.h>
 #include "../../imGUI/imgui.h"
 #include "../../imGUI/imgui_impl_sdl_gl3.h"
 #include "../../OpenGL.h"
+
+#include <SDL.h>
+
+#include "UI components\UIConsole.h"
 
 
 M_UIManager::M_UIManager(bool enabled) : Module(enabled)
@@ -24,6 +27,9 @@ bool M_UIManager::Init()
 
 	ImGui_ImplSdlGL3_Init(App->window->GetWindow());
 
+	console = new UIConsole();
+	console->pOpen = true;
+
 	return ret;
 }
 
@@ -41,6 +47,7 @@ update_status M_UIManager::PreUpdate(float dt)
 update_status M_UIManager::Update(float dt)
 {
 	ImGui::ShowTestWindow();
+	console->Draw();
 	return UPDATE_CONTINUE;
 }
 

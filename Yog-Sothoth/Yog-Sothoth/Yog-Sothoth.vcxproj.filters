@@ -22,6 +22,7 @@
     <ClCompile Include="jsoncpp\jsoncpp.cpp" />
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -42,5 +43,7 @@
     <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
     <ClInclude Include="Tools\Static\JsonSerializer.h" />
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIConsole.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
   </ItemGroup>
 </Project>

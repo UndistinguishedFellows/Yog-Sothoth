@@ -144,11 +144,13 @@
     <ClCompile Include="Engine\CoreModules\M_Camera3D.cpp" />
     <ClCompile Include="Engine\UI_Modules\M_UIManager.cpp" />
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
     <ClInclude Include="imGUI\imconfig.h" />
     <ClInclude Include="imGUI\imgui.h" />
     <ClInclude Include="imGUI\imgui_impl_sdl_gl3.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
     <ClInclude Include="Tools\Static\JsonSerializer.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIConsole.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

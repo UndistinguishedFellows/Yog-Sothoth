@@ -1,9 +1,13 @@
 ﻿#pragma once
 #include "../../Globals.h"
 #include "../CoreModules/BaseClass/Module.h"
+#include "UI components\UIConsole.h"
 
 class M_UIManager : public Module
 {
+public:
+	UIConsole* console = nullptr;
+
 public:
 	M_UIManager(bool enabled = true);
 	~M_UIManager();
