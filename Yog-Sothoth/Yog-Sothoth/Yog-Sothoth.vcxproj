@@ -202,6 +202,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Engine\ConsoleCommands\ConsoleCommands.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Input.cpp" />
     <ClCompile Include="imGUI\imgui.cpp" />
@@ -245,11 +246,13 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="Tools\log.cpp" />
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Engine\ConsoleCommands\ConsoleCommands.h" />
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
@@ -324,6 +327,7 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="OpenGL.h" />
+    <ClInclude Include="Tools\Static\ConsoleCommandReader.h" />
     <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
     <ClInclude Include="Tools\Static\JsonSerializer.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConsole.h" />

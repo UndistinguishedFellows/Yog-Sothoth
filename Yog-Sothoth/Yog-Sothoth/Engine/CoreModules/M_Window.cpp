@@ -132,3 +132,14 @@ void M_Window::SaveConfig()
 	JsonSerializer::Serialize(this, output, "config/window.json");
 	SDL_Log("%s", output);
 }
+
+void M_Window::ConsoleCommand(std::string command)
+{
+
+}
+
+std::string M_Window::AsString()
+{
+	//TODO make it return the good info
+	return "blah blah info and shit";
+}

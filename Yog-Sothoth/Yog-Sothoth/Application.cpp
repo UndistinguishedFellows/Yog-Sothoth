@@ -51,7 +51,6 @@ bool Application::Init()
 }
 void Application::PrepareUpdate()
 {
-
 }
 void Application::FinishUpdate()
 {
