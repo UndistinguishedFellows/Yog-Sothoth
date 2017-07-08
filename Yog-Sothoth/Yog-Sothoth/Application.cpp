@@ -6,6 +6,12 @@
 
 Application::Application()
 {
+	outputStream = new std::ostringstream();
+	inputStream = new std::istringstream();
+	log.setStream(*outputStream);
+	console.setConsoleInput(*inputStream);
+	console.setConsoleOutput(log);
+
 	window = new M_Window();
 	renderer = new M_Renderer();
 	uiManager = new M_UIManager();

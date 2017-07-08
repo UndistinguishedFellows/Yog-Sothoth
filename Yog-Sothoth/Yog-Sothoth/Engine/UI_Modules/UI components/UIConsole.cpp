@@ -1,6 +1,5 @@
 #include "UIConsole.h"
 #include "../../../Application.h"
-#include "../../../Tools/Static/ConsoleCommandReader.h"
 #include "../../ConsoleCommands/ConsoleCommands.h"
 
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
@@ -159,10 +158,17 @@ void UIConsole::ExecCommand(const char * command_line) //TODO: Make command patt
 	History.push_back(Strdup(command_line));
 
 	// Process command
-	int argc;
-	char** args;
-	args = tools::ParseCommand(command_line, &argc);
-	ConsoleCommands::EnterCommand(argc, args);
+	App->inputStream->str(InputBuf);
+	App->console.commandExecute(App->inputStream);
+	std::string str = App->outputStream->str();
+	yogConsole("%s", str.c_str());
+
+	App->inputStream->clear();
+	App->outputStream->str("");
+
+//	int argc;
+//	char** args;
+//	args = tools::ParseCommand(command_line, &argc);
 
 
 //	if (Stricmp(command_line, "CLEAR") == 0)
@@ -306,6 +312,7 @@ int UIConsole::TextEditCallback(ImGuiTextEditCallbackData * data)
 				data->BufDirty = true;
 			}
 		}
+	default: ;
 	}
 	return 0;
 }

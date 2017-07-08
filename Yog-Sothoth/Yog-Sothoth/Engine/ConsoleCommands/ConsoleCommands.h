@@ -5,5 +5,4 @@
 class ConsoleCommands
 {
 public:
-	static void EnterCommand(int argc, char** args);
 };

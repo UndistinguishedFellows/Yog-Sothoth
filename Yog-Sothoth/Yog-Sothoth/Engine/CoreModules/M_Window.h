@@ -46,9 +46,5 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
-	void ConsoleCommand(std::string command);
-
-	std::string AsString();
-
 };
 
