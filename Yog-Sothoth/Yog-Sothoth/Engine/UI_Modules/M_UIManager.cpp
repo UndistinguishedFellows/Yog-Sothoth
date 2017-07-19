@@ -29,6 +29,8 @@ bool M_UIManager::Init()
 
 	console = new UIConsole();
 	console->pOpen = true;
+	frameCounter = new UIFrameCounter();
+	frameCounter->pOpen = true;
 
 	return ret;
 }
@@ -53,6 +55,9 @@ update_status M_UIManager::Update(float dt)
 
 update_status M_UIManager::PostUpdate(float dt)
 {
+
+	frameCounter->DoUpdate(dt);
+	frameCounter->Draw();
 	ImGui::Render();
 	return UPDATE_CONTINUE;
 }

@@ -1,5 +1,5 @@
 {
-	"vsync" : false,
+	"vsync" : true,
 	"resolution":
 	{
 		"x": 800,

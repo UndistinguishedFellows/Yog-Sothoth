@@ -31,7 +31,6 @@ public:
 	std::string organization;
 	std::string appName;
 
-
 private:
 	std::list<Module*> list_modules;
 

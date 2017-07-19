@@ -6,6 +6,7 @@
 #include "../../OpenGL.h"
 
 
+
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
 	name.assign("renderer");
@@ -127,4 +128,21 @@ void M_Renderer::LoadConfig()
 
 void M_Renderer::SaveConfig()
 {
+}
+
+bool M_Renderer::IsVSyncActive()const
+{
+	return vSync;
+}
+
+void M_Renderer::SetVSync(bool set)
+{
+	if (vSync != set)
+	{
+		vSync = set;
+		if (SDL_GL_SetSwapInterval(vSync ? 1 : 0) < 0)
+		{
+			yogLog("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		}
+	}
 }

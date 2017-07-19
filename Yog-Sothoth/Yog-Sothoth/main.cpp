@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "Application.h"
 
+#include "Tools/Timer.h"
 
 enum main_states
 {
@@ -20,6 +21,9 @@ int main(int argc, char** argv)
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
 
+	Timer appTimer;
+	float dt;
+
 	while (state != MAIN_EXIT)
 	{
 		switch (state)
@@ -28,6 +32,7 @@ int main(int argc, char** argv)
 
 				SDL_Log("-------------- Application Creation --------------");
 				App = new Application();
+				appTimer.Start();
 				state = MAIN_START;
 				break;
 
@@ -49,7 +54,9 @@ int main(int argc, char** argv)
 
 			case MAIN_UPDATE:
 			{
-				int update_return = App->Update(0);
+				dt = static_cast<float>(appTimer.Read() / 1000.0f);
+				appTimer.Start();
+				int update_return = App->Update(dt);
 
 				if (update_return == UPDATE_ERROR)
 				{

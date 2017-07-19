@@ -4,6 +4,7 @@
 #include <list>
 #include "Tools/Static/JsonSerializer.h"
 
+
 Application::Application()
 {
 	window = new M_Window();

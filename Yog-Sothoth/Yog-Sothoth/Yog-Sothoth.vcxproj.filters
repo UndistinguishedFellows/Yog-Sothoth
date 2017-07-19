@@ -23,6 +23,8 @@
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
+    <ClCompile Include="Tools\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -45,5 +47,7 @@
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConsole.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
+    <ClInclude Include="Tools\Timer.h" />
   </ItemGroup>
 </Project>
