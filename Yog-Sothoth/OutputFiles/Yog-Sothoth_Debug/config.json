@@ -3,7 +3,8 @@
   "organization": "UndistinguishedMan",
   "config_paths":
   {
-      "window" :  "data/config/window.json"
+    "window": "data/config/window.json",
+    "renderer" :  "data/config/renderer.json"
   }
 
 
