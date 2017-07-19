@@ -16,8 +16,6 @@ M_Window::~M_Window()
 
 bool M_Window::Init()
 {
-	char* buffer;
-	App->fs->load("config.json", &buffer);
 	LoadConfig();
 
 
