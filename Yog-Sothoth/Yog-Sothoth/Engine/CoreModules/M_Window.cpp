@@ -107,7 +107,6 @@ void M_Window::Serialize(Json::Value& root)
 
 void M_Window::Deserialize(Json::Value& root)
 {
-	config.vsync = root.get("vsync", true).asBool();
 	config.fullscreen = root.get("fullscreen", false).asBool();
 	config.borderless = root.get("borderless", false).asBool();
 	config.fullscreenDesktop = root.get("fullscreen_desktop", false).asBool();
@@ -121,7 +120,7 @@ void M_Window::Deserialize(Json::Value& root)
 
 void M_Window::LoadConfig()
 {
-	JsonSerializer::DeserializeFormPath(this, /*"config/window.json"*/App->configPath[name]); //FIX: this should be a dinamic path in the future...
+	JsonSerializer::DeserializeFormPath(this, App->configPath[name]);
 }
 
 void M_Window::SaveConfig()
