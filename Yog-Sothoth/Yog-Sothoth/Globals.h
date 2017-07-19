@@ -1,5 +1,10 @@
 #pragma once
 
+#define yogLog(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
+#define yogConsole(format, ...) log(format, __VA_ARGS__);
+void log(const char file[], int line, const char* format, ...);
+void log(const char* format, ...);
+
 #define ROOT "root/"
 #define RELEASE( x )\
     {\

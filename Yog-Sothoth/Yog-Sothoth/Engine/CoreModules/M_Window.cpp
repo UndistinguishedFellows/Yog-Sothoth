@@ -132,3 +132,4 @@ void M_Window::SaveConfig()
 	JsonSerializer::Serialize(this, output, "config/window.json");
 	SDL_Log("%s", output);
 }
+

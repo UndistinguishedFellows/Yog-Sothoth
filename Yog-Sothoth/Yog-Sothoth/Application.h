@@ -2,15 +2,18 @@
 
 #include "Globals.h"
 #include <list>
-#include <string>
 #include "Engine/CoreModules/M_Window.h"
 #include "Engine/CoreModules/M_Renderer.h"
 #include "Engine/UI_Modules/M_UIManager.h"
 #include "Engine/CoreModules/M_Input.h"
 #include "Engine/CoreModules/M_FileSystem.h"
+#include <GameConsole.h>
+#include <SimpleLog.h>
 
 class Module;
 class M_FileSystem;
+
+using namespace std::placeholders;
 
 class Application : public IJsonSerializable
 {
@@ -30,6 +33,13 @@ public:
 
 	std::string organization;
 	std::string appName;
+
+	//Console
+	std::istringstream* inputStream = nullptr;
+	std::ostringstream* outputStream = nullptr;
+
+	Virtuoso::SimpleLog log;
+	Virtuoso::GameConsole console;
 
 private:
 	std::list<Module*> list_modules;

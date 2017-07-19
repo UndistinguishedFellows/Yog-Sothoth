@@ -2,9 +2,7 @@
 #include "BaseClass\UIComponent.h"
 #include "../../imGUI/imgui.h"
 #include <ctype.h>
-#include <stdlib.h>
-#include <stdio.h>
-
+#include <istream>
 
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))

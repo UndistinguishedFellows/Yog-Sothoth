@@ -7,6 +7,12 @@
 
 Application::Application()
 {
+	outputStream = new std::ostringstream();
+	inputStream = new std::istringstream();
+	log.setStream(*outputStream);
+	console.setConsoleInput(*inputStream);
+	console.setConsoleOutput(log);
+
 	window = new M_Window();
 	renderer = new M_Renderer();
 	uiManager = new M_UIManager();
@@ -52,7 +58,6 @@ bool Application::Init()
 }
 void Application::PrepareUpdate()
 {
-
 }
 void Application::FinishUpdate()
 {
@@ -70,7 +75,7 @@ update_status Application::Update(float dt)
 		{
 			ret = (*item)->PreUpdate(dt);
 		}
-		item++;
+		++item;
 	}
 
 	item = list_modules.begin();
@@ -81,7 +86,7 @@ update_status Application::Update(float dt)
 		{
 			ret = (*item)->Update(dt);
 		}
-		item++;
+		++item;
 	}
 
 	item = list_modules.begin();
@@ -92,7 +97,7 @@ update_status Application::Update(float dt)
 		{
 			ret = (*item)->PostUpdate(dt);
 		}
-		item++;
+		++item;
 	}
 
 	FinishUpdate();
@@ -102,6 +107,10 @@ update_status Application::Update(float dt)
 bool Application::CleanUp()
 {
 	bool ret = true;
+	for (auto element : list_modules)
+	{
+		RELEASE(element);
+	}
 	return ret;
 }
 bool Application::OpenBrowser(const char* link)

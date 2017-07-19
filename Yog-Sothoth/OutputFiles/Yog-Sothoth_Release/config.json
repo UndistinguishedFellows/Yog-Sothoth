@@ -1,0 +1,10 @@
+{
+  "name" : "Wingman",
+  "organization": "UndistinguishedMan",
+  "config_paths":
+  {
+      "window" :  "data/config/window.json"
+  }
+
+
+}	

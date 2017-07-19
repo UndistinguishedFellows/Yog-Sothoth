@@ -1,4 +1,6 @@
 #include "UIConsole.h"
+#include "../../../Application.h"
+#include "../../ConsoleCommands/ConsoleCommands.h"
 
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
@@ -17,6 +19,8 @@ UIConsole::UIConsole()
 	Commands.push_back("HISTORY");
 	Commands.push_back("CLEAR");
 	Commands.push_back("CLASSIFY");  // "classify" is here to provide an example of "C"+[tab] completing to "CL" and displaying matches.
+	Commands.push_back("show window properties");
+	Commands.push_back("test");
 	AddLog("Welcome to ImGui!");
 }
 
@@ -42,13 +46,13 @@ void UIConsole::Draw(const char * title, bool * p_open)
 		return;
 	}
 
-	ImGui::TextWrapped("This example implements a console with basic coloring, completion and history. A more elaborate implementation may want to store entries along with extra data such as timestamp, emitter, etc.");
+	//ImGui::TextWrapped("This example implements a console with basic coloring, completion and history. A more elaborate implementation may want to store entries along with extra data such as timestamp, emitter, etc.");
 	ImGui::TextWrapped("Enter 'HELP' for help, press TAB to use text completion.");
 
 	// TODO: display items starting from the bottom
 
-	if (ImGui::SmallButton("Add Dummy Text")) { AddLog("%d some text", Items.Size); AddLog("some more text"); AddLog("display very important message here!"); } ImGui::SameLine();
-	if (ImGui::SmallButton("Add Dummy Error")) AddLog("[error] something went wrong"); ImGui::SameLine();
+	//if (ImGui::SmallButton("Add Dummy Text")) { AddLog("%d some text", Items.Size); AddLog("some more text"); AddLog("display very important message here!"); } ImGui::SameLine();
+	//if (ImGui::SmallButton("Add Dummy Error")) AddLog("[error] something went wrong"); ImGui::SameLine();
 	if (ImGui::SmallButton("Clear")) ClearLog(); ImGui::SameLine();
 	if (ImGui::SmallButton("Scroll to bottom")) ScrollToBottom = true;
 	//static float t = 0.0f; if (ImGui::GetTime() - t > 0.02f) { t = ImGui::GetTime(); AddLog("Spam %f", t); }
@@ -138,7 +142,7 @@ void UIConsole::AddLog(const char * fmt, ...)
 
 }
 
-void UIConsole::ExecCommand(const char * command_line)
+void UIConsole::ExecCommand(const char * command_line) //TODO: Make command pattern to decouple the sauce from here.
 {
 	AddLog("# %s\n", command_line);
 
@@ -154,26 +158,63 @@ void UIConsole::ExecCommand(const char * command_line)
 	History.push_back(Strdup(command_line));
 
 	// Process command
-	if (Stricmp(command_line, "CLEAR") == 0)
-	{
-		ClearLog();
-	}
-	else if (Stricmp(command_line, "HELP") == 0)
-	{
-		AddLog("Commands:");
-		for (int i = 0; i < Commands.Size; i++)
-			AddLog("- %s", Commands[i]);
-	}
-	else if (Stricmp(command_line, "HISTORY") == 0)
-	{
-		for (int i = History.Size >= 10 ? History.Size - 10 : 0; i < History.Size; i++)
-			AddLog("%3d: %s\n", i, History[i]);
-	}
-	else
-	{
-		AddLog("Unknown command: '%s'\n", command_line);
-	}
+	App->inputStream->str(InputBuf);
+	App->console.commandExecute(App->inputStream);
+	std::string str = App->outputStream->str();
+	yogConsole("%s", str.c_str());
 
+	App->inputStream->clear();
+	App->outputStream->str("");
+
+//	int argc;
+//	char** args;
+//	args = tools::ParseCommand(command_line, &argc);
+
+
+//	if (Stricmp(command_line, "CLEAR") == 0)
+//	{
+//		ClearLog();
+//	}
+//	else if (Stricmp(command_line, "HELP") == 0)
+//	{
+//		AddLog("Commands:");
+//		for (int i = 0; i < Commands.Size; i++)
+//			AddLog("- %s", Commands[i]);
+//	}
+//	else if (Stricmp(command_line, "HISTORY") == 0)
+//	{
+//		for (int i = History.Size >= 10 ? History.Size - 10 : 0; i < History.Size; i++)
+//			AddLog("%3d: %s\n", i, History[i]);
+//	}
+//	else if(Stricmp(command_line, "show window properties") == 0)
+//	{
+//		SDL_Window* window = App->window->GetWindow();
+//		int w;
+//		int h;
+//		SDL_GetWindowSize(window, &w, &h);
+//		yogConsole("Window width: %d\nWindow height: %d", w, h);
+//	}
+//	else if (Stricmp(command_line, "test") == 0)
+//	{
+//		std::string string("    paraula1  paraula2    paraula3 paraula   4");
+//		int argc;
+//		char** args = nullptr;
+//		args = tools::ParseCommand(string.c_str(), &argc);
+//
+//		for (int i = 0; i < argc; ++i)
+//		{
+//			if (args != nullptr)
+//			{
+//				yogConsole("Test word: %s", args[i]);
+//			}			
+//		}
+//		
+//	}
+//	else
+//	{
+//		AddLog("Unknown command: '%s'\n", command_line);
+//	}
+//
 }
 
 int UIConsole::TextEditCallback(ImGuiTextEditCallbackData * data)
@@ -271,6 +312,7 @@ int UIConsole::TextEditCallback(ImGuiTextEditCallbackData * data)
 				data->BufDirty = true;
 			}
 		}
+	default: ;
 	}
 	return 0;
 }

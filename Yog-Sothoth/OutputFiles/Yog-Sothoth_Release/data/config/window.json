@@ -1,0 +1,14 @@
+{
+	"vsync" : false,
+	"resolution":
+	{
+		"x": 800,
+		"y": 600
+	},
+	"fullscreen" : false,
+	"resizable" : true,
+	"borderless" : false,
+	"fullscreen_desktop" : false,
+	"maximized" : true,
+	"title" : "Yog-Sothoth"
+}
