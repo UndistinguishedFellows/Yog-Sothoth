@@ -7,6 +7,8 @@ class M_Renderer : public Module
 public:
 	SDL_GLContext context;
 
+	Json::Value root;
+
 	bool vSync;
 public:
 	M_Renderer(bool enabled = true);

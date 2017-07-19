@@ -4,7 +4,7 @@
 #include "M_Window.h"
 #include "M_Camera3D.h"
 #include "../../OpenGL.h"
-
+#include "../../Tools/Static/JsonSerializer.h"
 
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
@@ -18,6 +18,10 @@ M_Renderer::~M_Renderer()
 
 bool M_Renderer::Init()
 {
+	LoadConfig();
+
+	SetVSync(vSync);
+
 	SDL_Log("Creating 3D Renderer context");
 	bool ret = true;
 
@@ -120,14 +124,19 @@ void M_Renderer::Serialize(Json::Value& root)
 
 void M_Renderer::Deserialize(Json::Value& root)
 {
+	vSync = root.get("vSync", true).asBool();
 }
 
 void M_Renderer::LoadConfig()
 {
+	JsonSerializer::DeserializeFormPath(this, App->configPath[name]);
 }
 
 void M_Renderer::SaveConfig()
 {
+	std::string output;
+	JsonSerializer::Serialize(this, output, "config/renderer.json");
+	SDL_Log("%s", output);
 }
 
 bool M_Renderer::IsVSyncActive()const
