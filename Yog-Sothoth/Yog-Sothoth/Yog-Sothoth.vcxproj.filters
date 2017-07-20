@@ -56,7 +56,7 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="Tools\log.cpp" />
-    <ClCompile Include="Engine\ConsoleCommands\ConsoleCommands.cpp" />
+    <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -140,7 +140,7 @@
     <ClInclude Include="MathGeoLib\MathGeoLib.h" />
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
     <ClInclude Include="Tools\Static\ConsoleCommandReader.h" />
-    <ClInclude Include="Engine\ConsoleCommands\ConsoleCommands.h" />
+    <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl" />
