@@ -26,6 +26,7 @@ update_status M_ObjectManager::PreUpdate(float dt)
 	return {};
 }
 
+//Todo: Game objects logic
 update_status M_ObjectManager::Update(float dt)
 {
 	return {};
@@ -39,6 +40,23 @@ update_status M_ObjectManager::PostUpdate(float dt)
 bool M_ObjectManager::CleanUp()
 {
 	return false;
+}
+
+GameObject* M_ObjectManager::CreateGameObject(GameObject* parent)
+{
+	GameObject* gm = new GameObject();
+	if (parent != nullptr)
+	{
+		gm->parent = parent;
+		parent->AddChild(gm);
+	}
+
+	return gm;
+}
+
+void M_ObjectManager::DeleteGameObject(GameObject* go)
+{
+	deletionVector.push_back(go);
 }
 
 void M_ObjectManager::Serialize(Json::Value& root)
