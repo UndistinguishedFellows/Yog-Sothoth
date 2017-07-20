@@ -9,7 +9,7 @@ private:
 	/**
 	 * \brief Game object pointers allocated here will be deleted in the next frame
 	 */
-	std::vector<GameObject*> deletionVector; 
+	GameObject* deletionGameObject; 
 
 public:
 	M_ObjectManager(bool enabled = true);

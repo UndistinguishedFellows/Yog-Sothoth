@@ -56,7 +56,7 @@ GameObject* M_ObjectManager::CreateGameObject(GameObject* parent)
 
 void M_ObjectManager::DeleteGameObject(GameObject* go)
 {
-	deletionVector.push_back(go);
+	deletionGameObject->AddChild(go);
 }
 
 void M_ObjectManager::Serialize(Json::Value& root)
