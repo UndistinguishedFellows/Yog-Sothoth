@@ -55,3 +55,10 @@ void GameObject::RemoveChildren()
 	}
 
 }
+
+int GameObject::FindChild(GameObject* go)
+{
+	int ret = -1;
+
+	return  ret;
+}

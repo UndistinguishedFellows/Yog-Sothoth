@@ -34,5 +34,10 @@ public:
 	 */
 	void RemoveChildren(); //Recursive
 
-
+	/**
+	 * \brief 
+	 * \param go GameObject to find
+	 * \return Int means the deepness from the searching reference
+	 */
+	std::pair<int, GameObject*> FindChild(GameObject* go);
 };
