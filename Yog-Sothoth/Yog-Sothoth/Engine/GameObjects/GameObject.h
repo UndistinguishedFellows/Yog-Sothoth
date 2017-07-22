@@ -1,11 +1,15 @@
 ﻿#pragma once
 #include <vector>
 
+
 class GameObject
 {
 public:
 	std::vector<GameObject*> children;
 	GameObject* parent = nullptr;
+
+	// Todo: for now i dont know if this is really necessary, maybe I just dont need to know relationships
+	std::vector<GameObject**> relationship; 
 
 	bool active = true;
 
@@ -33,11 +37,15 @@ public:
 	 * \brief Will delete all the children and their children recursively
 	 */
 	void RemoveChildren(); //Recursive
-
 	/**
-	 * \brief 
+	 * \brief Search for a child in hieracy from object as reference
 	 * \param go GameObject to find
-	 * \return Int means the deepness from the searching reference
+	 * \return Int means the deepness from the searching reference, -1 means not finded
 	 */
-	std::pair<int, GameObject*> FindChild(GameObject* go);
+	int FindChild(GameObject* go);
+	/**
+	 * \brief Adds a new relationship for this game object
+	 * \param reference the new object that references this one
+	 */
+	void AddRelationship(GameObject** reference);
 };

@@ -62,3 +62,23 @@ int GameObject::FindChild(GameObject* go)
 
 	return  ret;
 }
+
+void GameObject::AddRelationship(GameObject** reference)
+{
+	if(reference != nullptr)
+		relationship.push_back(reference);
+}
+
+void GameObject::EraseRelationship(GameObject** reference)
+{
+	if (reference != nullptr)
+		for (std::vector<GameObject**>::iterator it = relationship.begin();
+				it != relationship.end(); ++it)
+		{
+			if (reference == (*it))
+			{
+				(*reference) = nullptr;
+				relationship.erase(it);
+			}
+		}
+}

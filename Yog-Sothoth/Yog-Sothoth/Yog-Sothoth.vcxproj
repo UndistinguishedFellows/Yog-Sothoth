@@ -204,6 +204,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Input.cpp" />
+    <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
     <ClCompile Include="imGUI\imgui.cpp" />
     <ClCompile Include="imGUI\imgui_demo.cpp" />
     <ClCompile Include="imGUI\imgui_draw.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
+    <ClInclude Include="Engine\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
     <ClInclude Include="imGUI\imconfig.h" />
     <ClInclude Include="imGUI\imgui.h" />
