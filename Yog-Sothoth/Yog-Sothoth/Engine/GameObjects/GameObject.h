@@ -40,12 +40,18 @@ public:
 	/**
 	 * \brief Search for a child in hieracy from object as reference
 	 * \param go GameObject to find
-	 * \return Int means the deepness from the searching reference, -1 means not finded
+	 * \return Bool true if found
 	 */
-	int FindChild(GameObject* go);
+	bool FindChild(GameObject* go);
 	/**
 	 * \brief Adds a new relationship for this game object
 	 * \param reference the new object that references this one
 	 */
 	void AddRelationship(GameObject** reference);
+
+	/**
+	 * \brief Erase a relationship from relationship vector
+	 * \param reference the relationship to remove
+	 */
+	void EraseRelationship(GameObject** reference);
 };

@@ -1,4 +1,5 @@
 ﻿#include "GameObject.h"
+#include <stack>
 
 GameObject::GameObject()
 {
@@ -56,9 +57,25 @@ void GameObject::RemoveChildren()
 
 }
 
-int GameObject::FindChild(GameObject* go)
+bool GameObject::FindChild(GameObject* go)
 {
-	int ret = -1;
+	bool ret = false;
+	std::stack<GameObject*> stack;
+	stack.push(this);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+		if (top == go)
+		{
+			ret = true;
+			break;
+		}
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
 
 	return  ret;
 }
