@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include "Components/BaseClass/Component.h"
 
 
 class GameObject
@@ -7,6 +8,8 @@ class GameObject
 public:
 	std::vector<GameObject*> children;
 	GameObject* parent = nullptr;
+
+	std::vector<Component*> components;
 
 	// Todo: for now i dont know if this is really necessary, maybe I just dont need to know relationships
 	std::vector<GameObject**> relationship; 

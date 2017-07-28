@@ -247,14 +247,17 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
+    <ClCompile Include="Tools\Containers\Color.cpp" />
     <ClCompile Include="Tools\log.cpp" />
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Tools\Timer.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
@@ -331,12 +334,14 @@
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
     <ClInclude Include="OpenGL.h" />
+    <ClInclude Include="Tools\Containers\Color.h" />
     <ClInclude Include="Tools\Static\ConsoleCommandReader.h" />
     <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
     <ClInclude Include="Tools\Static\JsonSerializer.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConsole.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Tools\Timer.h" />
+    <ClInclude Include="Engine\GameObjects\Components\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl" />
