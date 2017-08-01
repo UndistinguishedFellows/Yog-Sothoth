@@ -4,6 +4,7 @@
 #include <list>
 #include "Tools/Static/JsonSerializer.h"
 
+
 Application::Application()
 {
 	outputStream = new std::ostringstream();
@@ -12,11 +13,11 @@ Application::Application()
 	console.setConsoleInput(*inputStream);
 	console.setConsoleOutput(log);
 
+	fs = new M_FileSystem();
 	window = new M_Window();
 	renderer = new M_Renderer();
 	uiManager = new M_UIManager();
-	input = new M_Input();
-	fs = new M_FileSystem();
+	input = new M_Input();	
 	
 	addModule(fs);
 	addModule(window);	

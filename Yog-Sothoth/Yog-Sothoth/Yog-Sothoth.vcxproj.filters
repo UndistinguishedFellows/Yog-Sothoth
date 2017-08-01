@@ -23,6 +23,8 @@
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
+    <ClCompile Include="Tools\Timer.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Capsule.cpp" />
@@ -54,7 +56,10 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="Tools\log.cpp" />
-    <ClCompile Include="Engine\ConsoleCommands\ConsoleCommands.cpp" />
+    <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
+    <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\Transform.cpp" />
+    <ClCompile Include="Tools\Containers\Color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -77,6 +82,8 @@
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConsole.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
+    <ClInclude Include="Tools\Timer.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB2D.h" />
@@ -136,7 +143,11 @@
     <ClInclude Include="MathGeoLib\MathGeoLib.h" />
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
     <ClInclude Include="Tools\Static\ConsoleCommandReader.h" />
-    <ClInclude Include="Engine\ConsoleCommands\ConsoleCommands.h" />
+    <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
+    <ClInclude Include="Engine\GameObjects\GameObject.h" />
+    <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
+    <ClInclude Include="Engine\GameObjects\Components\Transform.h" />
+    <ClInclude Include="Tools\Containers\Color.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl" />

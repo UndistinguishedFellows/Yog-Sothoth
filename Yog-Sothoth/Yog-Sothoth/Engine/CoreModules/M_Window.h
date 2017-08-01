@@ -4,7 +4,6 @@
 
 struct Config
 {
-	bool vsync;
 	bool fullscreen;
 	bool borderless;
 	bool fullscreenDesktop;

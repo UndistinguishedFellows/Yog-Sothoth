@@ -41,7 +41,6 @@ public:
 	Virtuoso::SimpleLog log;
 	Virtuoso::GameConsole console;
 
-
 private:
 	std::list<Module*> list_modules;
 

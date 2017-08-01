@@ -2,11 +2,13 @@
 #include "../../Globals.h"
 #include "../CoreModules/BaseClass/Module.h"
 #include "UI components\UIConsole.h"
+#include "UI components\UIFrameCounter.h"
 
 class M_UIManager : public Module
 {
 public:
 	UIConsole* console = nullptr;
+	UIFrameCounter* frameCounter = nullptr;
 
 public:
 	M_UIManager(bool enabled = true);
