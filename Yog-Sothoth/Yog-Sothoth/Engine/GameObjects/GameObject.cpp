@@ -80,6 +80,30 @@ bool GameObject::FindChild(GameObject* go)
 	return  ret;
 }
 
+GameObject* GameObject::FindChild(std::string goName)
+{
+	GameObject* ret = nullptr;
+	std::stack<GameObject*> stack;
+	stack.push(this);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+		if (top->name == goName)
+		{
+			ret = top;
+			break;
+		}
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+
+	return  ret;
+
+}
+
 void GameObject::AddRelationship(GameObject** reference)
 {
 	if(reference != nullptr)

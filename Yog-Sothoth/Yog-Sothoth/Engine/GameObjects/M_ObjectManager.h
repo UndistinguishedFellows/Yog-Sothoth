@@ -5,7 +5,13 @@
 class M_ObjectManager :
 	public Module
 {
+public:
+	/**
+	 * \brief The root Game Object that stores all GO
+	 */
+	GameObject* root;
 private:
+	
 	/**
 	 * \brief Game object pointers allocated here will be deleted in the next frame
 	 */
@@ -22,7 +28,9 @@ public:
 	update_status PostUpdate(float dt) override;
 	bool CleanUp() override;
 
-	GameObject* CreateGameObject(GameObject* parent = nullptr); //Create an object and if a parent is set will add it into the parents list.
+	static GameObject* CreateGameObject(GameObject* parent = nullptr); //Create an object and if a parent is set will add it into the parents list.
+	GameObject* CreateGameObject(std::string parentName, std::string childName) const;
+	void ConsoleCreateGameObject(std::string parentName, std::string childName) const;
 	void DeleteGameObject(GameObject* go);
 
 

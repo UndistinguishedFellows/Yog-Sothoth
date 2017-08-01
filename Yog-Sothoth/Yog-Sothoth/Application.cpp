@@ -19,11 +19,17 @@ Application::Application()
 	uiManager = new M_UIManager();
 	input = new M_Input();	
 	
+	objManager = new M_ObjectManager();
+
 	addModule(fs);
 	addModule(window);	
 	addModule(input);
 	addModule(uiManager);
+	addModule(objManager);
+	
+	//LAST ONE
 	addModule(renderer);
+	
 }
 Application::~Application()
 {

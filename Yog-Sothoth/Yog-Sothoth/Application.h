@@ -9,6 +9,7 @@
 #include "Engine/CoreModules/M_FileSystem.h"
 #include <GameConsole.h>
 #include <SimpleLog.h>
+#include "Engine/GameObjects/M_ObjectManager.h"
 
 class Module;
 class M_FileSystem;
@@ -30,6 +31,8 @@ public:
 	M_UIManager* uiManager = nullptr;
 	M_Input* input = nullptr;
 	M_FileSystem* fs = nullptr;
+
+	M_ObjectManager* objManager = nullptr;
 
 	std::string organization;
 	std::string appName;

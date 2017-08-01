@@ -31,7 +31,8 @@ bool M_UIManager::Init()
 	console->pOpen = true;
 	frameCounter = new UIFrameCounter();
 	frameCounter->pOpen = true;
-
+	outliner = new UIOutliner();	
+	menus = new UIWindowMenus();
 	return ret;
 }
 
@@ -49,15 +50,21 @@ update_status M_UIManager::PreUpdate(float dt)
 update_status M_UIManager::Update(float dt)
 {
 	ImGui::ShowTestWindow();
-	console->Draw();
+	
 	return UPDATE_CONTINUE;
 }
 
 update_status M_UIManager::PostUpdate(float dt)
 {
-
+	console->Draw();
 	frameCounter->DoUpdate(dt);
 	frameCounter->Draw();
+	if (outliner->active)
+	{
+		outliner->Draw();
+	}
+	menus->Draw();
+
 	ImGui::Render();
 	return UPDATE_CONTINUE;
 }

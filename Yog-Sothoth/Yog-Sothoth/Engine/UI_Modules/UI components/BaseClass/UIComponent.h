@@ -3,6 +3,8 @@
 class UIComponent
 {
 public:
+	bool active = false;
+
 	UIComponent(){}
 	virtual ~UIComponent(){}
 

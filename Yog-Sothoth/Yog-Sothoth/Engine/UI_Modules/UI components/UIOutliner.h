@@ -1,14 +1,17 @@
 ﻿#pragma once
 #include "../../../imGUI/imgui.h"
+#include "BaseClass/UIComponent.h"
 
-class UIOutliner
+class GameObject;
+
+class UIOutliner : public UIComponent
 {
 public:
 	UIOutliner();
-	virtual ~UIOutliner();
+	~UIOutliner();
 
-	void draw();
-	void treeNodes(GameObject* node);
+	void Draw() override;
+	void TreeNodes(GameObject* node);
 
 	ImGuiWindowFlags outilnerWindowFlags = 0;
 

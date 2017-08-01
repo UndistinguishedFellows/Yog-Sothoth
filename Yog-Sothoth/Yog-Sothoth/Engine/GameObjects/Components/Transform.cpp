@@ -2,7 +2,7 @@
 
 
 
-Transform::Transform()
+Transform::Transform() : Component()
 {
 }
 

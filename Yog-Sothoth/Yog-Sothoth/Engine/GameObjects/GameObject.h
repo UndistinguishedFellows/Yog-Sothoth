@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include "Components/BaseClass/Component.h"
+#include <rpc.h>
 
 
 class GameObject
@@ -13,6 +14,9 @@ public:
 
 	// Todo: for now i dont know if this is really necessary, maybe I just dont need to know relationships
 	std::vector<GameObject**> relationship; 
+
+	std::string name = "NO_NAME";
+	UUID uuid;
 
 	bool active = true;
 
@@ -46,6 +50,12 @@ public:
 	 * \return Bool true if found
 	 */
 	bool FindChild(GameObject* go);
+	/**
+	 * \brief 
+	 * \param goName Find a GO with a specific name, only the first one with the same name will be returned, so try to dont repeat names.
+	 * \return Returns the first coincident GO
+	 */
+	GameObject* FindChild(std::string goName);
 	/**
 	 * \brief Adds a new relationship for this game object
 	 * \param reference the new object that references this one

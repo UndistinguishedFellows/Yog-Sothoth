@@ -1,6 +1,5 @@
 #include "UIConsole.h"
 #include "../../../Application.h"
-#include "../../ConsoleCommands/ConsoleCommands.h"
 
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
@@ -15,13 +14,9 @@ UIConsole::UIConsole()
 	ClearLog();
 	memset(InputBuf, 0, sizeof(InputBuf));
 	HistoryPos = -1;
-	Commands.push_back("HELP");
-	Commands.push_back("HISTORY");
-	Commands.push_back("CLEAR");
-	Commands.push_back("CLASSIFY");  // "classify" is here to provide an example of "C"+[tab] completing to "CL" and displaying matches.
-	Commands.push_back("show window properties");
-	Commands.push_back("test");
-	AddLog("Welcome to ImGui!");
+
+	App->console.bindCommand("addObject", std::function<void(std::string, std::string)>(std::bind(&M_ObjectManager::ConsoleCreateGameObject, App->objManager, _1, _2)), "Adds a game object");
+	
 }
 
 

@@ -3,12 +3,18 @@
 #include "../CoreModules/BaseClass/Module.h"
 #include "UI components\UIConsole.h"
 #include "UI components\UIFrameCounter.h"
+#include "UI components/UIOutliner.h"
+#include "UI components/UIWindowMenus.h"
 
 class M_UIManager : public Module
 {
 public:
 	UIConsole* console = nullptr;
 	UIFrameCounter* frameCounter = nullptr;
+	UIOutliner* outliner = nullptr;
+	UIWindowMenus* menus = nullptr;
+
+	bool outlinerSelected = false;
 
 public:
 	M_UIManager(bool enabled = true);
