@@ -65,8 +65,13 @@ update_status M_UIManager::PostUpdate(float dt)
 	}
 	menus->Draw();
 
-	ImGui::Render();
+	
 	return UPDATE_CONTINUE;
+}
+
+void M_UIManager::DrawEditor()
+{
+	ImGui::Render();
 }
 
 bool M_UIManager::CleanUp()

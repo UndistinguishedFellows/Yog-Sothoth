@@ -28,5 +28,11 @@ public:
 	void Deserialize(Json::Value& root) override;
 	void LoadConfig() override;
 	void SaveConfig() override;
+
+
+
+	//TEMP
+	unsigned int VBO, VAO, EBO;
+	unsigned int shaderProgram;
 	
 };
