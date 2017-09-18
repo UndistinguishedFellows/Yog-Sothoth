@@ -126,8 +126,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(SolutionDir)VirtuosoConsole;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -210,6 +210,7 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
+    <ClCompile Include="Tools\FBXImporter.cpp" />
     <ClCompile Include="imGUI\imgui.cpp" />
     <ClCompile Include="imGUI\imgui_demo.cpp" />
     <ClCompile Include="imGUI\imgui_draw.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
+    <ClInclude Include="Tools\FBXImporter.h" />
     <ClInclude Include="imGUI\imconfig.h" />
     <ClInclude Include="imGUI\imgui.h" />
     <ClInclude Include="imGUI\imgui_impl_sdl_gl3.h" />

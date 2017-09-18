@@ -62,6 +62,7 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\Transform.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
+    <ClCompile Include="Tools\FBXImporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Engine\GameObjects\Components\Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
+    <ClInclude Include="Tools\FBXImporter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl" />
