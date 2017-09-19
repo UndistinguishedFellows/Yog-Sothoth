@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "BaseClass/Module.h"
+#include "../../Tools/Containers/Shader.h"
 
 class M_Renderer : public Module
 {
@@ -35,4 +36,5 @@ public:
 	unsigned int VBO, VAO, EBO;
 	unsigned int shaderProgram;
 	
+	Shader basicShader;
 };

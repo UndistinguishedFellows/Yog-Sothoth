@@ -110,60 +110,63 @@ bool M_Renderer::Start()
 	};
 
 	//unsigned int VBO;
-	const char *vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"void main()\n"
-		"{\n"
-		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-		"}\0";
-	const char *fragmentShaderSource = "#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"void main()\n"
-		"{\n"
-		"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-		"}\n\0";
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	//const char* string = vertexShader_src.c_str();
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
+//	const char *vertexShaderSource = "#version 330 core\n"
+//		"layout (location = 0) in vec3 aPos;\n"
+//		"void main()\n"
+//		"{\n"
+//		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+//		"}\0";
+//	const char *fragmentShaderSource = "#version 330 core\n"
+//		"out vec4 FragColor;\n"
+//		"void main()\n"
+//		"{\n"
+//		"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+//		"}\n\0";
+//	unsigned int vertexShader;
+//	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+//	//const char* string = vertexShader_src.c_str();
+//	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+//	glCompileShader(vertexShader);
+//
+//	int success;
+//	char infoLog[512];
+//	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+//	if (!success)
+//	{
+//		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+//		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+//	}
+//	unsigned int fragmentShader;
+//	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+//	//const char* string2 = fragmentShader_src.c_str();
+//	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+//	glCompileShader(fragmentShader);
+//	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+//	if (!success)
+//	{
+//		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+//		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+//	}
+//	//unsigned int shaderProgram;
+//	shaderProgram = glCreateProgram();
+//	glAttachShader(shaderProgram, vertexShader);
+//	glAttachShader(shaderProgram, fragmentShader);
+//	glLinkProgram(shaderProgram);
+//	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+//	if (!success)
+//	{
+//		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+//		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl;
+//	}
+//	glUseProgram(shaderProgram);
+//
+//	glDeleteShader(vertexShader);
+//	glDeleteShader(fragmentShader);
 
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	//const char* string2 = fragmentShader_src.c_str();
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	//unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl;
-	}
-	glUseProgram(shaderProgram);
+	basicShader.LoadShader("data/shaders/basicVertex.vertexShader", VERTEX);
+	basicShader.LoadShader("data/shaders/basicFragment.fragmentShader", FRAGMENT);
+	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
 
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -211,7 +214,7 @@ update_status M_Renderer::PostUpdate(float dt)
 //	glBindVertexArray(VAO);	
 //	glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	glUseProgram(shaderProgram);
+	glUseProgram(basicShader.shaderProgram);
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
