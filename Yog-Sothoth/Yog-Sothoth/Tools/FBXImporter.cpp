@@ -146,7 +146,7 @@ void FBXImporter::DrawMeshes(std::vector<VramVertex*> drawMeshes)
 
 		glBindVertexArray(m->VAO);
 
-		glColor4f(0.7f, 0.7f, 0.7f, 1.f);
+		//glColor4f(0.7f, 0.7f, 0.7f, 1.f);
 
 		glDrawElements(GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, NULL);
 

@@ -6,6 +6,9 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 {
 	root = new GameObject();
 	root->name = "/";
+	camera = new GameObject();
+	camera->name = "camera";
+	
 }
 
 
@@ -25,12 +28,14 @@ bool M_ObjectManager::Start()
 //Todo: Here game objects will be deleted when needed
 update_status M_ObjectManager::PreUpdate(float dt)
 {
+
 	return UPDATE_CONTINUE;
 }
 
 //Todo: Game objects logic
 update_status M_ObjectManager::Update(float dt)
 {
+
 	return UPDATE_CONTINUE;
 }
 

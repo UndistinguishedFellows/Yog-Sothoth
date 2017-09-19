@@ -10,6 +10,7 @@ public:
 	 * \brief The root Game Object that stores all GO
 	 */
 	GameObject* root;
+	GameObject* camera;
 private:
 	
 	/**

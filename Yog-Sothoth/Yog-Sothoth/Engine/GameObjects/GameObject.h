@@ -67,4 +67,6 @@ public:
 	 * \param reference the relationship to remove
 	 */
 	void EraseRelationship(GameObject** reference);
+
+	void AddComponent(ComponentType type);
 };
