@@ -204,12 +204,14 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Input.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\Camera.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
+    <ClCompile Include="Tools\Containers\Shader.cpp" />
     <ClCompile Include="Tools\FBXImporter.cpp" />
     <ClCompile Include="imGUI\imgui.cpp" />
     <ClCompile Include="imGUI\imgui_demo.cpp" />
@@ -264,6 +266,7 @@
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
     <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
+    <ClInclude Include="Engine\GameObjects\Components\Camera.h" />
     <ClInclude Include="Engine\GameObjects\Components\Transform.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
@@ -271,6 +274,7 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
+    <ClInclude Include="Tools\Containers\Shader.h" />
     <ClInclude Include="Tools\FBXImporter.h" />
     <ClInclude Include="imGUI\imconfig.h" />
     <ClInclude Include="imGUI\imgui.h" />
