@@ -3,7 +3,7 @@
 #include "../../Application.h"
 #include "../../imGUI/imgui.h"
 #include "../../imGUI/imgui_impl_sdl_gl3.h"
-#include "../../OpenGL.h"
+//#include "../../OpenGL.h"
 
 #include <SDL.h>
 
@@ -28,9 +28,9 @@ bool M_UIManager::Init()
 	ImGui_ImplSdlGL3_Init(App->window->GetWindow());
 
 	console = new UIConsole();
-	console->pOpen = true;
+	console->active = true;
 	frameCounter = new UIFrameCounter();
-	frameCounter->pOpen = true;
+	frameCounter->active = true;
 	outliner = new UIOutliner();	
 	menus = new UIWindowMenus();
 	return ret;
