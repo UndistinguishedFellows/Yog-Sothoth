@@ -29,7 +29,9 @@ UIConsole::~UIConsole()
 
 void UIConsole::Draw()
 {
-	Draw("console_title", &pOpen);
+	if (active)
+		Draw("console_title", &active);
+	
 }
 
 void UIConsole::Draw(const char * title, bool * p_open)

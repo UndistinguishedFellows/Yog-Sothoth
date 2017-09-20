@@ -17,7 +17,6 @@ public:
 	int                   HistoryPos;    // -1: new line, 0..History.Size-1 browsing history.
 	ImVector<const char*> Commands;
 
-	bool pOpen = false;
 
 
 public:

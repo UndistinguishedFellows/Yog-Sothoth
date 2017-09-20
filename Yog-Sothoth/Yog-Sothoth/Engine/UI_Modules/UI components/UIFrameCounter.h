@@ -12,7 +12,6 @@ public:
 
 	void Draw() override;
 
-	bool pOpen = false;
 	float dt = 0;
 	float fps = 0;
 
