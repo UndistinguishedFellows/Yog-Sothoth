@@ -13,9 +13,6 @@ UIWindowMenus::~UIWindowMenus()
 
 void UIWindowMenus::Draw()
 {
-	//ImGui::ShowTestWindow();
-
-
 	if (aboutSelected)
 	{
 		ImGui::Begin("About", &aboutSelected);
