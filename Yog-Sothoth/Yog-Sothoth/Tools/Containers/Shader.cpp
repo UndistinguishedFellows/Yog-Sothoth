@@ -70,7 +70,7 @@ void Shader::CompileProgram(unsigned int vertexShader, unsigned int fragmentShad
 	glDeleteShader(fragmentShader);
 }
 
-void Shader::Use()
+void Shader::Use() const
 {
 	glUseProgram(shaderProgram);
 }

@@ -13,7 +13,7 @@ UIWindowMenus::~UIWindowMenus()
 
 void UIWindowMenus::Draw()
 {
-	ImGui::ShowTestWindow();
+	//ImGui::ShowTestWindow();
 
 
 	if (aboutSelected)

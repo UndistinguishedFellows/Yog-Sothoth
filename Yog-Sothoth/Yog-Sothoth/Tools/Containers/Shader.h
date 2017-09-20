@@ -18,5 +18,5 @@ public:
 
 	void LoadShader(char* path, ShaderType type);
 	void CompileProgram(unsigned int vertexShader, unsigned int fragmentShader);
-	void Use();
+	void Use() const;
 };
