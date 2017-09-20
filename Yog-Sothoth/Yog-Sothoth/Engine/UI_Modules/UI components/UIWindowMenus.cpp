@@ -88,6 +88,7 @@ void UIWindowMenus::ShowCredits()
 		ImGui::End();
 		return;
 	}
+	ImVec4 acolor(128, 137, 237, 0);
 	ImColor color(84, 172, 255);
 	//SDL
 	ImGui::Text("SDL");
