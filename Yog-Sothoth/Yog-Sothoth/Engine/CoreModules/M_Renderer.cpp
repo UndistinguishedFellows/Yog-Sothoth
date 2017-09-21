@@ -163,7 +163,7 @@ bool M_Renderer::Start()
 //	glDeleteShader(vertexShader);
 //	glDeleteShader(fragmentShader);
 
-	basicShader.LoadShader("data/shaders/basicVertex.vertexShader", VERTEX);
+	basicShader.LoadShader("data/shaders/camera.vertexShader", VERTEX);
 	basicShader.LoadShader("data/shaders/basicFragment.fragmentShader", FRAGMENT);
 	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
 
@@ -217,6 +217,9 @@ update_status M_Renderer::PostUpdate(float dt)
 	glUseProgram(basicShader.shaderProgram);
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum.camera.ProjectionMatrix().Transposed().ptr());
+	math::float4x4 view = frustum.camera.ViewMatrix();
+	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	App->uiManager->DrawEditor();

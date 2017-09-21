@@ -2,6 +2,7 @@
 
 #include "BaseClass/Module.h"
 #include "../../Tools/Containers/Shader.h"
+#include "../GameObjects/Components/Camera.h"
 
 class M_Renderer : public Module
 {
@@ -35,6 +36,7 @@ public:
 	//TEMP
 	unsigned int VBO, VAO, EBO;
 	unsigned int shaderProgram;
+	Camera frustum;
 	
 	Shader basicShader;
 };
