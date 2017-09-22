@@ -256,6 +256,7 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="Tools\Containers\Color.cpp" />
     <ClCompile Include="Tools\log.cpp" />
+    <ClCompile Include="Tools\Primitive.cpp" />
     <ClCompile Include="Tools\Static\JsonSerializer.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConsole.cpp" />
     <ClCompile Include="Tools\Timer.cpp" />
@@ -347,6 +348,7 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Tools\Containers\Color.h" />
+    <ClInclude Include="Tools\Primitive.h" />
     <ClInclude Include="Tools\Static\ConsoleCommandReader.h" />
     <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
     <ClInclude Include="Tools\Static\JsonSerializer.h" />

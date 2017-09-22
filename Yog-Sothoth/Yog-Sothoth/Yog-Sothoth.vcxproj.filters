@@ -65,6 +65,7 @@
     <ClCompile Include="MathGeoLib\Geometry\TriangleMesh.cpp" />
     <ClCompile Include="MathGeoLib\Math\BitOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="Tools\Primitive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="MathGeoLib\MathBuildConfig.h" />
     <ClInclude Include="MathGeoLib\MathGeoLib.h" />
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
+    <ClInclude Include="Tools\Primitive.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
