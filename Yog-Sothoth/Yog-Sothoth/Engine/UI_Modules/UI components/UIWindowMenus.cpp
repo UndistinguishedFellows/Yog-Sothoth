@@ -13,20 +13,19 @@ UIWindowMenus::~UIWindowMenus()
 
 void UIWindowMenus::Draw()
 {
-	if (aboutSelected)
-	{
-		ImGui::Begin("About", &aboutSelected);
-		ImGui::Text("A game engine made for educational purposes by CapitanLiteral");
-		ImGui::End();
-	}
 	if (openReleaseDirectory)
 	{
-		App->OpenBrowser("https://github.com/CapitanLiteral/Wingman/releases");
+		App->OpenBrowser("https://github.com/UndistinguishedFellows/Yog-Sothoth/releases");
 		openReleaseDirectory = false;
 	}
 	if (openRepoDirectory)
 	{
-		App->OpenBrowser("https://github.com/CapitanLiteral/Wingman");
+		App->OpenBrowser("https://github.com/UndistinguishedFellows/Yog-Sothoth");
+		openRepoDirectory = false;
+	}
+	if (openIssuesDirectory)
+	{
+		App->OpenBrowser("https://github.com/UndistinguishedFellows/Yog-Sothoth/issues");
 		openRepoDirectory = false;
 	}
 	if (creditsSelected)
@@ -59,7 +58,11 @@ void UIWindowMenus::Draw()
 
 		if (ImGui::BeginMenu("Help"))
 		{
-			ImGui::MenuItem("About", nullptr, &aboutSelected, true);
+			ImGui::MenuItem("Report an Issue", nullptr, &openIssuesDirectory, true);
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("About"))
+		{
 			ImGui::MenuItem("Releases", nullptr, &openReleaseDirectory, true);
 			ImGui::MenuItem("Repository", nullptr, &openRepoDirectory, true);
 			ImGui::MenuItem("Credits", nullptr, &creditsSelected, true);
@@ -88,6 +91,9 @@ void UIWindowMenus::ShowCredits()
 		ImGui::End();
 		return;
 	}
+
+	ImGui::Text("A game engine made for educational purposes by CapitanLiteral & dibu13");
+
 	ImColor color(84, 172, 255);
 	//SDL
 	ImGui::Text("SDL");

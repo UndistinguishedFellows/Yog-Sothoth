@@ -11,10 +11,10 @@ public:
 	void ShowCredits();
 
 	bool quitSelected = false;
-	bool aboutSelected = false;
 	bool creditsSelected = false;
 	bool openReleaseDirectory = false;
 	bool openRepoDirectory = false;
+	bool openIssuesDirectory = false;
 	bool showfpsInfo = false;
 
 	bool QUIT = false;
