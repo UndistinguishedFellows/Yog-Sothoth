@@ -60,7 +60,7 @@ bool M_Renderer::Init()
 			ret = false;
 		}
 
-
+	
 		//Check for error
 		error = glGetError();
 		if (error != GL_NO_ERROR)
@@ -98,6 +98,7 @@ bool M_Renderer::Start()
 //		0.0f,  0.5f, 0.0f
 //	};
 
+	
 	float vertices[] = {
 		0.5f,  0.5f, 0.0f,  // top right
 		0.5f, -0.5f, 0.0f,  // bottom right
@@ -164,6 +165,7 @@ bool M_Renderer::Start()
 //	glDeleteShader(fragmentShader);
 
 	basicShader.LoadShader("data/shaders/camera.vertexShader", VERTEX);
+	//basicShader.LoadShader("data/shaders/basicVertex.vertexShader", VERTEX);
 	basicShader.LoadShader("data/shaders/basicFragment.fragmentShader", FRAGMENT);
 	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
 
@@ -221,6 +223,13 @@ update_status M_Renderer::PostUpdate(float dt)
 	math::float4x4 view = frustum.camera.ViewMatrix();
 	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	//Draw floor grid and world axis
+	P_Plane floor(0, 1, 0, 0);
+	floor.axis = true;
+	floor.color.Set(255, 255, 255);
+	floor.Render();
+
 
 	App->uiManager->DrawEditor();
 
