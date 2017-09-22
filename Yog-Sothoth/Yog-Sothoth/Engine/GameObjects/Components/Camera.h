@@ -9,5 +9,13 @@ public:
 	Camera();
 	~Camera();
 
+	void Move(float dt);
+	void Rotate(float dt);
+	void LookAt(float dx, float dy);
+
 	Frustum camera;
+
+	float movSpeed = 5.f;
+	float rotSpeed = 2.f;
+	float zoomSpeed = 500.f;
 };

@@ -102,11 +102,11 @@ update_status M_Input::PreUpdate(float dt)
 			break;
 
 			case SDL_MOUSEMOTION:
-			mouse_x = e.motion.x / 1024; //FIX: Put dinamig assignment #resolution
-			mouse_y = e.motion.y / 720;
+				mouse_x = e.motion.x;// / 1024; //FIX: Put dinamig assignment #resolution
+				mouse_y = e.motion.y;// / 720;
 
-			mouse_x_motion = e.motion.xrel / 1024;//FIX: Put dinamig assignment #resolution
-			mouse_y_motion = e.motion.yrel / 720;
+			mouse_x_motion = e.motion.xrel;// / 1024;//FIX: Put dinamig assignment #resolution
+				mouse_y_motion = e.motion.yrel;// / 720;
 			break;
 
 			case SDL_QUIT:

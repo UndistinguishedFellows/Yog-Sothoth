@@ -229,7 +229,8 @@ update_status M_Renderer::PostUpdate(float dt)
 	floor.axis = true;
 	floor.color.Set(255, 255, 255);
 	floor.Render();
-
+	frustum.Move(dt);
+	frustum.Rotate(dt);
 
 	App->uiManager->DrawEditor();
 
