@@ -3,6 +3,7 @@
 #include "BaseClass/Module.h"
 #include "../../Tools/Containers/Shader.h"
 #include "../GameObjects/Components/Camera.h"
+#include "../../Tools/Primitive.h"
 
 class M_Renderer : public Module
 {
