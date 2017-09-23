@@ -31,7 +31,8 @@ bool M_UIManager::Init()
 	console->active = true;
 	frameCounter = new UIFrameCounter();
 	frameCounter->active = true;
-	outliner = new UIOutliner();	
+	outliner = new UIOutliner();
+	tests = new UITests();
 	menus = new UIWindowMenus();
 	return ret;
 }
@@ -62,6 +63,10 @@ update_status M_UIManager::PostUpdate(float dt)
 	if (outliner->active)
 	{
 		outliner->Draw();
+	}
+	if (tests->active)
+	{
+		tests->Draw();
 	}
 	menus->Draw();
 
