@@ -12,6 +12,7 @@ public:
 
 	bool quitSelected = false;
 	bool creditsSelected = false;
+	bool testsSelected = false;
 	bool openReleaseDirectory = false;
 	bool openRepoDirectory = false;
 	bool openIssuesDirectory = false;

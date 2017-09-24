@@ -26,7 +26,7 @@ void UIWindowMenus::Draw()
 	if (openIssuesDirectory)
 	{
 		App->OpenBrowser("https://github.com/UndistinguishedFellows/Yog-Sothoth/issues");
-		openRepoDirectory = false;
+		openIssuesDirectory = false;
 	}
 	if (creditsSelected)
 	{
@@ -59,6 +59,7 @@ void UIWindowMenus::Draw()
 		if (ImGui::BeginMenu("Help"))
 		{
 			ImGui::MenuItem("Report an Issue", nullptr, &openIssuesDirectory, true);
+			ImGui::MenuItem("Tests", nullptr, &App->uiManager->tests->active, true);
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("About"))
@@ -92,7 +93,27 @@ void UIWindowMenus::ShowCredits()
 		return;
 	}
 
-	ImGui::Text("A game engine made for educational purposes by CapitanLiteral & dibu13");
+	//#### DESCRIPTION & AUTHORS ####
+
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Yog-Sothoth Engine");
+	ImGui::Text("A game engine made for educational purposes by:");
+	ImGui::BulletText("CapitanLiteral"); ImGui::SameLine();
+	if (ImGui::SmallButton("Link##Capi"))
+	{
+		App->OpenBrowser("https://github.com/CapitanLiteral");
+	}
+	ImGui::BulletText("dibu13"); ImGui::SameLine();
+	if (ImGui::SmallButton("Link##Dibu"))
+	{
+		App->OpenBrowser("https://github.com/dibu13");
+	}
+
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+
+
+	//#### LIBRARIES ####
 
 	ImColor color(84, 172, 255);
 	//SDL
@@ -102,7 +123,7 @@ void UIWindowMenus::ShowCredits()
 	ImGui::PushStyleColor(ImGuiCol_Button, color);
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, color);
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, color);
-	if (ImGui::Button("Link"))
+	if (ImGui::Button("Link##SDLb"))
 	{
 		App->OpenBrowser("https://www.libsdl.org/");
 	}
@@ -152,7 +173,15 @@ void UIWindowMenus::ShowCredits()
 	//Link
 	//Tanks!
 
+	//#### LICENSE ####
 
+	ImGui::Separator();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "License");
+	ImGui::Text("This engine has been developed under the GNU General Public License."); ImGui::SameLine();
+	if (ImGui::SmallButton("Link##Lice"))
+	{
+		App->OpenBrowser("https://www.gnu.org/licenses/gpl-3.0.en.html");
+	}
 
 	ImGui::End();
 }

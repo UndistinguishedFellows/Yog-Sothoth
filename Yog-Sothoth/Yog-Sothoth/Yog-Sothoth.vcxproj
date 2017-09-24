@@ -210,6 +210,7 @@
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="MathGeoLib\Geometry\TriangleMesh.cpp" />
     <ClCompile Include="MathGeoLib\Math\BitOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="Test\YogTest.cpp" />
     <ClCompile Include="Tools\Containers\Shader.cpp" />
     <ClCompile Include="Tools\FBXImporter.cpp" />
     <ClCompile Include="imGUI\imgui.cpp" />
@@ -274,6 +276,7 @@
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
@@ -303,6 +306,7 @@
     <ClInclude Include="MathGeoLib\Math\assume.h" />
     <ClInclude Include="MathGeoLib\Math\BitOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
+    <ClInclude Include="Test\YogTest.h" />
     <ClInclude Include="Tools\Containers\Shader.h" />
     <ClInclude Include="Tools\FBXImporter.h" />
     <ClInclude Include="imGUI\imconfig.h" />
