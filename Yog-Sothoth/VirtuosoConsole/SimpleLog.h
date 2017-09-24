@@ -33,11 +33,11 @@ public:
     }
 
     inline virtual std::ostream& error(){
-        return *os;
+		return *os;
     }
 
     inline virtual std::ostream& echo(){
-        return *os;
+		return *os;
     }
 
     inline virtual std::ostream& warning(){

@@ -31,7 +31,6 @@ void UIConsole::Draw()
 {
 	if (active)
 		Draw("console_title", &active);
-	
 }
 
 void UIConsole::Draw(const char * title, bool * p_open)
@@ -87,8 +86,15 @@ void UIConsole::Draw(const char * title, bool * p_open)
 		if (!filter.PassFilter(item))
 			continue;
 		ImVec4 col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // A better implementation may store a type per-item. For the sample let's just parse the text.
-		if (strstr(item, "[error]")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
-		else if (strncmp(item, "# ", 2) == 0) col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
+		//todo: colorize console output
+//		std::string string;
+//		while (std::getline())
+//		{
+//			std::cout << to << std::endl;
+//		}
+		if (strstr(item, "[error]")) col = ImColor(1.0f, 0.1f, 0.1f, 1.0f);
+		if (strstr(item, "[warning]")) col = ImColor(1.0f, 1.0f, 0.4f, 1.0f);
+		else if (strncmp(item, "# ", 2) == 0) col = ImColor(0.4f, 0.4f, 0.40f, 1.0f);
 		ImGui::PushStyleColor(ImGuiCol_Text, col);
 		ImGui::TextUnformatted(item);
 		ImGui::PopStyleColor();
@@ -157,8 +163,17 @@ void UIConsole::ExecCommand(const char * command_line) //TODO: Make command patt
 	// Process command
 	App->inputStream->str(InputBuf);
 	App->console.commandExecute(App->inputStream);
-	std::string str = App->outputStream->str();
-	yogConsole("%s", str.c_str());
+	std::string str/* = App->outputStream->str()*/;
+	std::stringstream stringstream(App->outputStream->str());
+	while (std::getline(stringstream, str, '\n'))
+	{
+		if (strcmp(str.c_str(), "") != 0 && strcmp(str.c_str(), App->inputStream->str().c_str()) != 0)
+		{
+			yogConsole(CONSOLE_MESSAGE, "%s", str.c_str());			
+		}
+	}
+
+	
 
 	App->inputStream->clear();
 	App->outputStream->str("");

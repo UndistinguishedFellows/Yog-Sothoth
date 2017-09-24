@@ -8,7 +8,7 @@
 #include "Engine/CoreModules/M_Input.h"
 #include "Engine/CoreModules/M_FileSystem.h"
 #include <GameConsole.h>
-#include <SimpleLog.h>
+#include "Tools/SimpleYogLog.h"
 #include "Engine/GameObjects/M_ObjectManager.h"
 
 class Module;
@@ -41,7 +41,7 @@ public:
 	std::istringstream* inputStream = nullptr;
 	std::ostringstream* outputStream = nullptr;
 
-	Virtuoso::SimpleLog log;
+	SimpleYogLog log;
 	Virtuoso::GameConsole console;
 
 private:

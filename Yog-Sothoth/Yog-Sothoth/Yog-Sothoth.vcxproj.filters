@@ -160,6 +160,7 @@
     <ClInclude Include="MathGeoLib\MathGeoLib.h" />
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
     <ClInclude Include="Tools\Primitive.h" />
+    <ClInclude Include="Tools\SimpleYogLog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
