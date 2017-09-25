@@ -86,7 +86,7 @@ void UIWindowMenus::ShowCredits()
 	ImGuiWindowFlags outilnerWindowFlags = 0;
 	outilnerWindowFlags |= ImGuiWindowFlags_AlwaysHorizontalScrollbar;
 
-	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(500, 100), ImGuiSetCond_FirstUseEver);
 	if (!ImGui::Begin("Credits", &credits, outilnerWindowFlags))
 	{
 		// Early out if the window is collapsed, as an optimization.
@@ -110,48 +110,92 @@ void UIWindowMenus::ShowCredits()
 	}
 
 	ImGui::Spacing();
-	ImGui::Separator();
 	ImGui::Spacing();
-
+	ImGui::Spacing();
+	ImGui::Separator();
 
 	//#### LIBRARIES ####
 
+	ImGui::Text("LIBRARIES");
+	ImGui::Columns(3, "mixed");
+	ImGui::Separator();
+
 	ImColor color(84, 172, 255);
-	//SDL
-	ImGui::Text("SDL");
-	//Image
-	//Link
 	ImGui::PushStyleColor(ImGuiCol_Button, color);
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, color);
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, color);
+
+	//SDL
+	ImGui::Text("SDL v2.0");
+	//Image
+	//Link
 	if (ImGui::Button("Link##SDLb"))
 	{
 		App->OpenBrowser("https://www.libsdl.org/");
 	}
-	ImGui::PopStyleColor(3);
-	//Tanks!
-	ImGui::Text("Thanks to SDL library to make this project possible");
+	ImGui::NextColumn();
 
-	ImGui::Separator();
 	//Jasoncpp
+	ImGui::Text("JsonCpp v1.7.7");
 	//Image
 	//Link
+	if (ImGui::Button("Link##JSONb"))
+	{
+		App->OpenBrowser("https://github.com/open-source-parsers/jsoncpp");
+	}
+	ImGui::NextColumn();
+
+	//MathGeoLib
+	ImGui::Text("MathGeoLib v1.5");
+	//Image
+	//Link
+	if (ImGui::Button("Link##Mathb"))
+	{
+		App->OpenBrowser("https://github.com/juj/MathGeoLib");
+	}
+	ImGui::NextColumn();
+	ImGui::Separator();
+
+	//Assimp
+	ImGui::Text("Assimp v3.3.1");
+	//Image
+	//Link
+	if (ImGui::Button("Link##Mathb"))
+	{
+		App->OpenBrowser("http://assimp.sourceforge.net/");
+	}
+	ImGui::NextColumn();
+
+	//Glew
+	ImGui::Text("Glew v2.0.0");
+	//Image
+	//Link
+	if (ImGui::Button("Link##Mathb"))
+	{
+		App->OpenBrowser("http://glew.sourceforge.net/");
+	}
+	ImGui::NextColumn();
+
+	//PhysFS
+	ImGui::Text("PhysFS v2.0.3");
+	//Image
+	//Link
+	if (ImGui::Button("Link##Mathb"))
+	{
+		App->OpenBrowser("https://icculus.org/physfs/");
+	}
+	ImGui::NextColumn();
+
+	ImGui::PopStyleColor(3);
+	ImGui::Columns(1);
+	ImGui::Separator();
+	
 	//Tanks!
+	ImGui::Text("Thanks to all libraries shown above for making this project possible.");
+
 
 	ImGui::Separator();
 	//Bullet
-	//Image
-	//Link
-	//Tanks!
-
-	ImGui::Separator();
-	//MathGeoLib
-	//Image
-	//Link
-	//Tanks!
-
-	ImGui::Separator();
-	//Assimp
 	//Image
 	//Link
 	//Tanks!
@@ -162,27 +206,29 @@ void UIWindowMenus::ShowCredits()
 	//Link
 	//Tanks!
 
-	ImGui::Separator();
-	//Glew
-	//Image
-	//Link
-	//Tanks!
-
-	ImGui::Separator();
-	//PhysFS
-	//Image
-	//Link
-	//Tanks!
-
 	//#### LICENSE ####
 
-	ImGui::Separator();
+	ImGui::Spacing();
+	ImGui::Spacing();
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "License");
 	ImGui::Text("This engine has been developed under the GNU General Public License."); ImGui::SameLine();
 	if (ImGui::SmallButton("Link##Lice"))
 	{
 		App->OpenBrowser("https://www.gnu.org/licenses/gpl-3.0.en.html");
 	}
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
 
+	static char text[1024 * 3] =
+		" _   _ ____ ____    ____ ____ ___ _  _ ____ ___ _  _\n"
+		"  \\_/  |  | | __ __ [__  |  |  |  |__| |  |  |  |__|\n"
+		"   |   |__| |__]    ___] |__|  |  |  | |__|  |  |  |\n"
+		"                                                 Engine\n";
+
+	//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+	//ImGui::PopStyleVar();
+	ImGui::InputTextMultiline("##YogLogo", text, IM_ARRAYSIZE(text), ImVec2(-1.0f, ImGui::GetTextLineHeight() * 7), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
+	
 	ImGui::End();
 }
