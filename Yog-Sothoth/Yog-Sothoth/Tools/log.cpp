@@ -67,13 +67,16 @@ void log(ConsoleType type, const char* format, ...)
 	switch (type)
 	{
 		case CONSOLE_WARNING:
-			sprintf_s(tmp_string2, 4096, "[warning] - %s", tmp_string);
+			sprintf_s(tmp_string2, 4096, "[WARNING] - %s", tmp_string);
 			break;
 		case CONSOLE_ERROR:
-			sprintf_s(tmp_string2, 4096, "[error]   - %s", tmp_string);
+			sprintf_s(tmp_string2, 4096, "[ERROR]   - %s", tmp_string);
 			break;
 		case CONSOLE_MESSAGE:
-			sprintf_s(tmp_string2, 4096, "[message] - %s", tmp_string);
+			sprintf_s(tmp_string2, 4096, "%s", tmp_string);
+			break;
+		case CONSOLE_INFO:
+			sprintf_s(tmp_string2, 4096, "[INFO]    - %s", tmp_string);
 			break;
 		default:
 			break;

@@ -7,7 +7,8 @@ enum ConsoleType
 {
 	CONSOLE_WARNING,
 	CONSOLE_ERROR,
-	CONSOLE_MESSAGE
+	CONSOLE_MESSAGE,
+	CONSOLE_INFO
 };
 
 void log(const char file[], int line, const char* format, ...);
