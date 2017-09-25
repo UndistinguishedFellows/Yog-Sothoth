@@ -25,11 +25,8 @@ void UITests::Draw()
 	}
 	ImGui::Spacing();
 
-	//ImGui::Text("Some content");
-
 	if (ImGui::CollapsingHeader("MathGeoLib"))
 	{
-		//bool i = yogTest->SpheresIntertionTest();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "2 Spheres intersection");
 		ImGui::Spacing();
 
@@ -71,6 +68,55 @@ void UITests::Draw()
 		ImGui::Spacing();
 		ImGui::Separator();
 		ImGui::Spacing();
+
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Float Number Generator (0.0-1.0)");
+		ImGui::Spacing();
+
+		static bool genRandFloatButton = false;
+		static float randFloat = 0;
+		
+		if (ImGui::Button("Generate##float")) {
+			randFloat = yogTest->getRandomFloat();
+			genRandFloatButton = true;
+		}
+		if (genRandFloatButton)
+		{
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.0f, 0.5f, 0.0f, 1.0f), "%.3f", randFloat);
+		}
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Integer Number Generator");
+		ImGui::Spacing();
+
+		static int minInt = 0, maxInt = 0;
+
+		ImGui::PushItemWidth(160);
+
+		ImGui::SliderInt("Min##int", &minInt, -100, 100); ImGui::SameLine();
+		ImGui::SliderInt("Max##int", &maxInt, -100, 100);
+
+		static bool genRandIntButton = false;
+		static int randInt = 0;
+		if (minInt > maxInt)
+		{
+			ImGui::TextColored(ImVec4(0.5f, 0.0f, 0.0f, 1.0f), "Min must be lower than Max.");
+		}
+		if (ImGui::Button("Generate##int")) {
+			if (minInt < maxInt)
+			{
+				randInt = yogTest->getRandomInt(minInt,maxInt);
+				genRandIntButton = true;
+			}
+		}
+		if (genRandIntButton)
+		{
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.0f, 0.5f, 0.0f, 1.0f), "%d",randInt);
+		}
 	}
 
 	ImGui::End();

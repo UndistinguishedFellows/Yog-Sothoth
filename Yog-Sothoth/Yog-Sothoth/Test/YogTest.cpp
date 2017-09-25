@@ -20,3 +20,19 @@ bool YogTest::SpheresIntertionTest(float3 s1Pos, float s1Rad, float3 s2Pos, floa
 
 	return intersects;
 }
+
+float YogTest::getRandomFloat()
+{
+	LCG lcg;
+
+	return lcg.Float(0.0f, 1.0f);
+
+}
+
+int YogTest::getRandomInt(int min, int max)
+{
+	LCG lcg;
+	
+	return lcg.Int(min, max);
+
+}
