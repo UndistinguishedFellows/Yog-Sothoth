@@ -117,7 +117,67 @@ void UIConfiguration::Draw()
 
 	if (ImGui::CollapsingHeader("Hardware"))
 	{
-		ImGui::Text("Hardware content");
+		ImGui::Text("SDL Version: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "%d.%d.%d", App->hardwareInfo.sdlVersion.major,App->hardwareInfo.sdlVersion.minor,App->hardwareInfo.sdlVersion.patch);
+
+		ImGui::Text("Platform: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "%s", App->hardwareInfo.platform);
+
+		ImGui::Separator();
+
+		ImGui::Text("CPUs: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "%d (Cache: %dKB)", App->hardwareInfo.numCPUs, App->hardwareInfo.cache);
+	
+		ImGui::Text("System RAM: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "%d GB", App->hardwareInfo.systemRAM);
+
+		ImGui::Text("Caps: "); ImGui::SameLine();
+		if (App->hardwareInfo.DNow)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "3DNow,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.AVX)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "AVX,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.AVX2)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "AVX2,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.altiVec)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "AltiVec,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.MMX)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "MMX,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.RDTSC)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "RDTSC,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.SSE)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "SSE,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.SSE2)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "SSE2,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.SSE3)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "SSE3,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.SSE41)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "SSE41,"); ImGui::SameLine();
+		}
+		if (App->hardwareInfo.SSE42)
+		{
+			ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.0f, 1.0f), "SSE42,"); ImGui::SameLine();
+		}
+
+		ImGui::Separator();
 	}
 
 	ImGui::End();

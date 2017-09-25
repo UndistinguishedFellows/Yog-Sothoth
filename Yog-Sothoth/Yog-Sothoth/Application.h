@@ -17,6 +17,26 @@ class M_FileSystem;
 
 using namespace std::placeholders;
 
+struct HardwareInfo
+{
+	const char* platform;//SDL_GetPlatform(void)
+	SDL_version sdlVersion;
+	int numCPUs;
+	int cache;
+	int systemRAM;
+	bool DNow;
+	bool AVX;
+	bool AVX2;
+	bool altiVec;
+	bool MMX;
+	bool RDTSC;
+	bool SSE;
+	bool SSE2;
+	bool SSE3;
+	bool SSE41;
+	bool SSE42;
+};
+
 class Application : public IJsonSerializable
 {
 public:
@@ -46,6 +66,7 @@ public:
 	Virtuoso::GameConsole console;
 
 	YogClock appTimer;
+	HardwareInfo hardwareInfo;
 
 private:
 	std::list<Module*> list_modules;
@@ -74,6 +95,7 @@ public:
 private:
 	void PrepareUpdate();
 	void FinishUpdate();
+	void loadHardwareInfo();
 
 
 };

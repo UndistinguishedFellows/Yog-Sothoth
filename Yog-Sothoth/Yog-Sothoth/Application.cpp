@@ -62,6 +62,8 @@ bool Application::Init()
 			ret = (*item)->Start();
 		item++;
 	}
+
+	loadHardwareInfo();
 	return ret;
 }
 void Application::PrepareUpdate()
@@ -182,4 +184,24 @@ void Application::SaveConfig()
 	std::string output;
 	JsonSerializer::Serialize(this, output, "config.json");
 	SDL_Log("%s", output);
+}
+
+void Application::loadHardwareInfo()
+{
+	hardwareInfo.platform = SDL_GetPlatform();
+	SDL_VERSION(&hardwareInfo.sdlVersion);
+	hardwareInfo.numCPUs = SDL_GetCPUCount();
+	hardwareInfo.cache = SDL_GetCPUCacheLineSize();
+	hardwareInfo.systemRAM = SDL_GetSystemRAM();
+	hardwareInfo.DNow = SDL_Has3DNow();
+	hardwareInfo.AVX = SDL_HasAVX();
+	hardwareInfo.AVX2 = SDL_HasAVX2();
+	hardwareInfo.altiVec = SDL_HasAltiVec();
+	hardwareInfo.MMX = SDL_HasMMX();
+	hardwareInfo.RDTSC = SDL_HasRDTSC();
+	hardwareInfo.SSE = SDL_HasSSE();
+	hardwareInfo.SSE2 = SDL_HasSSE2();
+	hardwareInfo.SSE3 = SDL_HasSSE3();
+	hardwareInfo.SSE41 = SDL_HasSSE41();
+	hardwareInfo.SSE42 = SDL_HasSSE42();
 }
