@@ -30,7 +30,7 @@ void Shader::LoadShader(char* path, ShaderType type)
 			{	
 				char infoLog[512];
 				glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-				yogConsole("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
+				yogConsole(CONSOLE_ERROR, "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
 			}
 			break;
 		case FRAGMENT:
@@ -42,7 +42,7 @@ void Shader::LoadShader(char* path, ShaderType type)
 			{
 				char infoLog[512];
 				glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-				yogConsole("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
+				yogConsole(CONSOLE_ERROR, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
 			}
 
 			break;
@@ -64,7 +64,7 @@ void Shader::CompileProgram(unsigned int vertexShader, unsigned int fragmentShad
 	{
 		char infoLog[512];
 		glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
-		yogConsole("ERROR::SHADER::PROGRAM::LINK_FAILED\n%s\n", infoLog);
+		yogConsole(CONSOLE_ERROR, "ERROR::SHADER::PROGRAM::LINK_FAILED\n%s\n", infoLog);
 	}
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);

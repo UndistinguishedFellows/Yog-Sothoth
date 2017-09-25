@@ -355,6 +355,7 @@
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Tools\Containers\Color.h" />
     <ClInclude Include="Tools\Primitive.h" />
+    <ClInclude Include="Tools\SimpleYogLog.h" />
     <ClInclude Include="Tools\Static\ConsoleCommandReader.h" />
     <ClInclude Include="Tools\Interfaces\IJsonSerializable.h" />
     <ClInclude Include="Tools\Static\JsonSerializer.h" />

@@ -233,7 +233,6 @@ update_status M_Renderer::PostUpdate(float dt)
 	frustum.Rotate(dt);
 
 	App->uiManager->DrawEditor();
-
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }

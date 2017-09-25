@@ -13,7 +13,7 @@ int closeSdlRwops(SDL_RWops *rw)
 
 M_FileSystem::M_FileSystem(bool enable) : Module(enable)
 {
-	yogConsole("FileSystem: Creation.");
+	yogConsole(CONSOLE_MESSAGE, "FileSystem: Creation.");
 	name.assign("filesystem");
 
 	char* basePath = SDL_GetBasePath();
@@ -25,24 +25,24 @@ M_FileSystem::M_FileSystem(bool enable) : Module(enable)
 
 M_FileSystem::~M_FileSystem()
 {
-	yogConsole("FileSystem: Destroying.");
+	yogConsole(CONSOLE_MESSAGE, "FileSystem: Destroying.");
 	PHYSFS_deinit();
 }
 
 bool M_FileSystem::Init()
 {
-	yogConsole("FileSystem: init.");
+	yogConsole(CONSOLE_MESSAGE, "FileSystem: init.");
 	bool ret = true;
 
 	std::string writeLocalPath = SDL_GetBasePath();
 
 	if (PHYSFS_setWriteDir(writeLocalPath.c_str()) == 0)
 	{
-		yogConsole("File System error while creating write dir: %s\n", PHYSFS_getLastError());
+		yogConsole(CONSOLE_ERROR, "File System error while creating write dir: %s\n", PHYSFS_getLastError());
 	}
 	else
 	{
-		yogConsole("Writing directory is %s\n", writeLocalPath);
+		yogConsole(CONSOLE_MESSAGE, "Writing directory is %s\n", writeLocalPath);
 		addPath(writeLocalPath.c_str());
 	}
 
@@ -80,7 +80,7 @@ bool M_FileSystem::addPath(const char* pathOrZip, const char* mountPoint)
 
 	if (PHYSFS_mount(pathOrZip, mountPoint, 1) == 0)
 	{
-		yogConsole("File System error while adding a path or zip(%s): %s.", pathOrZip, PHYSFS_getLastError());
+		yogConsole(CONSOLE_ERROR, "File System error while adding a path or zip(%s): %s.", pathOrZip, PHYSFS_getLastError());
 	}
 	else
 		ret = true;
@@ -114,11 +114,11 @@ bool M_FileSystem::makeDirectory(const char* dir, const char* mount) const
 
 	if (PHYSFS_mkdir(newDir) == 0)
 	{
-		yogConsole("Could not make dir: %s. PhsyFs error: %s", newDir, PHYSFS_getLastError());
+		yogConsole(CONSOLE_ERROR, "Could not make dir: %s. PhsyFs error: %s", newDir, PHYSFS_getLastError());
 	}
 	else
 	{
-		yogConsole("Just created a dir: %s.", newDir);
+		yogConsole(CONSOLE_MESSAGE, "Just created a dir: %s.", newDir);
 		ret = true;
 	}
 
@@ -147,7 +147,7 @@ unsigned M_FileSystem::load(const char* file, char** buffer)const
 			{
 				if (readed != size)
 				{
-					yogConsole("File System error while reading from file %s: %s\n", file, PHYSFS_getLastError());
+					yogConsole(CONSOLE_ERROR, "File System error while reading from file %s: %s\n", file, PHYSFS_getLastError());
 					RELEASE(buffer);
 				}
 				else
@@ -157,10 +157,10 @@ unsigned M_FileSystem::load(const char* file, char** buffer)const
 			}
 		}
 		if (PHYSFS_close(fsFile) == 0)
-			yogConsole("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
+			yogConsole(CONSOLE_ERROR, "File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
-		yogConsole("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+		yogConsole(CONSOLE_ERROR, "File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
 }
@@ -193,16 +193,16 @@ unsigned int M_FileSystem::save(const char * file, const char * buffer, unsigned
 		PHYSFS_sint64 written = PHYSFS_write(fsFile, (const void*)buffer, 1, size);
 		if (written != size)
 		{
-			yogConsole("File System error while writing to file %s: %s\n", file, PHYSFS_getLastError());
+			yogConsole(CONSOLE_ERROR, "File System error while writing to file %s: %s\n", file, PHYSFS_getLastError());
 		}
 		else
 			ret = (uint)written;
 
 		if (PHYSFS_close(fsFile) == 0)
-			yogConsole("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
+			yogConsole(CONSOLE_ERROR, "File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
-		yogConsole("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+		yogConsole(CONSOLE_ERROR, "File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
 }

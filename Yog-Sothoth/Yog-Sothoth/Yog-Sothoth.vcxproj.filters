@@ -163,6 +163,7 @@
     <ClInclude Include="MathGeoLib\MathGeoLib.h" />
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
     <ClInclude Include="Tools\Primitive.h" />
+    <ClInclude Include="Tools\SimpleYogLog.h" />
     <ClInclude Include="Test\YogTest.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConfiguration.h" />
