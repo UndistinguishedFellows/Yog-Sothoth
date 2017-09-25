@@ -43,7 +43,8 @@ void UIConsole::Draw(const char * title, bool * p_open)
 	}
 
 	//ImGui::TextWrapped("This example implements a console with basic coloring, completion and history. A more elaborate implementation may want to store entries along with extra data such as timestamp, emitter, etc.");
-	ImGui::TextWrapped("Enter 'HELP' for help, press TAB to use text completion.");
+	//Todo: AutoComplete
+	ImGui::TextWrapped("Enter 'help' for help, press TAB to use text completion. (Auto completion under development)");
 
 	// TODO: display items starting from the bottom
 
@@ -92,9 +93,10 @@ void UIConsole::Draw(const char * title, bool * p_open)
 //		{
 //			std::cout << to << std::endl;
 //		}
-		if (strstr(item, "[error]")) col = ImColor(1.0f, 0.1f, 0.1f, 1.0f);
-		if (strstr(item, "[warning]")) col = ImColor(1.0f, 1.0f, 0.4f, 1.0f);
-		else if (strncmp(item, "# ", 2) == 0) col = ImColor(0.4f, 0.4f, 0.40f, 1.0f);
+		if (strstr(item, "[ERROR]")) col = ImColor(1.0f, 0.1f, 0.1f, 1.0f);
+		if (strstr(item, "[WARNING]")) col = ImColor(1.0f, 1.0f, 0.4f, 1.0f);
+		if (strstr(item, "[INFO]")) col = ImColor(0.2f, 1.0f, 0.2f, 1.0f);
+		else if (strncmp(item, "# ", 2) == 0) col = ImColor(0.6f, 0.6f, 0.6f, 1.0f);
 		ImGui::PushStyleColor(ImGuiCol_Text, col);
 		ImGui::TextUnformatted(item);
 		ImGui::PopStyleColor();
@@ -145,7 +147,7 @@ void UIConsole::AddLog(const char * fmt, ...)
 
 }
 
-void UIConsole::ExecCommand(const char * command_line) //TODO: Make command pattern to decouple the sauce from here.
+void UIConsole::ExecCommand(const char * command_line)
 {
 	AddLog("# %s\n", command_line);
 
@@ -171,9 +173,7 @@ void UIConsole::ExecCommand(const char * command_line) //TODO: Make command patt
 		{
 			yogConsole(CONSOLE_MESSAGE, "%s", str.c_str());			
 		}
-	}
-
-	
+	}	
 
 	App->inputStream->clear();
 	App->outputStream->str("");
