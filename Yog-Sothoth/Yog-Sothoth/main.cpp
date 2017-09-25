@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "Tools/Timer.h"
+#include "Tools/YogClock.h"
 
 enum main_states
 {
@@ -21,8 +22,6 @@ int main(int argc, char** argv)
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
 
-	Timer appTimer;
-	float dt;
 
 	while (state != MAIN_EXIT)
 	{
@@ -32,7 +31,6 @@ int main(int argc, char** argv)
 
 				SDL_Log("-------------- Application Creation --------------");
 				App = new Application();
-				appTimer.Start();
 				state = MAIN_START;
 				break;
 
@@ -53,10 +51,8 @@ int main(int argc, char** argv)
 				break;
 
 			case MAIN_UPDATE:
-			{
-				dt = static_cast<float>(appTimer.Read() / 1000.0f);
-				appTimer.Start();
-				int update_return = App->Update(dt);
+			{				
+				int update_return = App->Update();
 
 				if (update_return == UPDATE_ERROR)
 				{

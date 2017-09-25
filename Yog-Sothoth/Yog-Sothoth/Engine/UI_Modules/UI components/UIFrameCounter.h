@@ -14,6 +14,7 @@ public:
 
 	float dt = 0;
 	float fps = 0;
+	int intFps = 0;
 
 };
 

@@ -69,6 +69,8 @@
     <ClCompile Include="Test\YogTest.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConfiguration.cpp" />
+    <ClCompile Include="Tools\PerfTimer.cpp" />
+    <ClCompile Include="Tools\YogClock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -167,6 +169,8 @@
     <ClInclude Include="Test\YogTest.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConfiguration.h" />
+    <ClInclude Include="Tools\PerfTimer.h" />
+    <ClInclude Include="Tools\YogClock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

@@ -29,6 +29,7 @@ Application::Application()
 	
 	//LAST ONE
 	addModule(renderer);
+	appTimer.Play();
 	
 }
 Application::~Application()
@@ -38,6 +39,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	
 	fs->Init();
 	LoadConfig();
 
@@ -64,15 +66,17 @@ bool Application::Init()
 }
 void Application::PrepareUpdate()
 {
+	appTimer.OnPrepareUpdate();
 }
 void Application::FinishUpdate()
 {
+	appTimer.OnFinishUpdate();
 }
-update_status Application::Update(float dt)
+update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
-
+	float dt = appTimer.GetDT();
 	std::list<Module*>::iterator item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
@@ -117,6 +121,8 @@ bool Application::CleanUp()
 	{
 		RELEASE(element);
 	}
+
+	appTimer.Stop();
 	return ret;
 }
 bool Application::OpenBrowser(const char* link)

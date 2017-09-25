@@ -19,9 +19,7 @@ M_Renderer::~M_Renderer()
 
 bool M_Renderer::Init()
 {
-	LoadConfig();
-
-	SetVSync(vSync);
+	LoadConfig();	
 
 	SDL_Log("Creating 3D Renderer context");
 	bool ret = true;
@@ -43,7 +41,7 @@ bool M_Renderer::Init()
 			ret = false;
 		}
 	}
-
+	SetVSync(vSync);
 	if (ret)
 	{
 		// get version info
@@ -251,7 +249,7 @@ void M_Renderer::Serialize(Json::Value& root)
 
 void M_Renderer::Deserialize(Json::Value& root)
 {
-	vSync = root.get("vSync", true).asBool();
+	vSync = root.get("vsync", true).asBool();	
 }
 
 void M_Renderer::LoadConfig()
@@ -273,12 +271,9 @@ bool M_Renderer::IsVSyncActive()const
 
 void M_Renderer::SetVSync(bool set)
 {
-	if (vSync != set)
+	vSync = set;
+	if (SDL_GL_SetSwapInterval(vSync ? 1 : 0) < 0)
 	{
-		vSync = set;
-		if (SDL_GL_SetSwapInterval(vSync ? 1 : 0) < 0)
-		{
-			yogLog("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-		}
+		yogLog("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 	}
 }

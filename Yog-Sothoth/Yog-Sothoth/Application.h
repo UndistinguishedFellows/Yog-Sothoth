@@ -10,6 +10,7 @@
 #include <GameConsole.h>
 #include "Tools/SimpleYogLog.h"
 #include "Engine/GameObjects/M_ObjectManager.h"
+#include "Tools/YogClock.h"
 
 class Module;
 class M_FileSystem;
@@ -44,6 +45,8 @@ public:
 	SimpleYogLog log;
 	Virtuoso::GameConsole console;
 
+	YogClock appTimer;
+
 private:
 	std::list<Module*> list_modules;
 
@@ -52,7 +55,7 @@ public:
 	~Application();
 
 	bool Init();
-	update_status Update(float dt);
+	update_status Update();
 	bool CleanUp();
 
 	bool OpenBrowser(const char* link);

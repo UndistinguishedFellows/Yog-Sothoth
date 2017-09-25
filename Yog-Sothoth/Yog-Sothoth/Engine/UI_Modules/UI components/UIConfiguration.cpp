@@ -22,7 +22,8 @@ void UIConfiguration::DoUpdate(float dt)
 	{
 		msLog[i] = msLog[i + 1];
 	}
-	fpsLog[fpsLog.size()-1] = 1.0 / dt;
+	//fpsLog[fpsLog.size()-1] = 1.0 / dt;
+	fpsLog[fpsLog.size()-1] = App->appTimer.GetLastFPS();
 	msLog[msLog.size() - 1] = dt * 1000;
 }
 
