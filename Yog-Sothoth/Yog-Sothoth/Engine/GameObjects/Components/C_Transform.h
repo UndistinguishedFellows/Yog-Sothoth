@@ -4,20 +4,20 @@
 #include "../../../MathGeoLib/Geometry/AABB.h"
 #include "../../../Tools/Containers/Color.h"
 
-class Transform :
+class C_Transform :
 	public Component
 {
 public:
 	// Father dependant transform
 	float4x4 localTransform = float4x4::identity;
-	// Transform dependant from the origin
+	// C_Transform dependant from the origin
 	float4x4 globalTransform = float4x4::identity;
 
 	AABB aabb;
 	Color aabb_color;
 	
-	Transform();
-	~Transform();
+	C_Transform(GameObject* parent);
+	~C_Transform();
 
 	const float4x4 getLocalTransform();
 	const float4x4 getGlobalTransform();
