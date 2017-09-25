@@ -17,7 +17,7 @@ YogClock::~YogClock()
 }
 
 /**
-*	- OnPrepareUpdate: Calculate all attributes at the begging of each frame
+*	- OnPrepareUpdate: Calculate all attributes at the begining of each frame
 *		- Add the elapsed time.
 *		- Recal real dt.
 *		- Add one frame to counter.

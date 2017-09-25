@@ -67,4 +67,4 @@ private:
 	float maximumDT = 1.0f;
 };
 
-#endif // !__GG_CLOCK_H__
+#endif // !__CLOCK_H__
