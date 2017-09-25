@@ -68,6 +68,7 @@
     <ClCompile Include="Tools\Primitive.cpp" />
     <ClCompile Include="Test\YogTest.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Tools\Primitive.h" />
     <ClInclude Include="Test\YogTest.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIConfiguration.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

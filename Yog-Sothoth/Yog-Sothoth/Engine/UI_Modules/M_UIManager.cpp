@@ -33,6 +33,7 @@ bool M_UIManager::Init()
 	frameCounter->active = true;
 	outliner = new UIOutliner();
 	tests = new UITests();
+	configuration = new UIConfiguration();
 	menus = new UIWindowMenus();
 	return ret;
 }
@@ -67,6 +68,11 @@ update_status M_UIManager::PostUpdate(float dt)
 	if (tests->active)
 	{
 		tests->Draw();
+	}
+	configuration->DoUpdate(dt);
+	if (configuration->active)
+	{
+		configuration->Draw();
 	}
 	menus->Draw();
 

@@ -5,6 +5,7 @@
 #include "UI components\UIFrameCounter.h"
 #include "UI components/UIOutliner.h"
 #include "UI components/UItests.h"
+#include "UI components/UIConfiguration.h"
 #include "UI components/UIWindowMenus.h"
 
 class M_UIManager : public Module
@@ -14,6 +15,7 @@ public:
 	UIFrameCounter* frameCounter = nullptr;
 	UIOutliner* outliner = nullptr;
 	UITests* tests = nullptr;
+	UIConfiguration* configuration = nullptr;
 	UIWindowMenus* menus = nullptr;
 
 	bool outlinerSelected = false;

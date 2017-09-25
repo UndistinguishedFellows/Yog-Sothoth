@@ -53,6 +53,7 @@ void UIWindowMenus::Draw()
 		}
 		if (ImGui::BeginMenu("View"))
 		{
+			ImGui::MenuItem("Configuration", nullptr, &App->uiManager->configuration->active, true);
 			ImGui::EndMenu();
 		}
 

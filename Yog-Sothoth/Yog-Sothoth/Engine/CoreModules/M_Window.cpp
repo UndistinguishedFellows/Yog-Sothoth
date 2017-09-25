@@ -131,3 +131,41 @@ void M_Window::SaveConfig()
 	SDL_Log("%s", output);
 }
 
+void M_Window::setWidth(int width)
+{
+	SDL_SetWindowSize(window, width, config.h_res);
+}
+
+void M_Window::setHeigth(int heigth)
+{
+	SDL_SetWindowSize(window, config.w_res, heigth);
+}
+
+void M_Window::setBorderless(bool border)
+{
+	SDL_SetWindowBordered(window, (SDL_bool)border);
+}
+
+void M_Window::setFullScreen(bool fullS)
+{
+	if (fullS)
+	{
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+	}
+	else
+	{
+		SDL_SetWindowFullscreen(window, 0);
+	}
+}
+
+void M_Window::setFullScreenDesktop(bool fullSD)
+{
+	if(fullSD)
+	{
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	}
+	else
+	{
+		SDL_SetWindowFullscreen(window, 0);
+	}
+}

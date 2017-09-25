@@ -208,6 +208,7 @@
     <ClCompile Include="Engine\GameObjects\Components\Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIConfiguration.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIConfiguration.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
