@@ -1,6 +1,6 @@
 ﻿#include "GameObject.h"
 #include <stack>
-#include "Components/Camera.h"
+#include "Components/C_Camera.h"
 
 GameObject::GameObject()
 {
@@ -127,7 +127,7 @@ void GameObject::EraseRelationship(GameObject** reference)
 
 void GameObject::AddComponent(ComponentType type)
 {
-	Camera* camera = new Camera();
+	C_Camera* camera = new C_Camera(nullptr);
 	camera->type = CAMERA;
 	this->components.push_back(camera);
 }

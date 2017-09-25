@@ -1,24 +1,24 @@
-﻿#include "Camera.h"
+﻿#include "C_Camera.h"
 #include "../../Application.h"
 #include "../../Engine/CoreModules/M_Input.h"
 
-Camera::Camera()
+C_Camera::C_Camera(GameObject* parent) : Component(parent)
 {
 	camera.type = PerspectiveFrustum;
 	camera.pos = { 0.f, 0.f, 20.f };
 	camera.up = { 0.f, 1.f, 0.f };
 	camera.front = { 0.f, 0.f, 1.f };
-	camera.horizontalFov = 1.309;
+	camera.horizontalFov = 1.309f;
 	camera.verticalFov = 0.82f;
 	camera.nearPlaneDistance = 0.001f;
 	camera.farPlaneDistance = 1000.f;
 }
 
-Camera::~Camera()
+C_Camera::~C_Camera()
 {
 }
 
-void Camera::Move(float dt)
+void C_Camera::Move(float dt)
 {
 	Frustum* frust = &camera;
 
@@ -46,7 +46,7 @@ void Camera::Move(float dt)
 	}
 }
 
-void Camera::Rotate(float dt)
+void C_Camera::Rotate(float dt)
 {
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
@@ -72,7 +72,7 @@ void Camera::Rotate(float dt)
 	}
 }
 
-void Camera::LookAt(float dx, float dy)
+void C_Camera::LookAt(float dx, float dy)
 {
 	//dx will be rotation along x axis
 	if (dx != 0.f)

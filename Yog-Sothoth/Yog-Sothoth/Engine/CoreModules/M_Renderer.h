@@ -2,8 +2,9 @@
 
 #include "BaseClass/Module.h"
 #include "../../Tools/Containers/Shader.h"
-#include "../GameObjects/Components/Camera.h"
 #include "../../Tools/Primitive.h"
+#include "../GameObjects/Components/C_Camera.h"
+#include "../GameObjects/Components/C_Mesh.h"
 
 class M_Renderer : public Module
 {
@@ -37,7 +38,8 @@ public:
 	//TEMP
 	unsigned int VBO, VAO, EBO;
 	unsigned int shaderProgram;
-	Camera frustum;
+	C_Camera* frustum;
+	std::vector<C_Mesh*> meshes;
 	
 	Shader basicShader;
 };

@@ -1,4 +1,6 @@
 #pragma once
+#include "../../Tools/Interfaces/IJsonSerializable.h"
+class GameObject;
 enum ComponentType
 {
 	CAMERA,
@@ -8,11 +10,17 @@ enum ComponentType
 	UNKNOWN
 };
 
-class Component
+class Component : public IJsonSerializable
 {
 public:
+	GameObject* parent = nullptr;
 	ComponentType type = UNKNOWN;
-	Component(){}
+
+	Component(GameObject* parent) { this->parent = parent; }
 	virtual ~Component(){}
+
+	void Serialize(Json::Value& root) {};
+	void Deserialize(Json::Value& root) {};
+
 };
 

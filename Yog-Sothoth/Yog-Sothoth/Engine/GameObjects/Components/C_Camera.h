@@ -3,11 +3,11 @@
 #include "BaseClass/Component.h"
 #include "../../MathGeoLib/MathGeoLib.h"
 
-class Camera : public Component
+class C_Camera : public Component
 {
 public:
-	Camera();
-	~Camera();
+	C_Camera(GameObject* parent);
+	~C_Camera();
 
 	void Move(float dt);
 	void Rotate(float dt);
@@ -16,6 +16,6 @@ public:
 	Frustum camera;
 
 	float movSpeed = 5.f;
-	float rotSpeed = 2.f;
+	float rotSpeed = 1.2f;
 	float zoomSpeed = 500.f;
 };

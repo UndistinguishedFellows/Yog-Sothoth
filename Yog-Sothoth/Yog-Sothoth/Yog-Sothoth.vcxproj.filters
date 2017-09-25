@@ -43,11 +43,9 @@
     <ClCompile Include="Tools\Timer.cpp" />
     <ClCompile Include="Tools\Containers\Color.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
-    <ClCompile Include="Engine\GameObjects\Components\Transform.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
     <ClCompile Include="Tools\FBXImporter.cpp" />
     <ClCompile Include="Tools\Containers\Shader.cpp" />
-    <ClCompile Include="Engine\GameObjects\Components\Camera.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Capsule.cpp" />
@@ -71,6 +69,9 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIConfiguration.cpp" />
     <ClCompile Include="Tools\PerfTimer.cpp" />
     <ClCompile Include="Tools\YogClock.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\C_Mesh.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\C_Transform.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\C_Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -130,12 +131,10 @@
     <ClInclude Include="Tools\Timer.h" />
     <ClInclude Include="Tools\Containers\Color.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
-    <ClInclude Include="Engine\GameObjects\Components\Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
     <ClInclude Include="Tools\FBXImporter.h" />
     <ClInclude Include="Tools\Containers\Shader.h" />
-    <ClInclude Include="Engine\GameObjects\Components\Camera.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB2D.h" />
@@ -171,6 +170,9 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIConfiguration.h" />
     <ClInclude Include="Tools\PerfTimer.h" />
     <ClInclude Include="Tools\YogClock.h" />
+    <ClInclude Include="Engine\GameObjects\Components\C_Mesh.h" />
+    <ClInclude Include="Engine\GameObjects\Components\C_Transform.h" />
+    <ClInclude Include="Engine\GameObjects\Components\C_Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

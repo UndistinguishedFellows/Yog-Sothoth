@@ -6,11 +6,15 @@
 #include "../../OpenGL.h"
 #include "../../Tools/Static/JsonSerializer.h"
 #include "../UI_Modules/M_UIManager.h"
-
+#include "../../../Assimp/Assimp/include/postprocess.h"
+#include "../../../Assimp/Assimp/include/cimport.h"
+#include "../../../Assimp/Assimp/include/scene.h"
+#include "../../../Assimp/Assimp/include/cfileio.h"
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
 	name.assign("renderer");
+	frustum = new C_Camera(nullptr);
 }
 
 M_Renderer::~M_Renderer()
@@ -89,14 +93,7 @@ bool M_Renderer::Init()
 
 bool M_Renderer::Start()
 {
-//	float vertices[] =
-//	{
-//		-0.5f, -0.5f, 0.0f,
-//		0.5f, -0.5f, 0.0f,
-//		0.0f,  0.5f, 0.0f
-//	};
 
-	
 	float vertices[] = {
 		0.5f,  0.5f, 0.0f,  // top right
 		0.5f, -0.5f, 0.0f,  // bottom right
@@ -107,60 +104,6 @@ bool M_Renderer::Start()
 		3, 1, 0,  // first Triangle
 		3, 2, 1   // second Triangle
 	};
-
-	//unsigned int VBO;
-//	const char *vertexShaderSource = "#version 330 core\n"
-//		"layout (location = 0) in vec3 aPos;\n"
-//		"void main()\n"
-//		"{\n"
-//		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-//		"}\0";
-//	const char *fragmentShaderSource = "#version 330 core\n"
-//		"out vec4 FragColor;\n"
-//		"void main()\n"
-//		"{\n"
-//		"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-//		"}\n\0";
-//	unsigned int vertexShader;
-//	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-//	//const char* string = vertexShader_src.c_str();
-//	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-//	glCompileShader(vertexShader);
-//
-//	int success;
-//	char infoLog[512];
-//	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-//	if (!success)
-//	{
-//		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-//		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-//	}
-//	unsigned int fragmentShader;
-//	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-//	//const char* string2 = fragmentShader_src.c_str();
-//	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-//	glCompileShader(fragmentShader);
-//	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-//	if (!success)
-//	{
-//		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-//		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-//	}
-//	//unsigned int shaderProgram;
-//	shaderProgram = glCreateProgram();
-//	glAttachShader(shaderProgram, vertexShader);
-//	glAttachShader(shaderProgram, fragmentShader);
-//	glLinkProgram(shaderProgram);
-//	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-//	if (!success)
-//	{
-//		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-//		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl;
-//	}
-//	glUseProgram(shaderProgram);
-//
-//	glDeleteShader(vertexShader);
-//	glDeleteShader(fragmentShader);
 
 	basicShader.LoadShader("data/shaders/camera.vertexShader", VERTEX);
 	//basicShader.LoadShader("data/shaders/basicVertex.vertexShader", VERTEX);
@@ -185,13 +128,42 @@ bool M_Renderer::Start()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	// 0. copy our vertices array in a buffer for OpenGL to use
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3, vertices, GL_STATIC_DRAW);
-	// 1. then set the vertex attributes pointers
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-	// 2. use our shader program when we want to render an object
+
+	//TMP:
+	const aiScene* scene;// = aiImportFile("warrior.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+
+	char* buffer;
+	uint fileSize = App->fs->load("warrior.FBX", &buffer);
+
+	if (buffer && fileSize > 0)
+	{
+		scene = aiImportFileFromMemory(buffer, fileSize, aiProcessPreset_TargetRealtime_MaxQuality, "fbx");
+	}
+	else
+	{
+		yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
+		return false;
+	}
+
+
+	if (scene != nullptr && scene->HasMeshes())
+	{		
+		// use scene->mNumMeshes to iterate on scene->mMeshes array
+		//meshes = new VramVertex[scene->mNumMeshes];
+
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			C_Mesh* mesh = new C_Mesh(nullptr);
+			aiMesh* new_mesh = scene->mMeshes[i];
+			mesh->Load(new_mesh);
+			meshes.push_back(mesh);
+		}
+		aiReleaseImport(scene);
+	}
+	else
+		yogConsole(CONSOLE_ERROR, "Error loading Scene %s", "warrior.FBX");
+
+
 	return true;
 }
 
@@ -217,18 +189,24 @@ update_status M_Renderer::PostUpdate(float dt)
 	glUseProgram(basicShader.shaderProgram);
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum.camera.ProjectionMatrix().Transposed().ptr());
-	math::float4x4 view = frustum.camera.ViewMatrix();
+	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
+	math::float4x4 view = frustum->camera.ViewMatrix();
 	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+	for (auto mesh : meshes)
+	{
+		mesh->Draw(basicShader, frustum);
+	}
+
+	glUseProgram(basicShader.shaderProgram);
 	//Draw floor grid and world axis
 	P_Plane floor(0, 1, 0, 0);
 	floor.axis = true;
 	floor.color.Set(255, 255, 255);
 	floor.Render();
-	frustum.Move(dt);
-	frustum.Rotate(dt);
+	frustum->Move(dt);
+	frustum->Rotate(dt);
 
 	App->uiManager->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);
