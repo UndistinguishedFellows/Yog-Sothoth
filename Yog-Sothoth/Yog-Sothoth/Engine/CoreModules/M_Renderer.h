@@ -5,6 +5,18 @@
 #include "../../Tools/Primitive.h"
 #include "../GameObjects/Components/C_Camera.h"
 #include "../GameObjects/Components/C_Mesh.h"
+#include "../../Tools/GPUDetect/DeviceId.h"
+
+struct GPUInfo
+{
+	uint vendor;
+	uint deviceId;
+	char* brand;
+	float videoMemBudget;
+	float videoMemUsage;
+	float videoMemAvaliable;
+	float videoMemReserved;
+};
 
 class M_Renderer : public Module
 {
@@ -14,6 +26,9 @@ public:
 	Json::Value root;
 
 	bool vSync;
+
+	GPUInfo gpuInfo;
+
 public:
 	M_Renderer(bool enabled = true);
 	~M_Renderer();
@@ -33,7 +48,7 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
-
+	void setGPUInfo();
 
 	//TEMP
 	unsigned int VBO, VAO, EBO;

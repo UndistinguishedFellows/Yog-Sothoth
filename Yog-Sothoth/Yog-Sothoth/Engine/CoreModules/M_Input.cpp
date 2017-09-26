@@ -89,7 +89,7 @@ update_status M_Input::PreUpdate(float dt)
 
 	mouse_x_motion = mouse_y_motion = 0;
 
-	App->quit = false;
+	//App->quit = false;
 
 	SDL_Event e;
 	while(SDL_PollEvent(&e))

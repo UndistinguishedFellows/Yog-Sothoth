@@ -66,11 +66,17 @@ void UIConfiguration::Draw()
 
 	if (ImGui::CollapsingHeader("Window"))
 	{
-		ImGui::Text("Window content");
-		
-		int resW, resH;
-		resW = App->window->config.w_res;
-		resH = App->window->config.h_res;
+		static float winBright;
+		winBright = App->window->getBrightness();
+		if (ImGui::SliderFloat("Brightness", &winBright, 0.0f, 1.0f))
+		{
+			//TODO: Add Brightness to config --> App->window->config.brightness =winBright;
+			App->window->setBrightness(winBright);
+		}
+
+		static int resW, resH;
+		resW = App->window->getWidth();
+		resH = App->window->getHeigth();
 		if (ImGui::SliderInt("Width", &resW, 0, 1920))//TODO: Magic numbers, need to create max & min res at config
 		{
 			App->window->config.w_res = resW;
@@ -98,20 +104,54 @@ void UIConfiguration::Draw()
 
 		if (ImGui::Checkbox("Borderless", &borderLess))
 		{
-			App->window->config.borderless = borderLess;
-			App->window->setBorderless(!borderLess);
+			if (!fullScreen && !fullDesk)
+			{
+				App->window->config.borderless = borderLess;
+				App->window->setBorderless(!borderLess);
+			}
+			else
+			{
+				borderLess = false;
+			}
+		}
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip("Only if FullScreen modes are not enabled");
 		}
 
 		if (ImGui::Checkbox("Fullscreen", &fullScreen))
 		{
-			App->window->config.fullscreen = fullScreen;
-			App->window->setFullScreen(fullScreen);
+			if (!fullDesk)
+			{
+				App->window->config.fullscreen = fullScreen;
+				App->window->setFullScreen(fullScreen);
+			}
+			else
+			{
+				fullScreen = false;
+			}
+			
+		}
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip("Fullscreen Desktop must be off");
 		}ImGui::SameLine();
 
 		if (ImGui::Checkbox("Fullscreen Desktop", &fullDesk))
 		{
-			App->window->config.fullscreenDesktop = fullDesk;
-			App->window->setFullScreenDesktop(fullDesk);
+			if (!fullScreen)
+			{
+				App->window->config.fullscreenDesktop = fullDesk;
+				App->window->setFullScreenDesktop(fullDesk);
+			}
+			else
+			{
+				fullDesk = false;
+			}
+		}
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip("Fullscreen must be off");
 		}
 	}
 
@@ -178,6 +218,26 @@ void UIConfiguration::Draw()
 		}
 		ImGui::Text(" ");
 		ImGui::Separator();
+
+		App->renderer->setGPUInfo();
+
+		ImGui::Text("GPU: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Vendor: %d Device: %d", App->renderer->gpuInfo.vendor,App->renderer->gpuInfo.deviceId);
+
+		ImGui::Text("Brand: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%s", App->renderer->gpuInfo.brand);
+
+		ImGui::Text("VRAM budget: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%.3f Mb", App->renderer->gpuInfo.videoMemBudget);
+	
+		ImGui::Text("VRAM usage: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%.3f Mb", App->renderer->gpuInfo.videoMemUsage);
+
+		ImGui::Text("VRAM avaliable: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%.3f Mb", App->renderer->gpuInfo.videoMemAvaliable);
+
+		ImGui::Text("VRAM reserved: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%.3f Mb", App->renderer->gpuInfo.videoMemReserved);
 	}
 
 	ImGui::End();

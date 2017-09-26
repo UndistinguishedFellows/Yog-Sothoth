@@ -45,10 +45,14 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
+	int getWidth();
+	int getHeigth();
 	void setWidth(int width);
 	void setHeigth(int heigth);
 	void setBorderless(bool border);
 	void setFullScreen(bool fullS);
 	void setFullScreenDesktop(bool fullSD);
+	float getBrightness();
+	void setBrightness(float brightness);
 };
 

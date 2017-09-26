@@ -40,7 +40,10 @@ void UIWindowMenus::Draw()
 		{
 //			ImGui::MenuItem("Save", NULL, &App->goManager->haveToSaveScene, true);
 //			ImGui::MenuItem("Load", NULL, &App->goManager->haveToLoadScene, true);
-//			ImGui::MenuItem("Quit", NULL, &quitSelected, true);
+			if (ImGui::MenuItem("Quit"))
+			{
+				App->quit = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))

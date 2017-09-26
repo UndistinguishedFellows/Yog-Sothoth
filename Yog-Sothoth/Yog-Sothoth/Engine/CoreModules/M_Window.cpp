@@ -73,6 +73,9 @@ bool M_Window::Init()
 		}
 	}
 
+	config.w_res = getWidth();
+	config.h_res = getHeigth();
+
 	return ret;
 
 }
@@ -131,6 +134,22 @@ void M_Window::SaveConfig()
 	SDL_Log("%s", output);
 }
 
+int M_Window::getWidth()
+{
+	int w, h;
+	SDL_GetWindowSize(window,&w,&h);
+
+	return w;
+}
+
+int M_Window::getHeigth()
+{
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+
+	return h;
+}
+
 void M_Window::setWidth(int width)
 {
 	SDL_SetWindowSize(window, width, config.h_res);
@@ -168,4 +187,14 @@ void M_Window::setFullScreenDesktop(bool fullSD)
 	{
 		SDL_SetWindowFullscreen(window, 0);
 	}
+}
+
+float M_Window::getBrightness()
+{
+	return SDL_GetWindowBrightness(window);
+}
+
+void M_Window::setBrightness(float brightness)
+{
+	SDL_SetWindowBrightness(window, brightness);
 }

@@ -232,6 +232,7 @@
     <ClCompile Include="MathGeoLib\Math\BitOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="Test\YogTest.cpp" />
+    <ClCompile Include="Tools\GPUDetect\DeviceId.cpp" />
     <ClCompile Include="Tools\YogClock.cpp" />
     <ClCompile Include="Tools\Containers\Shader.cpp" />
     <ClCompile Include="Tools\FBXImporter.cpp" />
@@ -313,6 +314,8 @@
     <ClInclude Include="MathGeoLib\Math\BitOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="Test\YogTest.h" />
+    <ClInclude Include="Tools\GPUDetect\DeviceId.h" />
+    <ClInclude Include="Tools\GPUDetect\dxgi1_4.h" />
     <ClInclude Include="Tools\YogClock.h" />
     <ClInclude Include="Tools\Containers\Shader.h" />
     <ClInclude Include="Tools\FBXImporter.h" />

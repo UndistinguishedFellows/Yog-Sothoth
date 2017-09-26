@@ -88,6 +88,8 @@ bool M_Renderer::Init()
 	}
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	setGPUInfo();
 	return ret;
 }
 
@@ -254,4 +256,23 @@ void M_Renderer::SetVSync(bool set)
 	{
 		yogLog("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 	}
+}
+
+void M_Renderer::setGPUInfo()
+{
+	 gpuInfo.brand = (char*)glGetString(GL_RENDERER);
+
+	 uint vendor, deviceId;
+	 std::wstring brand;
+	 unsigned __int64 videoMemBudget, videoMemUsage, videoMemAvailable, videoMemReserved;
+
+	 if (getGraphicsDeviceInfo(&vendor, &deviceId, &brand, &videoMemBudget, &videoMemUsage, &videoMemAvailable, &videoMemReserved))
+	 {
+		 gpuInfo.vendor = vendor;
+		 gpuInfo.deviceId = deviceId;
+		 gpuInfo.videoMemBudget = float(videoMemBudget) / 1073741824.0f;
+		 gpuInfo.videoMemUsage = float(videoMemUsage) / (1024.f * 1024.f);
+		 gpuInfo.videoMemAvaliable = float(videoMemAvailable) / (1024.f * 1024.f * 1024.f);
+		 gpuInfo.videoMemReserved = float(videoMemReserved) / (1024.f * 1024.f * 1024.f);
+	 }
 }
