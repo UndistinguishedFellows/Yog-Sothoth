@@ -29,6 +29,13 @@ public:
 
 	GPUInfo gpuInfo;
 
+private:
+	bool depthTest;
+	bool cullFace;
+	bool lightning;
+	bool wireframe;
+	Color colorMaterial;
+
 public:
 	M_Renderer(bool enabled = true);
 	~M_Renderer();
@@ -49,6 +56,18 @@ public:
 	void SaveConfig() override;
 
 	void setGPUInfo();
+
+	void SetDepthTest(bool stat);
+	void SetCullFace(bool stat);
+	void SetLightning(bool stat);
+	void SetWireframe(bool stat);
+	void SetColorMaterial(Color color);
+
+	bool GetDepthTest();
+	bool GetCullFace();
+	bool GetLightning();
+	bool GetWireframe();
+	Color GetColorMaterial();
 
 	//TEMP
 	unsigned int VBO, VAO, EBO;

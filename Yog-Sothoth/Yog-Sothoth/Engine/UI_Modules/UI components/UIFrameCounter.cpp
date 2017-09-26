@@ -22,7 +22,6 @@ void UIFrameCounter::DoUpdate(float dt)
 void UIFrameCounter::Draw()
 {
 	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::SetNextWindowSize(ImVec2(200, 200));
 	if (!ImGui::Begin("", &active, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
 	{
 		ImGui::End();

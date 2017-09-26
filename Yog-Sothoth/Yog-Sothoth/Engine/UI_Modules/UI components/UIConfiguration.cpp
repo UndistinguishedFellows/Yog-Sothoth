@@ -154,6 +154,32 @@ void UIConfiguration::Draw()
 			ImGui::SetTooltip("Fullscreen must be off");
 		}
 	}
+	if (ImGui::CollapsingHeader("Render"))
+	{
+		ImGui::Text("Render content");
+
+		bool depthTest = App->renderer->GetDepthTest();
+		bool cullFace = App->renderer->GetCullFace();
+		bool wireframe = App->renderer->GetWireframe();
+
+		if (ImGui::Checkbox("DepthTest", &depthTest))
+		{
+			App->renderer->SetDepthTest(depthTest);
+		}ImGui::SameLine();
+		if (ImGui::Checkbox("CullFace", &cullFace))
+		{
+			App->renderer->SetCullFace(cullFace);
+		}
+		if (ImGui::Checkbox("Wireframe", &wireframe))
+		{
+			App->renderer->SetWireframe(wireframe);
+		}
+		if (ImGui::Button("Save##render"))
+		{
+			App->renderer->SaveConfig();
+		}
+
+	}
 
 	if (ImGui::CollapsingHeader("Hardware"))
 	{
