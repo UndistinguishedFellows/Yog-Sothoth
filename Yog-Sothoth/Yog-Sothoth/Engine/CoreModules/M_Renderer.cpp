@@ -9,7 +9,6 @@
 #include "../../../Assimp/Assimp/include/postprocess.h"
 #include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/scene.h"
-#include "../../../Assimp/Assimp/include/cfileio.h"
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
@@ -81,13 +80,11 @@ bool M_Renderer::Init()
 			SDL_Log("Error initializing OpenGL! %s\n", glewGetErrorString(error));
 			ret = false;
 		}
-
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-
+		SetDepthTest(depthTest);
+		SetCullFace(cullFace);
 	}
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	SetWireframe(wireframe);
 	return ret;
 }
 
@@ -128,8 +125,11 @@ bool M_Renderer::Start()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	//TODO: Dani pon tus cosas aqui
 
-	//TMP:
+
+
+	//TMP: Aqui se carga el modelo Warrior.FBX
 	const aiScene* scene;// = aiImportFile("warrior.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 
 	char* buffer;
@@ -186,6 +186,11 @@ update_status M_Renderer::PostUpdate(float dt)
 //	glBindVertexArray(VAO);	
 //	glDrawArrays(GL_TRIANGLES, 0, 3);
 
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	glUseProgram(basicShader.shaderProgram);
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -208,6 +213,9 @@ update_status M_Renderer::PostUpdate(float dt)
 	frustum->Move(dt);
 	frustum->Rotate(dt);
 
+	//TODO: Dani pinta aqui
+
+
 	App->uiManager->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
@@ -223,11 +231,18 @@ bool M_Renderer::CleanUp()
 
 void M_Renderer::Serialize(Json::Value& root)
 {
+	root["vsync"] = vSync;
+	root["depthTest"] = depthTest;
+	root["cullFace"] = cullFace;
+	root["wireframe"] = wireframe;
 }
 
 void M_Renderer::Deserialize(Json::Value& root)
 {
 	vSync = root.get("vsync", true).asBool();	
+	depthTest = root.get("depthTest", true).asBool();	
+	cullFace = root.get("cullFace", true).asBool();	
+	wireframe = root.get("wireframe", true).asBool();	
 }
 
 void M_Renderer::LoadConfig()
@@ -238,8 +253,46 @@ void M_Renderer::LoadConfig()
 void M_Renderer::SaveConfig()
 {
 	std::string output;
-	JsonSerializer::Serialize(this, output, "config/renderer.json");
+	JsonSerializer::Serialize(this, output, App->configPath[name]);
 	SDL_Log("%s", output);
+}
+
+void M_Renderer::SetDepthTest(bool stat)
+{
+	depthTest = stat;
+	if (stat)
+		glEnable(GL_DEPTH_TEST);
+	else
+		glDisable(GL_DEPTH_TEST);
+}
+
+void M_Renderer::SetCullFace(bool stat)
+{
+	cullFace = stat;
+	if (stat)
+		glEnable(GL_CULL_FACE);
+	else
+		glDisable(GL_CULL_FACE);
+}
+
+void M_Renderer::SetWireframe(bool stat)
+{
+	wireframe = stat;
+}
+
+bool M_Renderer::GetDepthTest()
+{
+	return depthTest;
+}
+
+bool M_Renderer::GetCullFace()
+{
+	return cullFace;
+}
+
+bool M_Renderer::GetWireframe()
+{
+	return wireframe;
 }
 
 bool M_Renderer::IsVSyncActive()const

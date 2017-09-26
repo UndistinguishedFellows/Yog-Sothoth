@@ -14,6 +14,12 @@ public:
 	Json::Value root;
 
 	bool vSync;
+private:
+	bool depthTest;
+	bool cullFace;
+	bool lightning;
+	bool wireframe;
+	Color colorMaterial;
 public:
 	M_Renderer(bool enabled = true);
 	~M_Renderer();
@@ -33,6 +39,16 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
+	void SetDepthTest(bool stat);
+	void SetCullFace(bool stat);
+	void SetLightning(bool stat);
+	void SetWireframe(bool stat);
+	void SetColorMaterial(Color color);
+	bool GetDepthTest();
+	bool GetCullFace();
+	bool GetLightning();
+	bool GetWireframe();
+	Color GetColorMaterial();
 
 
 	//TEMP

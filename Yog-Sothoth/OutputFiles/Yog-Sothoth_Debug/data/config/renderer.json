@@ -1,3 +1,6 @@
-{  
-	"vsync" : true
+{
+   "cullFace" : true,
+   "depthTest" : true,
+   "vsync" : true,
+   "wireframe" : false
 }
