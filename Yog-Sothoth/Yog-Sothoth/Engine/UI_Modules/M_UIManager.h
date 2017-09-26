@@ -37,4 +37,5 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 	
+	void setGreyStyle();
 };
