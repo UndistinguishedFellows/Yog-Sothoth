@@ -133,39 +133,45 @@ bool M_Renderer::Start()
 
 
 	//TMP: Aqui se carga el modelo Warrior.FBX
-	const aiScene* scene;// = aiImportFile("warrior.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+//	const aiScene* scene;// = aiImportFile("warrior.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+//
+//	char* buffer;
+//	uint fileSize = App->fs->load("warrior.FBX", &buffer);
+//
+//	if (buffer && fileSize > 0)
+//	{
+//		scene = aiImportFileFromMemory(buffer, fileSize, aiProcessPreset_TargetRealtime_MaxQuality, "fbx");
+//	}
+//	else
+//	{
+//		yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
+//		return false;
+//	}
+//
+//
+//	if (scene != nullptr && scene->HasMeshes())
+//	{		
+//		// use scene->mNumMeshes to iterate on scene->mMeshes array
+//		//meshes = new VramVertex[scene->mNumMeshes];
+//
+//		for (int i = 0; i < scene->mNumMeshes; i++)
+//		{
+//			C_Mesh* mesh = new C_Mesh(nullptr);
+//			//GameObject* go = new GameObject();
+//			//App->objManager->root->AddChild(go);
+//			aiMesh* new_mesh = scene->mMeshes[i];
+//			mesh->Load(new_mesh);
+//			//go->CreateComponent(MESH);
+//			meshes.push_back(mesh);
+//		}
+//		aiReleaseImport(scene);
+//	}
+//	else
+//		yogConsole(CONSOLE_ERROR, "Error loading Scene %s", "warrior.FBX");
 
-	char* buffer;
-	uint fileSize = App->fs->load("warrior.FBX", &buffer);
-
-	if (buffer && fileSize > 0)
-	{
-		scene = aiImportFileFromMemory(buffer, fileSize, aiProcessPreset_TargetRealtime_MaxQuality, "fbx");
-	}
-	else
-	{
-		yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
-		return false;
-	}
-
-
-	if (scene != nullptr && scene->HasMeshes())
-	{		
-		// use scene->mNumMeshes to iterate on scene->mMeshes array
-		//meshes = new VramVertex[scene->mNumMeshes];
-
-		for (int i = 0; i < scene->mNumMeshes; i++)
-		{
-			C_Mesh* mesh = new C_Mesh(nullptr);
-			aiMesh* new_mesh = scene->mMeshes[i];
-			mesh->Load(new_mesh);
-			meshes.push_back(mesh);
-		}
-		aiReleaseImport(scene);
-	}
-	else
-		yogConsole(CONSOLE_ERROR, "Error loading Scene %s", "warrior.FBX");
-
+	//App->objManager->LoadFBX("warrior.FBX");
+	//App->objManager->LoadFBX("Street environment_V01.FBX");
+	App->objManager->LoadFBX("MechaT.FBX");
 
 	return true;
 }
@@ -202,10 +208,11 @@ update_status M_Renderer::PostUpdate(float dt)
 	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-	for (auto mesh : meshes)
-	{
-		mesh->Draw(basicShader, frustum);
-	}
+//	for (auto mesh : meshes)
+//	{
+//		mesh->Draw(basicShader, frustum);
+//	}
+	App->objManager->root->Draw(basicShader, frustum);
 
 	glUseProgram(basicShader.shaderProgram);
 	//Draw floor grid and world axis

@@ -1,6 +1,8 @@
 ﻿#include "GameObject.h"
 #include <stack>
 #include "Components/C_Camera.h"
+#include "Components/C_Mesh.h"
+#include "Components/C_Transform.h"
 
 GameObject::GameObject()
 {
@@ -9,6 +11,7 @@ GameObject::GameObject()
 GameObject::GameObject(GameObject* parent)
 {
 	this->parent = parent;
+	parent->children.push_back(this);
 }
 
 GameObject::~GameObject()
@@ -19,6 +22,7 @@ GameObject::~GameObject()
 void GameObject::AddChild(GameObject* child)
 {
 	children.push_back(child);
+	child->parent = this;
 }
 
 void GameObject::RemoveChild(GameObject* child)
@@ -125,9 +129,60 @@ void GameObject::EraseRelationship(GameObject** reference)
 		}
 }
 
-void GameObject::AddComponent(ComponentType type)
+Component* GameObject::CreateComponent(ComponentType type)
 {
-	C_Camera* camera = new C_Camera(nullptr);
-	camera->type = CAMERA;
-	this->components.push_back(camera);
+	Component* ret = nullptr;
+	switch (type)
+	{
+		case CAMERA:
+		{
+			ret = new C_Camera(this);
+			ret->type = CAMERA;
+			this->components.push_back(ret);
+		}
+		break;
+		case MESH:
+		{
+			ret = new C_Mesh(this);
+			ret->type = MESH;
+			this->components.push_back(ret);
+		}
+		break;
+		case TRANSFORM:
+		{
+			ret = new C_Transform(this);
+			ret->type = TRANSFORM;
+			this->components.push_back(ret);
+		}
+		break;
+	}
+
+	return ret;
+}
+
+Component* GameObject::FindComponent(ComponentType type)
+{
+	for (auto component : components)
+	{
+		if (component->type == type)
+		{
+			return component;
+		}
+	}
+	return nullptr;
+}
+
+void GameObject::Draw(Shader shader, C_Camera* camera)
+{
+	C_Mesh* mesh = (C_Mesh*)FindComponent(MESH);
+	if (mesh != nullptr)
+	{
+		mesh->Draw(shader, camera);
+	}
+	
+
+	for (auto child : children)
+	{
+		child->Draw(shader, camera);
+	}
 }

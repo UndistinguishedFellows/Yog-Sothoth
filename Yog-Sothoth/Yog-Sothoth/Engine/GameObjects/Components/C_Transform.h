@@ -1,7 +1,6 @@
 #pragma once
 #include "BaseClass/Component.h"
-#include "../../../MathGeoLib/Math/float4x4.h"
-#include "../../../MathGeoLib/Geometry/AABB.h"
+#include "../../../MathGeoLib/MathGeoLib.h"
 #include "../../../Tools/Containers/Color.h"
 
 class C_Transform :
@@ -12,6 +11,9 @@ public:
 	float4x4 localTransform = float4x4::identity;
 	// C_Transform dependant from the origin
 	float4x4 globalTransform = float4x4::identity;
+	float3 scale;
+	float3 position;
+	Quat rotation;
 
 	AABB aabb;
 	Color aabb_color;

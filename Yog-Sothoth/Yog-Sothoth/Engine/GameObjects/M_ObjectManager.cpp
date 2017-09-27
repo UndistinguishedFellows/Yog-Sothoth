@@ -1,5 +1,11 @@
 #include "M_ObjectManager.h"
-
+#include "../../MathGeoLib/MathGeoLib.h"
+#include "../../../Assimp/Assimp/include/scene.h"
+#include "Components/C_Mesh.h"
+#include "Components/C_Transform.h"
+#include "../../Application.h"
+#include "../../../Assimp/Assimp/include/cimport.h"
+#include "../../../Assimp/Assimp/include/postprocess.h"
 
 
 M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
@@ -8,6 +14,7 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 	root->name = "/";
 	camera = new GameObject();
 	camera->name = "camera";
+	root->AddChild(camera);
 	
 }
 
@@ -80,6 +87,83 @@ void M_ObjectManager::ConsoleCreateGameObject(std::string parentName, std::strin
 void M_ObjectManager::DeleteGameObject(GameObject* go)
 {
 	deletionGameObject->AddChild(go);
+}
+GameObject* M_ObjectManager::LoadFBX(const char * path)
+{
+	yogConsole(CONSOLE_INFO, "Loading scene...");
+	if (path == NULL)
+	{
+		yogConsole(CONSOLE_ERROR, "No path");
+		return nullptr; //If path is NULL dont do nothing
+	}
+
+	char* buffer;
+	uint fileSize = App->fs->load(path, &buffer);
+	const aiScene* scene = NULL;
+
+	if (buffer && fileSize > 0)
+	{
+		scene = aiImportFileFromMemory(buffer, fileSize, aiProcessPreset_TargetRealtime_MaxQuality, "fbx");
+	}
+	else
+	{
+		yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
+		return NULL;
+	}
+
+	if (scene, scene->HasMeshes())
+	{
+		yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
+		LoadScene(scene, scene->mRootNode, root);
+	}
+
+	aiReleaseImport(scene);
+
+	return root;
+}
+void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent)
+{
+	aiVector3D ai_translation;
+	aiVector3D ai_scaling;
+	aiQuaternion ai_rotation;
+
+	node->mTransformation.Decompose(ai_scaling, ai_rotation, ai_translation);
+	std::string gameObjectName = node->mName.C_Str();
+	float3 position(ai_translation.x, ai_translation.y, ai_translation.z);
+	float3 scale(ai_scaling.x, ai_scaling.y, ai_scaling.z);
+	Quat rotation(ai_rotation.x, ai_rotation.y, ai_rotation.z, ai_rotation.w);
+
+	GameObject* gameObject = new GameObject();// = new GameObject(parent, position, scale, rotation, gameObjectName.c_str());
+	parent->AddChild(gameObject);
+	gameObject->name = gameObjectName;
+
+	float4x4 matrix(rotation, position);
+	matrix.Scale(scale);
+
+	C_Transform* transform = (C_Transform*)gameObject->CreateComponent(TRANSFORM);
+	transform->scale = scale;
+	transform->rotation = rotation;
+	transform->position = position;
+	transform->localTransform = matrix;
+
+	C_Transform* parentTransform = (C_Transform*)gameObject->parent->FindComponent(TRANSFORM);
+
+	//transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
+
+
+	for (uint i = 0; i < node->mNumMeshes; i++)
+	{
+		const aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+		C_Mesh* mesh = (C_Mesh*)gameObject->CreateComponent(MESH);
+
+		mesh->Load(ai_mesh);
+	}
+	
+	for (uint i = 0; i < node->mNumChildren; ++i)
+		LoadScene(scene, node->mChildren[i], gameObject);
+
+
 }
 
 void M_ObjectManager::Serialize(Json::Value& root)
