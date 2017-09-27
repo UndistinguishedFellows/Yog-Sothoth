@@ -144,7 +144,8 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 	C_Transform* model = (C_Transform*)parent->FindComponent(TRANSFORM);
 	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "model"), 1, GL_FALSE, model->localTransform.Transposed().ptr());
-
+	glUniform4f(glGetUniformLocation(shader.shaderProgram, "color"), color.r, color.g, color.b, color.a);
+	//glUniform4fv(glGetUniformLocation(shader.shaderProgram, "color"), 1, (const GLfloat*)&color);
 	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

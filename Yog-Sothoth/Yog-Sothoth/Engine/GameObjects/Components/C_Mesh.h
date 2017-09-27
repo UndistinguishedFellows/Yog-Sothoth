@@ -53,6 +53,7 @@ public:
 	Normals normals;
 	UV uv;
 	BoundingBox boundingBox;
+	Color color = Color(1.0f,1.0f,0.0f,1.0f);
 
 	C_Mesh(GameObject* parent);
 	~C_Mesh();

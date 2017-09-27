@@ -130,45 +130,6 @@ bool M_Renderer::Start()
 
 	//###########################################
 
-	
-
-	//TMP: Aqui se carga el modelo Warrior.FBX
-//	const aiScene* scene;// = aiImportFile("warrior.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
-//
-//	char* buffer;
-//	uint fileSize = App->fs->load("warrior.FBX", &buffer);
-//
-//	if (buffer && fileSize > 0)
-//	{
-//		scene = aiImportFileFromMemory(buffer, fileSize, aiProcessPreset_TargetRealtime_MaxQuality, "fbx");
-//	}
-//	else
-//	{
-//		yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
-//		return false;
-//	}
-//
-//
-//	if (scene != nullptr && scene->HasMeshes())
-//	{		
-//		// use scene->mNumMeshes to iterate on scene->mMeshes array
-//		//meshes = new VramVertex[scene->mNumMeshes];
-//
-//		for (int i = 0; i < scene->mNumMeshes; i++)
-//		{
-//			C_Mesh* mesh = new C_Mesh(nullptr);
-//			//GameObject* go = new GameObject();
-//			//App->objManager->root->AddChild(go);
-//			aiMesh* new_mesh = scene->mMeshes[i];
-//			mesh->Load(new_mesh);
-//			//go->CreateComponent(MESH);
-//			meshes.push_back(mesh);
-//		}
-//		aiReleaseImport(scene);
-//	}
-//	else
-//		yogConsole(CONSOLE_ERROR, "Error loading Scene %s", "warrior.FBX");
-
 	//App->objManager->LoadFBX("warrior.FBX");
 	//App->objManager->LoadFBX("Street environment_V01.FBX");
 	App->objManager->LoadFBX("MechaT.FBX");
@@ -191,10 +152,6 @@ update_status M_Renderer::Update(float dt)
 
 update_status M_Renderer::PostUpdate(float dt)
 {
-//	glUseProgram(shaderProgram);
-//	glBindVertexArray(VAO);	
-//	glDrawArrays(GL_TRIANGLES, 0, 3);
-
 	if (wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
@@ -206,30 +163,28 @@ update_status M_Renderer::PostUpdate(float dt)
 	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
 	math::float4x4 view = frustum->camera.ViewMatrix();
 	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
+	glUniform4f(glGetUniformLocation(basicShader.shaderProgram, "color"), 1.0f, 1.0f, 1.0f, 1.0f);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glUseProgram(0);
 
-//	for (auto mesh : meshes)
-//	{
-//		mesh->Draw(basicShader, frustum);
-//	}
 	App->objManager->root->Draw(basicShader, frustum);
-
-	glUseProgram(basicShader.shaderProgram);
+	
 	//Draw floor grid and world axis
+	glUseProgram(basicShader.shaderProgram);
+	Color color(0.9f, 0.9f, 0.9f, 1.0f);
+	glUniform4fv(glGetUniformLocation(basicShader.shaderProgram, "color"), 1, &color);
 	P_Plane floor(0, 1, 0, 0);
 	floor.axis = true;
-	floor.color.Set(255, 255, 255);
 	floor.Render();
+
 	frustum->Move(dt);
 	frustum->Rotate(dt);
 
-	//
 	// Draw a cube with 12 triangles
 	glBegin(GL_TRIANGLES);
 
 	// front face
 	glColor3d(255, 255, 0);
-
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(10.0f, 0.0f, 0.0f);
 	glVertex3f(10.0f, 10.0f, 0.0f);
@@ -240,7 +195,6 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	// left face
 	glColor3d(255, 0, 0);
-
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 10.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, -10.0f);
@@ -261,6 +215,7 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	// right face
 	glColor3d(0, 0, 255);
+
 	glVertex3f(10.0f, 0.0f, 0.0f);
 	glVertex3f(10.0f, 0.0f, -10.0f);
 	glVertex3f(10.0f, 10.0f, 0.0f);
@@ -271,6 +226,7 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	// back face
 	glColor3d(0, 255, 255);
+
 	glVertex3f(0.0f, 0.0f, -10.0f);
 	glVertex3f(10.0f, 10.0f, -10.0f);
 	glVertex3f(10.0f, 0.0f, -10.0f);
