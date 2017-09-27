@@ -5,6 +5,7 @@
 #include "../../../../Assimp/Assimp/include/cfileio.h"
 #include "../../../../Assimp/Assimp/include/cimport.h"
 #include "../../../../Assimp/Assimp/include/postprocess.h"
+#include "C_Transform.h"
 
 
 C_Mesh::C_Mesh(GameObject* parent) : Component(parent)
@@ -141,6 +142,8 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "projection"), 1, GL_FALSE, camera->camera.ProjectionMatrix().Transposed().ptr());
 	math::float4x4 view = camera->camera.ViewMatrix();
 	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
+	C_Transform* model = (C_Transform*)parent->FindComponent(TRANSFORM);
+	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "model"), 1, GL_FALSE, model->localTransform.Transposed().ptr());
 
 	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

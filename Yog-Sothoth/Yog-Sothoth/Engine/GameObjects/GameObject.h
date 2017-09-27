@@ -4,6 +4,9 @@
 #include <rpc.h>
 
 
+class Shader;
+class C_Camera;
+
 class GameObject
 {
 public:
@@ -68,5 +71,7 @@ public:
 	 */
 	void EraseRelationship(GameObject** reference);
 
-	void AddComponent(ComponentType type);
+	Component* CreateComponent(ComponentType type);
+	Component* FindComponent(ComponentType type);
+	void Draw(Shader shader, C_Camera* camera);
 };

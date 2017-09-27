@@ -2,6 +2,9 @@
 #include "../CoreModules/BaseClass/Module.h"
 #include "GameObject.h"
 
+struct aiScene;
+struct aiNode;
+
 class M_ObjectManager :
 	public Module
 {
@@ -14,7 +17,7 @@ public:
 private:
 	
 	/**
-	 * \brief Game object pointers allocated here will be deleted in the next frame
+	 * \briefGame object pointers allocated here will be deleted in the next frame
 	 */
 	GameObject* deletionGameObject; 
 
@@ -33,6 +36,15 @@ public:
 	GameObject* CreateGameObject(std::string parentName, std::string childName) const;
 	void ConsoleCreateGameObject(std::string parentName, std::string childName) const;
 	void DeleteGameObject(GameObject* go);
+	
+	/**
+	* \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
+	*/
+	GameObject* LoadFBX(const char* path);
+	/**
+	 * \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
+	 */
+	void LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent);
 
 
 	void Serialize(Json::Value& root) override;
