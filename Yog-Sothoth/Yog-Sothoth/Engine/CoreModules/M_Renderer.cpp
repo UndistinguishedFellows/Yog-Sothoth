@@ -93,7 +93,7 @@ bool M_Renderer::Init()
 
 bool M_Renderer::Start()
 {
-
+#pragma region plane
 	float vertices[] = {
 		0.5f,  0.5f, 0.0f,  // top right
 		0.5f, -0.5f, 0.0f,  // bottom right
@@ -105,17 +105,72 @@ bool M_Renderer::Start()
 		3, 2, 1   // second Triangle
 	};
 
-	basicShader.LoadShader("data/shaders/camera.vertexShader", VERTEX);
-	//basicShader.LoadShader("data/shaders/basicVertex.vertexShader", VERTEX);
-	basicShader.LoadShader("data/shaders/basicFragment.fragmentShader", FRAGMENT);
-	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
+#pragma endregion
+	// set up vertex data (and buffer(s)) and configure vertex attributes
+	// ------------------------------------------------------------------
+#pragma region Cube
+	float vertices_cube[] = {
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
 
+		-0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f, -0.5f,
+
+		-0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+	};
+#pragma endregion
+	lightPos = { 1.2f, 1.0f, 2.0f };
+
+	basicShader.LoadShader("data/shaders/camera.vs", VERTEX);
+	basicShader.LoadShader("data/shaders/basicFragment.fs", FRAGMENT);
+	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
+	lightShader.LoadShader("data/shaders/1.colors.vs", VERTEX);
+	lightShader.LoadShader("data/shaders/1.colors.fs", FRAGMENT);
+	lightShader.CompileProgram(lightShader.vertexShader, lightShader.fragmentShader);
+	lampShader.LoadShader("data/shaders/1.lamp.vs", VERTEX);
+	lampShader.LoadShader("data/shaders/1.lamp.fs", FRAGMENT);
+	lampShader.CompileProgram(lampShader.vertexShader, lampShader.fragmentShader);
+#pragma region planeGL
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
-	
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -128,11 +183,37 @@ bool M_Renderer::Start()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+
+#pragma endregion
+
+	glGenVertexArrays(1, &cubeVAO);
+	glGenBuffers(1, &cubeVBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_cube), vertices_cube, GL_STATIC_DRAW);
+
+	glBindVertexArray(cubeVAO);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+	
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+
+	// we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
+	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
 	//###########################################
 
 	//App->objManager->LoadFBX("warrior.FBX");
 	//App->objManager->LoadFBX("Street environment_V01.FBX");
-	App->objManager->LoadFBX("MechaT.FBX");
+	//App->objManager->LoadFBX("MechaT.FBX");
 
 	return true;
 }
@@ -157,96 +238,147 @@ update_status M_Renderer::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	glUseProgram(basicShader.shaderProgram);
-	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-							//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
+//	glUseProgram(basicShader.shaderProgram);
+//	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+//							//glDrawArrays(GL_TRIANGLES, 0, 6);
+//	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
 	math::float4x4 view = frustum->camera.ViewMatrix();
-	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
-	glUniform4f(glGetUniformLocation(basicShader.shaderProgram, "color"), 1.0f, 1.0f, 1.0f, 1.0f);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
+//	glUniform4f(glGetUniformLocation(basicShader.shaderProgram, "color"), 1.0f, 1.0f, 1.0f, 1.0f);
+//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//	glUseProgram(0);
+
+	glUseProgram(lightShader.shaderProgram);
+	glUniform3f(glGetUniformLocation(lightShader.shaderProgram, "objectColor"), 1.0f, 0.5f, 0.31f);
+	glUniform3f(glGetUniformLocation(lightShader.shaderProgram, "lightColor"), 1.0f, 1.0f, 1.0f);
+	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
+	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
+
+	float3 position(0, 0, 0);
+	float3 scale(1, 1, 1);
+	Quat rotation = Quat::identity;
+	float4x4 model(rotation, position);
+	model.Scale(scale);
+
+	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "model"), 1, GL_FALSE, model.Transposed().ptr());
+	// render the cube
+	glBindVertexArray(cubeVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	// also draw the lamp object
+	glUseProgram(lampShader.shaderProgram);
+	glUniformMatrix4fv(glGetUniformLocation(lampShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
+	glUniformMatrix4fv(glGetUniformLocation(lampShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
+	
+	float3 pos;
+	float3 sca;
+	Quat rot;
+	model.Decompose(pos, rot, sca);
+	sca *= 0.2f;
+	model = float4x4::FromTRS(lightPos, rot, sca);
+
+	//model.Scale(0.2f, 0.2f, 0.2f); // a smaller cube
+	glUniformMatrix4fv(glGetUniformLocation(lampShader.shaderProgram, "model"), 1, GL_FALSE, model.Transposed().ptr());
+
+	glBindVertexArray(lightVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glUseProgram(0);
 
 	App->objManager->root->Draw(basicShader, frustum);
 	
+
 	//Draw floor grid and world axis
-	glUseProgram(basicShader.shaderProgram);
-	Color color(0.9f, 0.9f, 0.9f, 1.0f);
-	glUniform4fv(glGetUniformLocation(basicShader.shaderProgram, "color"), 1, &color);
-	P_Plane floor(0, 1, 0, 0);
-	floor.axis = true;
-	floor.Render();
+	if (grid)
+	{
+		glPushMatrix();
+		glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+		glPushMatrix();
+		glMultMatrixf(view.Transposed().ptr());
+		P_Plane floor(0, 1, 0, 0);
+		floor.color = { 0.9f, 0.9f, 0.9f , 1.f };
+		floor.axis = true;
+		floor.Render();
+		glPopMatrix();
+		glPopMatrix();
+
+	}
 
 	frustum->Move(dt);
 	frustum->Rotate(dt);
 
-	// Draw a cube with 12 triangles
-	glBegin(GL_TRIANGLES);
+//	glPushMatrix();
+//	glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+//	glPushMatrix();
+//	glMultMatrixf(view.Transposed().ptr());
 
-	// front face
-	glColor3d(255, 255, 0);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(10.0f, 0.0f, 0.0f);
-	glVertex3f(10.0f, 10.0f, 0.0f);
-
-	glVertex3f(10.0f, 10.0f, 0.0f);
-	glVertex3f(0.0f, 10.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	// left face
-	glColor3d(255, 0, 0);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 10.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, -10.0f);
-
-	glVertex3f(0.0f, 0.0f, -10.0f);
-	glVertex3f(0.0f, 10.0f, 0.0f);
-	glVertex3f(0.0f, 10.0f, -10.0f);
-
-	// top face 
-	glColor3d(0, 255, 0);
-	glVertex3f(0.0f, 10.0f, 0.0f);
-	glVertex3f(10.0f, 10.0f, 0.0f);
-	glVertex3f(10.0f, 10.0f, -10.0f);
-
-	glVertex3f(0.0f, 10.0f, 0.0f);
-	glVertex3f(10.0f, 10.0f, -10.0f);
-	glVertex3f(0.0f, 10.0f, -10.0f);
-
-	// right face
-	glColor3d(0, 0, 255);
-
-	glVertex3f(10.0f, 0.0f, 0.0f);
-	glVertex3f(10.0f, 0.0f, -10.0f);
-	glVertex3f(10.0f, 10.0f, 0.0f);
-
-	glVertex3f(10.0f, 10.0f, 0.0f);
-	glVertex3f(10.0f, 0.0f, -10.0f);
-	glVertex3f(10.0f, 10.0f, -10.0f);
-
-	// back face
-	glColor3d(0, 255, 255);
-
-	glVertex3f(0.0f, 0.0f, -10.0f);
-	glVertex3f(10.0f, 10.0f, -10.0f);
-	glVertex3f(10.0f, 0.0f, -10.0f);
-
-	glVertex3f(0.0f, 10.0f, -10.0f);
-	glVertex3f(10.0f, 10.0f, -10.0f);
-	glVertex3f(0.0f, 0.0f, -10.0f);
-
-	// top face
-	glColor3d(255, 0, 255);
-
-	glVertex3f(10.0f, 0.0f, -10.0f);
-	glVertex3f(10.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	glVertex3f(0.0f, 0.0f, -10.0f);
-	glVertex3f(10.0f, 0.0f, -10.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	glEnd();
+//	// Draw a cube with 12 triangles
+//	glBegin(GL_TRIANGLES);
+//
+//	// front face
+//	glColor3d(255, 255, 0);
+//	glVertex3f(0.0f, 0.0f, 0.0f);
+//	glVertex3f(10.0f, 0.0f, 0.0f);
+//	glVertex3f(10.0f, 10.0f, 0.0f);
+//
+//	glVertex3f(10.0f, 10.0f, 0.0f);
+//	glVertex3f(0.0f, 10.0f, 0.0f);
+//	glVertex3f(0.0f, 0.0f, 0.0f);
+//
+//	// left face
+//	glColor3d(255, 0, 0);
+//	glVertex3f(0.0f, 0.0f, 0.0f);
+//	glVertex3f(0.0f, 10.0f, 0.0f);
+//	glVertex3f(0.0f, 0.0f, -10.0f);
+//
+//	glVertex3f(0.0f, 0.0f, -10.0f);
+//	glVertex3f(0.0f, 10.0f, 0.0f);
+//	glVertex3f(0.0f, 10.0f, -10.0f);
+//
+//	// top face 
+//	glColor3d(0, 255, 0);
+//	glVertex3f(0.0f, 10.0f, 0.0f);
+//	glVertex3f(10.0f, 10.0f, 0.0f);
+//	glVertex3f(10.0f, 10.0f, -10.0f);
+//
+//	glVertex3f(0.0f, 10.0f, 0.0f);
+//	glVertex3f(10.0f, 10.0f, -10.0f);
+//	glVertex3f(0.0f, 10.0f, -10.0f);
+//
+//	// right face
+//	glColor3d(0, 0, 255);
+//
+//	glVertex3f(10.0f, 0.0f, 0.0f);
+//	glVertex3f(10.0f, 0.0f, -10.0f);
+//	glVertex3f(10.0f, 10.0f, 0.0f);
+//
+//	glVertex3f(10.0f, 10.0f, 0.0f);
+//	glVertex3f(10.0f, 0.0f, -10.0f);
+//	glVertex3f(10.0f, 10.0f, -10.0f);
+//
+//	// back face
+//	glColor3d(0, 255, 255);
+//
+//	glVertex3f(0.0f, 0.0f, -10.0f);
+//	glVertex3f(10.0f, 10.0f, -10.0f);
+//	glVertex3f(10.0f, 0.0f, -10.0f);
+//
+//	glVertex3f(0.0f, 10.0f, -10.0f);
+//	glVertex3f(10.0f, 10.0f, -10.0f);
+//	glVertex3f(0.0f, 0.0f, -10.0f);
+//
+//	// top face
+//	glColor3d(255, 0, 255);
+//
+//	glVertex3f(10.0f, 0.0f, -10.0f);
+//	glVertex3f(10.0f, 0.0f, 0.0f);
+//	glVertex3f(0.0f, 0.0f, 0.0f);
+//
+//	glVertex3f(0.0f, 0.0f, -10.0f);
+//	glVertex3f(10.0f, 0.0f, -10.0f);
+//	glVertex3f(0.0f, 0.0f, 0.0f);
+//
+//	glEnd();
+//	glPopMatrix();
+//	glPopMatrix();
 
 	App->uiManager->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);
@@ -267,6 +399,7 @@ void M_Renderer::Serialize(Json::Value& root)
 	root["depthTest"] = depthTest;
 	root["cullFace"] = cullFace;
 	root["wireframe"] = wireframe;
+	root["grid"] = grid;
 }
 
 void M_Renderer::Deserialize(Json::Value& root)
@@ -275,6 +408,7 @@ void M_Renderer::Deserialize(Json::Value& root)
 	depthTest = root.get("depthTest", true).asBool();	
 	cullFace = root.get("cullFace", true).asBool();	
 	wireframe = root.get("wireframe", true).asBool();	
+	grid = root.get("grid", true).asBool();
 }
 
 void M_Renderer::LoadConfig()
@@ -312,6 +446,11 @@ void M_Renderer::SetWireframe(bool stat)
 	wireframe = stat;
 }
 
+void M_Renderer::SetGrid(bool stat)
+{
+	grid = stat;
+}
+
 bool M_Renderer::GetDepthTest()
 {
 	return depthTest;
@@ -325,6 +464,11 @@ bool M_Renderer::GetCullFace()
 bool M_Renderer::GetWireframe()
 {
 	return wireframe;
+}
+
+bool M_Renderer::GetGrid()
+{
+	return grid;
 }
 
 bool M_Renderer::IsVSyncActive()const

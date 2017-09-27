@@ -12,6 +12,7 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 {
 	root = new GameObject();
 	root->name = "/";
+	root->CreateComponent(TRANSFORM);
 	camera = new GameObject();
 	camera->name = "camera";
 	root->AddChild(camera);
@@ -148,7 +149,7 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 
 	C_Transform* parentTransform = (C_Transform*)gameObject->parent->FindComponent(TRANSFORM);
 
-	//transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
+	transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
 
 
 	for (uint i = 0; i < node->mNumMeshes; i++)

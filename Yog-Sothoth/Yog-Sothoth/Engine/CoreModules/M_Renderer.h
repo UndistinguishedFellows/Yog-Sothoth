@@ -34,6 +34,7 @@ private:
 	bool cullFace;
 	bool lightning;
 	bool wireframe;
+	bool grid;
 	Color colorMaterial;
 
 public:
@@ -61,19 +62,25 @@ public:
 	void SetCullFace(bool stat);
 	void SetLightning(bool stat);
 	void SetWireframe(bool stat);
+	void SetGrid(bool stat);
 	void SetColorMaterial(Color color);
 
 	bool GetDepthTest();
 	bool GetCullFace();
 	bool GetLightning();
 	bool GetWireframe();
+	bool GetGrid();
 	Color GetColorMaterial();
 
 	//TEMP
-	unsigned int VBO, VAO, EBO;
+	unsigned int VBO, VAO, EBO, cubeVAO, cubeVBO;
+	unsigned int lightVAO;
 	unsigned int shaderProgram;
 	C_Camera* frustum;
 	std::vector<C_Mesh*> meshes;
+	float3 lightPos;
 	
 	Shader basicShader;
+	Shader lightShader;
+	Shader lampShader;
 };

@@ -159,6 +159,7 @@ void UIConfiguration::Draw()
 		bool depthTest = App->renderer->GetDepthTest();
 		bool cullFace = App->renderer->GetCullFace();
 		bool wireframe = App->renderer->GetWireframe();
+		bool grid = App->renderer->GetGrid();
 
 		if (ImGui::Checkbox("DepthTest", &depthTest))
 		{
@@ -173,6 +174,11 @@ void UIConfiguration::Draw()
 		if (ImGui::Checkbox("Wireframe", &wireframe))
 		{
 			App->renderer->SetWireframe(wireframe);
+		}ImGui::SameLine();
+
+		if (ImGui::Checkbox("Grid", &grid))
+		{
+			App->renderer->SetGrid(grid);
 		}
 
 		if (ImGui::Button("Save##render"))
