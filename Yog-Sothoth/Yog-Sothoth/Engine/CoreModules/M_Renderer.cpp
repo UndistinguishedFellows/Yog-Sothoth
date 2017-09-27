@@ -128,9 +128,9 @@ bool M_Renderer::Start()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	//TODO: Dani pon tus cosas aqui
+	//###########################################
 
-
+	
 
 	//TMP: Aqui se carga el modelo Warrior.FBX
 	const aiScene* scene;// = aiImportFile("warrior.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
@@ -216,8 +216,74 @@ update_status M_Renderer::PostUpdate(float dt)
 	frustum->Move(dt);
 	frustum->Rotate(dt);
 
-	//TODO: Dani pinta aqui
+	//
+	// Draw a cube with 12 triangles
+	glBegin(GL_TRIANGLES);
 
+	// front face
+	glColor3d(255, 255, 0);
+
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(10.0f, 0.0f, 0.0f);
+	glVertex3f(10.0f, 10.0f, 0.0f);
+
+	glVertex3f(10.0f, 10.0f, 0.0f);
+	glVertex3f(0.0f, 10.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	// left face
+	glColor3d(255, 0, 0);
+
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 10.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, -10.0f);
+
+	glVertex3f(0.0f, 0.0f, -10.0f);
+	glVertex3f(0.0f, 10.0f, 0.0f);
+	glVertex3f(0.0f, 10.0f, -10.0f);
+
+	// top face 
+	glColor3d(0, 255, 0);
+	glVertex3f(0.0f, 10.0f, 0.0f);
+	glVertex3f(10.0f, 10.0f, 0.0f);
+	glVertex3f(10.0f, 10.0f, -10.0f);
+
+	glVertex3f(0.0f, 10.0f, 0.0f);
+	glVertex3f(10.0f, 10.0f, -10.0f);
+	glVertex3f(0.0f, 10.0f, -10.0f);
+
+	// right face
+	glColor3d(0, 0, 255);
+	glVertex3f(10.0f, 0.0f, 0.0f);
+	glVertex3f(10.0f, 0.0f, -10.0f);
+	glVertex3f(10.0f, 10.0f, 0.0f);
+
+	glVertex3f(10.0f, 10.0f, 0.0f);
+	glVertex3f(10.0f, 0.0f, -10.0f);
+	glVertex3f(10.0f, 10.0f, -10.0f);
+
+	// back face
+	glColor3d(0, 255, 255);
+	glVertex3f(0.0f, 0.0f, -10.0f);
+	glVertex3f(10.0f, 10.0f, -10.0f);
+	glVertex3f(10.0f, 0.0f, -10.0f);
+
+	glVertex3f(0.0f, 10.0f, -10.0f);
+	glVertex3f(10.0f, 10.0f, -10.0f);
+	glVertex3f(0.0f, 0.0f, -10.0f);
+
+	// top face
+	glColor3d(255, 0, 255);
+
+	glVertex3f(10.0f, 0.0f, -10.0f);
+	glVertex3f(10.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glVertex3f(0.0f, 0.0f, -10.0f);
+	glVertex3f(10.0f, 0.0f, -10.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glEnd();
 
 	App->uiManager->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);
@@ -324,9 +390,9 @@ void M_Renderer::setGPUInfo()
 	 {
 		 gpuInfo.vendor = vendor;
 		 gpuInfo.deviceId = deviceId;
-		 gpuInfo.videoMemBudget = float(videoMemBudget) / 1073741824.0f;
+		 gpuInfo.videoMemBudget = float(videoMemBudget) / (1024.f * 1024.f);
 		 gpuInfo.videoMemUsage = float(videoMemUsage) / (1024.f * 1024.f);
-		 gpuInfo.videoMemAvaliable = float(videoMemAvailable) / (1024.f * 1024.f * 1024.f);
-		 gpuInfo.videoMemReserved = float(videoMemReserved) / (1024.f * 1024.f * 1024.f);
+		 gpuInfo.videoMemAvaliable = float(videoMemAvailable) / (1024.f * 1024.f);
+		 gpuInfo.videoMemReserved = float(videoMemReserved) / (1024.f * 1024.f);
 	 }
 }

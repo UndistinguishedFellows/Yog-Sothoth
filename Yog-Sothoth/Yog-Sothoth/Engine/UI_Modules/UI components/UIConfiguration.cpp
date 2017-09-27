@@ -58,7 +58,7 @@ void UIConfiguration::Draw()
 		
 		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", fpsLog[fpsLog.size()-1]);
-		ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, title, 0.0f, 150.0f, ImVec2(310, 100));
 
 		sprintf_s(title, 25, "Miliseconds %.1f", msLog[msLog.size() - 1]);
 		ImGui::PlotHistogram("##miliseconds", &msLog[0], msLog.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
@@ -156,8 +156,6 @@ void UIConfiguration::Draw()
 	}
 	if (ImGui::CollapsingHeader("Render"))
 	{
-		ImGui::Text("Render content");
-
 		bool depthTest = App->renderer->GetDepthTest();
 		bool cullFace = App->renderer->GetCullFace();
 		bool wireframe = App->renderer->GetWireframe();
@@ -166,14 +164,17 @@ void UIConfiguration::Draw()
 		{
 			App->renderer->SetDepthTest(depthTest);
 		}ImGui::SameLine();
+
 		if (ImGui::Checkbox("CullFace", &cullFace))
 		{
 			App->renderer->SetCullFace(cullFace);
 		}
+
 		if (ImGui::Checkbox("Wireframe", &wireframe))
 		{
 			App->renderer->SetWireframe(wireframe);
 		}
+
 		if (ImGui::Button("Save##render"))
 		{
 			App->renderer->SaveConfig();
