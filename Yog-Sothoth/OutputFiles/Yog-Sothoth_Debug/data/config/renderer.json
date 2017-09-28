@@ -1,7 +1,7 @@
 {
    "cullFace" : false,
    "depthTest" : true,
-   "grid" : false,
+   "grid" : true,
    "vsync" : true,
    "wireframe" : false
 }

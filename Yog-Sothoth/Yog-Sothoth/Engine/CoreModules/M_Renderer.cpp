@@ -110,56 +110,55 @@ bool M_Renderer::Start()
 	// ------------------------------------------------------------------
 #pragma region Cube
 	float vertices_cube[] = {
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-		-0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-		-0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-	};
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f };
 #pragma endregion
-	lightPos = { 1.2f, 1.0f, 2.0f };
+	lightPos = { 0.f, 5.0f, 10.0f };
 
 	basicShader.LoadShader("data/shaders/camera.vs", VERTEX);
 	basicShader.LoadShader("data/shaders/basicFragment.fs", FRAGMENT);
 	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
-	lightShader.LoadShader("data/shaders/1.colors.vs", VERTEX);
-	lightShader.LoadShader("data/shaders/1.colors.fs", FRAGMENT);
+	lightShader.LoadShader("data/shaders/1.basic_lighting.vs", VERTEX);
+	lightShader.LoadShader("data/shaders/1.basic_lighting.fs", FRAGMENT);
 	lightShader.CompileProgram(lightShader.vertexShader, lightShader.fragmentShader);
 	lampShader.LoadShader("data/shaders/1.lamp.vs", VERTEX);
 	lampShader.LoadShader("data/shaders/1.lamp.fs", FRAGMENT);
@@ -195,9 +194,11 @@ bool M_Renderer::Start()
 	glBindVertexArray(cubeVAO);
 
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
+	// normal attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 	// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
 	
 	glGenVertexArrays(1, &lightVAO);
@@ -206,14 +207,14 @@ bool M_Renderer::Start()
 	// we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
 	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	//###########################################
 
 	//App->objManager->LoadFBX("warrior.FBX");
 	//App->objManager->LoadFBX("Street environment_V01.FBX");
-	//App->objManager->LoadFBX("MechaT.FBX");
+	App->objManager->LoadFBX("MechaT.FBX");
 
 	return true;
 }
@@ -242,17 +243,20 @@ update_status M_Renderer::PostUpdate(float dt)
 //	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 //							//glDrawArrays(GL_TRIANGLES, 0, 6);
 //	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
-	math::float4x4 view = frustum->camera.ViewMatrix();
+	float4x4 view = frustum->camera.ViewMatrix();
 //	glUniformMatrix4fv(glGetUniformLocation(basicShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 //	glUniform4f(glGetUniformLocation(basicShader.shaderProgram, "color"), 1.0f, 1.0f, 1.0f, 1.0f);
 //	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 //	glUseProgram(0);
 
 	glUseProgram(lightShader.shaderProgram);
-	glUniform3f(glGetUniformLocation(lightShader.shaderProgram, "objectColor"), 1.0f, 0.5f, 0.31f);
-	glUniform3f(glGetUniformLocation(lightShader.shaderProgram, "lightColor"), 1.0f, 1.0f, 1.0f);
-	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
-	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
+//	glUniform3f(glGetUniformLocation(lightShader.shaderProgram, "objectColor"), 1.0f, 0.5f, 0.31f);
+//	glUniform3f(glGetUniformLocation(lightShader.shaderProgram, "lightColor"), 1.0f, 1.0f, 1.0f);
+//	glUniform3fv(glGetUniformLocation(lightShader.shaderProgram, "lightPos"), 1, (const GLfloat*)&lightPos);
+//	glUniform3fv(glGetUniformLocation(lightShader.shaderProgram, "viewPos"), 1, frustum->camera.pos.ptr());
+//	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "projection"), 1, 
+//					   GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
+//	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
 
 	float3 position(0, 0, 0);
 	float3 scale(1, 1, 1);
@@ -260,11 +264,11 @@ update_status M_Renderer::PostUpdate(float dt)
 	float4x4 model(rotation, position);
 	model.Scale(scale);
 
-	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "model"), 1, GL_FALSE, model.Transposed().ptr());
-	// render the cube
-	glBindVertexArray(cubeVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	// also draw the lamp object
+//	glUniformMatrix4fv(glGetUniformLocation(lightShader.shaderProgram, "model"), 1, GL_FALSE, model.Transposed().ptr());
+//	// render the cube
+//	glBindVertexArray(cubeVAO);
+//	glDrawArrays(GL_TRIANGLES, 0, 36);
+	//also draw the lamp object
 	glUseProgram(lampShader.shaderProgram);
 	glUniformMatrix4fv(glGetUniformLocation(lampShader.shaderProgram, "projection"), 1, GL_FALSE, frustum->camera.ProjectionMatrix().Transposed().ptr());
 	glUniformMatrix4fv(glGetUniformLocation(lampShader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
@@ -283,7 +287,7 @@ update_status M_Renderer::PostUpdate(float dt)
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glUseProgram(0);
 
-	App->objManager->root->Draw(basicShader, frustum);
+	App->objManager->root->Draw(lightShader, frustum);
 	
 
 	//Draw floor grid and world axis
@@ -380,6 +384,7 @@ update_status M_Renderer::PostUpdate(float dt)
 //	glPopMatrix();
 //	glPopMatrix();
 
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	App->uiManager->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
