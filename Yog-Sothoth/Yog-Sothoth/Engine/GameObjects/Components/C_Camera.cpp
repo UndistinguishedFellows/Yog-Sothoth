@@ -53,7 +53,7 @@ void C_Camera::Rotate(float dt)
 		int motX = App->input->GetMouseXMotion();
 		int motY = App->input->GetMouseYMotion();
 
-		if (!(motX != 0 && motY != 0))
+		if (motX == 0 && motY == 0)
 			return;
 
 		float speed;
