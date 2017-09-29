@@ -160,6 +160,7 @@ void UIConfiguration::Draw()
 		bool cullFace = App->renderer->GetCullFace();
 		bool wireframe = App->renderer->GetWireframe();
 		bool grid = App->renderer->GetGrid();
+		bool vSync = App->renderer->IsVSyncActive();
 
 		if (ImGui::Checkbox("DepthTest", &depthTest))
 		{
@@ -179,6 +180,10 @@ void UIConfiguration::Draw()
 		if (ImGui::Checkbox("Grid", &grid))
 		{
 			App->renderer->SetGrid(grid);
+		}ImGui::SameLine();
+		if (ImGui::Checkbox("vSync", &vSync))
+		{
+			App->renderer->SetVSync(vSync);
 		}
 
 		if (ImGui::Button("Save##render"))
