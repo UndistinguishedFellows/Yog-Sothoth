@@ -55,6 +55,14 @@ public:
 	BoundingBox boundingBox;
 	Color color = Color(1.0f,1.0f,0.0f,1.0f);
 
+private:
+	OBB obb;
+	AABB aabb;
+
+	Color obb_color;
+	Color aabb_color;
+
+public:
 	C_Mesh(GameObject* parent);
 	~C_Mesh();
 
@@ -62,12 +70,13 @@ public:
 	void Load(const aiMesh* mesh);
 	void Draw(Shader shader, C_Camera* camera) const;
 
+	void UpdateBoundingBoxes();
 	void Draw_OBB();
 	void Draw_AABB();
 
 	void Serialize(Json::Value& root);
 	void Deserialize(Json::Value& root);
-
+	
 
 };
 

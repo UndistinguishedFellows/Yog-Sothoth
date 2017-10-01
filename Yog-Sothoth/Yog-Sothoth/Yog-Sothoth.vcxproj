@@ -211,6 +211,7 @@
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConfiguration.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIInspector.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIConfiguration.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIInspector.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />

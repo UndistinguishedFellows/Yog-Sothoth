@@ -156,6 +156,18 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	glUseProgram(0);
 }
 
+void C_Mesh::UpdateBoundingBoxes()
+{
+	aabb.SetNegativeInfinity();
+	aabb.Enclose((float3*)vertices.vertices, vertices.numVertices);
+
+	obb = aabb;
+	C_Transform* transform = (C_Transform*)parent->FindComponent(TRANSFORM);
+	obb.Transform(transform->globalTransform);
+	aabb.SetFrom(obb);
+
+}
+
 void C_Mesh::Serialize(Json::Value& root)
 {
 }

@@ -12,6 +12,7 @@ public:
 	/**
 	 * \brief The root Game Object that stores all GO
 	 */
+	GameObject* focus;
 	GameObject* root;
 	GameObject* camera;
 private:
@@ -36,6 +37,8 @@ public:
 	GameObject* CreateGameObject(std::string parentName, std::string childName) const;
 	void ConsoleCreateGameObject(std::string parentName, std::string childName) const;
 	void DeleteGameObject(GameObject* go);
+	GameObject* GetFocusGO();
+	void SetFocusGO(GameObject* go);
 	
 	/**
 	* \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated

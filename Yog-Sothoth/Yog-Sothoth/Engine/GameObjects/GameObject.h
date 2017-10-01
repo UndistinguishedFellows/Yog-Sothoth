@@ -22,6 +22,7 @@ public:
 	UUID uuid;
 
 	bool active = true;
+	bool selected = false;
 
 public:
 	GameObject();

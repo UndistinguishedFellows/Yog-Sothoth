@@ -16,6 +16,8 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 	camera = new GameObject();
 	camera->name = "camera";
 	root->AddChild(camera);
+
+	focus = camera;
 	
 }
 
@@ -89,6 +91,17 @@ void M_ObjectManager::DeleteGameObject(GameObject* go)
 {
 	deletionGameObject->AddChild(go);
 }
+
+GameObject* M_ObjectManager::GetFocusGO()
+{
+	return focus;
+}
+
+void M_ObjectManager::SetFocusGO(GameObject* go)
+{
+	focus = go;
+}
+
 GameObject* M_ObjectManager::LoadFBX(const char * path)
 {
 	yogConsole(CONSOLE_INFO, "Loading scene...");

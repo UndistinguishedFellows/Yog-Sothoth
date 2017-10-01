@@ -73,6 +73,7 @@
     <ClCompile Include="Engine\GameObjects\Components\C_Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Camera.cpp" />
     <ClCompile Include="Tools\GPUDetect\DeviceId.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIInspector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Engine\GameObjects\Components\C_Camera.h" />
     <ClInclude Include="Tools\GPUDetect\DeviceId.h" />
     <ClInclude Include="Tools\GPUDetect\dxgi1_4.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIInspector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

@@ -21,26 +21,26 @@ public:
 	C_Transform(GameObject* parent);
 	~C_Transform();
 
-	const float4x4 getLocalTransform();
-	const float4x4 getGlobalTransform();
+	const float4x4 GetLocalTransform();
+	const float4x4 GetGlobalTransform();
 
-	void refreshTransform(float4x4 mat);
+	void RefreshTransform(float4x4 mat);
 
-	void setPosition(float3 position);
-	void setRotation(Quat rotation);
-	void setRotation(float* rot);
-	void setRotation(float x, float y, float z);
-	void setScale(float3 scale);
-	float* getEulerRot() const;
-	float3 getRotation() const;
+	void SetPosition(float3 position);
+	void SetRotation(Quat rotation);
+	void SetRotation(float* rot);
+	void SetRotation(float x, float y, float z);
+	void SetScale(float3 scale);
+	float* GetEulerRot() const;
+	float3 GetRotation() const;
 
-	AABB getAABB() const;
-	void setAABB(AABB aabb);
-	void draw_AABB();
-	void updateBoundingBoxes();
+	AABB GetAABB() const;
+	void SetAABB(AABB aabb);
+	void Draw_AABB();
+	void UpdateBoundingBoxes();
 	
 	//Debug Things...
-	void setGlobalTransform(float3 pos, Quat rot, float3 scale);
+	void SetGlobalTransform(float3 pos, Quat rot, float3 scale);
 
 };
 

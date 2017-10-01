@@ -7,6 +7,7 @@
 #include "UI components/UItests.h"
 #include "UI components/UIConfiguration.h"
 #include "UI components/UIWindowMenus.h"
+#include "UI components/UIInspector.h"
 
 class M_UIManager : public Module
 {
@@ -17,6 +18,7 @@ public:
 	UITests* tests = nullptr;
 	UIConfiguration* configuration = nullptr;
 	UIWindowMenus* menus = nullptr;
+	UIInspector* inspector = nullptr;
 
 	bool outlinerSelected = false;
 

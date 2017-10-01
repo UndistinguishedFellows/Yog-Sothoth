@@ -72,12 +72,12 @@ void UIOutliner::TreeNodes(GameObject* node)
 		{
 			if (ImGui::IsItemClicked())
 			{
-//				if (App->objManager->getFocusGO() != nullptr)
-//				{
-//					App->objManager->getFocusGO()->selected = false;
-//				}
-//				App->objManager->setFocusGO(node);
-//				node->selected = true;
+				if (App->objManager->GetFocusGO() != nullptr)
+				{
+					App->objManager->GetFocusGO()->selected = false;
+				}
+				App->objManager->SetFocusGO(node);
+				node->selected = true;
 			}
 			for (uint i = 0; i < node->children.size(); ++i)
 			{

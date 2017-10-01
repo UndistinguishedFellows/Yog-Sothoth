@@ -19,6 +19,7 @@ public:
 	bool openIssuesDirectory = false;
 
 	bool showfpsInfo = false;
+	
 
 	bool QUIT = false;
 
