@@ -24,7 +24,7 @@ public:
 	const float4x4 GetLocalTransform();
 	const float4x4 GetGlobalTransform();
 
-	void RefreshTransform(float4x4 mat);
+	void RefreshTransform();
 
 	void SetPosition(float3 position);
 	void SetRotation(Quat rotation);

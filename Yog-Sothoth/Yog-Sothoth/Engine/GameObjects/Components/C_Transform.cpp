@@ -12,9 +12,9 @@ C_Transform::~C_Transform()
 {
 }
 
-void C_Transform::RefreshTransform(float4x4 mat)
+void C_Transform::RefreshTransform()
 {
-	C_Transform* transform = (C_Transform*)parent->FindComponent(TRANSFORM);
+	C_Transform* transform = (C_Transform*)parent->parent->FindComponent(TRANSFORM);
 	if (parent != NULL)
 	{
 		globalTransform = transform->globalTransform * localTransform;
@@ -24,23 +24,23 @@ void C_Transform::RefreshTransform(float4x4 mat)
 		 iterator != parent->children.end(); iterator++)
 	{
 		C_Transform* it_transform = (C_Transform*)(*iterator)->FindComponent(TRANSFORM);
-		it_transform->RefreshTransform(globalTransform);
+		it_transform->RefreshTransform();
 	}
-
+	
 }
 
 void C_Transform::SetPosition(float3 position)
 {
-//	float3 pos;
-//	float3 sca;
-//	Quat rot;
-//	localTransform.Decompose(pos, rot, sca);
-//
-//	localTransform = float4x4::FromTRS(position, rot, sca);
+	float3 pos;
+	float3 sca;
+	Quat rot;
+	localTransform.Decompose(pos, rot, sca);
 
-	localTransform = localTransform.Translate(position);
+	localTransform = float4x4::FromTRS(position, rot, sca);
 
-	RefreshTransform(globalTransform);
+	//localTransform = localTransform.Translate(position);
+
+	RefreshTransform();
 
 	//This need refactor TODO findComponents
 	for (std::vector<Component*>::iterator iterator = parent->components.begin();
@@ -63,7 +63,7 @@ void C_Transform::SetRotation(Quat rotation)
 	localTransform.Decompose(pos, rot, sca);
 
 	localTransform = float4x4::FromTRS(pos, rotation, sca);
-	RefreshTransform(globalTransform);
+	RefreshTransform();
 
 	//This need refactor TODO findComponents
 	for (std::vector<Component*>::iterator iterator = parent->components.begin();
@@ -137,7 +137,7 @@ void C_Transform::SetScale(float3 scale)
 	localTransform.Decompose(pos, rot, sca);
 
 	localTransform = float4x4::FromTRS(pos, rot, scale);
-	RefreshTransform(globalTransform);
+	RefreshTransform();
 
 	//This need refactor TODO findComponents
 	for (std::vector<Component*>::iterator iterator = parent->components.begin();

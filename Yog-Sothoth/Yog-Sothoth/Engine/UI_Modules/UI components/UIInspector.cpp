@@ -31,6 +31,7 @@ void UIInspector::Draw()
 	}
 	if (App->objManager->GetFocusGO() != nullptr)
 	{
+		ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text("%s", App->objManager->GetFocusGO()->name.c_str());
 		//ImGuiStyle style = ImGui::GetStyle();
 		//ImVec4 color(0, 0, 0, 255);
 		//ImGui::ColorEdit4("BGCOlor", (float*)&style.Colors[2], true);
