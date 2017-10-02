@@ -12,6 +12,16 @@ C_Transform::~C_Transform()
 {
 }
 
+const float4x4 C_Transform::GetLocalTransform()
+{
+	return localTransform;
+}
+
+const float4x4 C_Transform::GetGlobalTransform()
+{
+	return globalTransform;
+}
+
 void C_Transform::RefreshTransform()
 {
 	C_Transform* transform = (C_Transform*)parent->parent->FindComponent(TRANSFORM);
