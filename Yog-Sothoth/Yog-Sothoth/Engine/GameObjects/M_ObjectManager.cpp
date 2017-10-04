@@ -7,6 +7,12 @@
 #include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/postprocess.h"
 
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <iterator>
+
 
 M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
 {
@@ -14,6 +20,11 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 	root = new GameObject();
 	root->name = "/";
 	root->CreateComponent(C_TRANSFORM);
+	dragAndDropVisualizer = new GameObject();
+	dragAndDropVisualizer->name = "drag&drop";
+	dragAndDropVisualizer->CreateComponent(C_TRANSFORM);
+	root->AddChild(dragAndDropVisualizer);
+
 	camera = new GameObject();
 	camera->name = "camera";
 	root->AddChild(camera);
@@ -142,6 +153,55 @@ GameObject* M_ObjectManager::LoadFBX(const char * path)
 
 	return root;
 }
+
+GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path)
+{
+	yogConsole(CONSOLE_INFO, "Loading scene...");
+	if (path == NULL)
+	{
+		yogConsole(CONSOLE_ERROR, "No path");
+		return nullptr; //If path is NULL dont do nothing
+	}
+	const aiScene* scene = nullptr;
+
+
+	std::streampos size;
+	char * memblock = nullptr;
+
+	std::ifstream input(path, std::ios::in | std::ios::binary | std::ios::ate);
+
+	if (input.is_open())
+	{
+		size = input.tellg();
+		memblock = new char[size];
+		input.seekg(0, std::ios::beg);
+		input.read(memblock, size);
+		input.close();
+
+		if (size > 0)
+		{
+			scene = aiImportFileFromMemory(memblock, size, aiProcessPreset_TargetRealtime_MaxQuality, "fbx");
+		}
+		else
+		{
+			yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
+			return NULL;
+		}
+	}
+	delete[] memblock;
+
+	if (scene, scene->HasMeshes())
+	{
+		yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
+		LoadScene(scene, scene->mRootNode, dragAndDropVisualizer);
+	}
+
+	aiReleaseImport(scene);
+
+	return root;
+
+}
+
 void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent)
 {
 	aiVector3D ai_translation;
@@ -153,7 +213,7 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 	if (strcmp(node->mName.C_Str(), "RootNode") == 0)
 	{
 		for (uint i = 0; i < node->mNumChildren; ++i)
-			LoadScene(scene, node->mChildren[i], root);
+			LoadScene(scene, node->mChildren[i], parent);
 
 	}
 	else

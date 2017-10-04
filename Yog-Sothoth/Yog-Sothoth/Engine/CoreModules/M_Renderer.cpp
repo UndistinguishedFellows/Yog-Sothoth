@@ -106,9 +106,9 @@ bool M_Renderer::Start()
 	mesh->color = { 1.0f, 0.5f, 0.31f, 1.f };
 
 	App->objManager->LoadFBX("data/assets/cube.FBX");
-	testLight = App->objManager->root->children.at(2);
+	testLight = App->objManager->root->children.at(3);
 	mesh = (C_Mesh*)testLight->FindComponent(C_MESH);
-	mesh->color = { 1.0f, 1.f, 1.f, 1.f };
+	mesh->color = { 1.0f, 1.f, 0.f, 1.f };
 	testLight->CreateComponent(C_LIGHT);
 	App->objManager->light = testLight;
 	testLight->type = GO_LIGHT;
@@ -121,7 +121,7 @@ bool M_Renderer::Start()
 	//App->objManager->LoadFBX("data/assets/warrior.FBX");
 	//App->objManager->LoadFBX("data/assets/Street environment_V01.FBX");
 	//App->objManager->LoadFBX("data/assets/baker_house/bakerHouse.FBX");
-	App->objManager->LoadFBX("data/assets/MechaT.FBX");
+	//App->objManager->LoadFBX("data/assets/MechaT.FBX");
 
 	return true;
 }

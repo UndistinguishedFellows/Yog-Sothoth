@@ -15,6 +15,7 @@ public:
 	 */
 	GameObject* focus = nullptr;
 	GameObject* root = nullptr;
+	GameObject* dragAndDropVisualizer = nullptr;
 	//tmp
 	GameObject* camera = nullptr;
 	GameObject* light = nullptr; //FIX: ? There was some error with this var, crashes on App::Cleanup
@@ -49,6 +50,7 @@ public:
 	* \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
 	*/
 	GameObject* LoadFBX(const char* path);
+	GameObject* LoadFBXFromDragAndDrop(const char* path);
 	/**
 	 * \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
 	 */

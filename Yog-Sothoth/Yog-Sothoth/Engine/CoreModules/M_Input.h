@@ -25,7 +25,8 @@ private:
 	//int mouse_z_motion;
 
 public:
-	
+	char* dropped_filedir = nullptr;
+
 	M_Input(bool enable = true);
 	~M_Input();
 
@@ -72,5 +73,5 @@ public:
 	void Deserialize(Json::Value& root) override;
 	void LoadConfig() override;
 	void SaveConfig() override;
-
+private:
 };
