@@ -156,6 +156,8 @@ void Application::removeModule(Module* module)
 }
 void Application::Serialize(Json::Value& root)
 {
+	root["name"] = appName.data();
+	root["organization"] = organization.data();
 }
 /**
  * \brief Fills configPath with the paths inside config.json

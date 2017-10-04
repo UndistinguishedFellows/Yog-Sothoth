@@ -59,7 +59,7 @@ bool M_Window::Init()
 			flags |= SDL_WINDOW_MAXIMIZED;
 		}
 
-		window = SDL_CreateWindow("Yog-Sothoth", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, config.w_res, config.h_res, flags);
+		window = SDL_CreateWindow(config.title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, config.w_res, config.h_res, flags);
 
 		if (window == nullptr)
 		{
@@ -72,6 +72,8 @@ bool M_Window::Init()
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
+
+	SDL_SetWindowBrightness(window, config.brightness);
 
 	config.w_res = getWidth();
 	config.h_res = getHeigth();
@@ -107,6 +109,14 @@ bool M_Window::CleanUp()
 
 void M_Window::Serialize(Json::Value& root)
 {
+	root["fullscreen"] = config.fullscreen;
+	root["borderless"] = config.borderless;
+	root["fullscreen_desktop"] = config.fullscreenDesktop;
+	root["maximized"] = config.maximized;
+	root["resizable"] = config.resizable;
+
+	root["title"] = config.title.data();
+	root["brightness"] = config.brightness;
 }
 
 void M_Window::Deserialize(Json::Value& root)
@@ -120,6 +130,7 @@ void M_Window::Deserialize(Json::Value& root)
 	config.w_res = res.get("w", 800).asInt();
 	config.h_res = res.get("h", 600).asInt();
 	config.title = root.get("title", "TITTLE_ERROR").asString();
+	config.brightness = root.get("brightness", 1.0f).asFloat();
 }
 
 void M_Window::LoadConfig()
@@ -130,7 +141,7 @@ void M_Window::LoadConfig()
 void M_Window::SaveConfig()
 {
 	std::string output;
-	JsonSerializer::Serialize(this, output, "config/window.json");
+	JsonSerializer::Serialize(this, output, App->configPath[name]);
 	SDL_Log("%s", output);
 }
 

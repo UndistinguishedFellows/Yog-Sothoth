@@ -46,14 +46,19 @@ void UIConfiguration::Draw()
 		strcpy_s(appName, 128, App->appName.c_str());
 		if (ImGui::InputText("App Name", appName, 128))
 		{
-
+			App->appName = appName;
 		}
 
 		static char orgName[128];
 		strcpy_s(orgName, 128, App->organization.c_str());
 		if (ImGui::InputText("Organization", orgName, 128))
 		{
+			App->organization = orgName;
+		}
 
+		if (ImGui::Button("Save##app"))
+		{
+			App->SaveConfig();
 		}
 		
 		char title[25];
@@ -66,11 +71,18 @@ void UIConfiguration::Draw()
 
 	if (ImGui::CollapsingHeader("Window"))
 	{
+		static char winTitle[128];
+		strcpy_s(winTitle, 128, App->window->config.title.c_str());
+		if (ImGui::InputText("Title", winTitle, 128))
+		{
+			App->window->config.title = winTitle;
+		}
+
 		static float winBright;
 		winBright = App->window->getBrightness();
 		if (ImGui::SliderFloat("Brightness", &winBright, 0.0f, 1.0f))
 		{
-			//TODO: Add Brightness to config --> App->window->config.brightness =winBright;
+			App->window->config.brightness = winBright;
 			App->window->setBrightness(winBright);
 		}
 
@@ -152,6 +164,11 @@ void UIConfiguration::Draw()
 		if (ImGui::IsItemHovered())
 		{
 			ImGui::SetTooltip("Fullscreen must be off");
+		}
+
+		if (ImGui::Button("Save##window"))
+		{
+			App->window->SaveConfig();
 		}
 	}
 	if (ImGui::CollapsingHeader("Render"))

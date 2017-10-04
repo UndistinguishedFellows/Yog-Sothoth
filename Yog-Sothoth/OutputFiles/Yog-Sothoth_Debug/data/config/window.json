@@ -9,5 +9,6 @@
 	"borderless" : false,
 	"fullscreen_desktop" : false,
 	"maximized" : true,
-	"title" : "Yog-Sothoth"
+  "title": "Yog-Sothoth",
+  "brightness" : 1.0
 }

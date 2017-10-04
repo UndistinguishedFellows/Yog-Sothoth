@@ -11,7 +11,8 @@ struct Config
 	bool resizable;
 	int w_res;
 	int h_res;
-	std::string title;	
+	std::string title;
+	float brightness;
 };
 
 class M_Window : public Module
