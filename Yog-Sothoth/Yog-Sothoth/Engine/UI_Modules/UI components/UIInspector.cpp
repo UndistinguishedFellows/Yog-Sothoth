@@ -144,12 +144,9 @@ void UIInspector::Mesh()
 			ImGui::SameLine();
 			ImGui::Text("%d", mesh->uv.idUV);
 
-
 			ImGui::Separator();
 
-			if (ImGui::Checkbox("Normals", &mesh->drawNormals))
-			{
-			}
+			if (ImGui::Checkbox("Normals", &mesh->drawNormals)) {}
 
 			ImGui::Separator();
 
@@ -159,6 +156,19 @@ void UIInspector::Mesh()
 
 void UIInspector::Material()
 {
+	if (ImGui::CollapsingHeader("Material"))
+	{
+	}
+
+}
+
+void UIInspector::Light()
+{
+	if (ImGui::CollapsingHeader("Light"))
+	{
+
+	}
+
 }
 
 void UIInspector::Camera()

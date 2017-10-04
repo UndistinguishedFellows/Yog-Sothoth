@@ -136,62 +136,38 @@ void C_Mesh::Load(const aiMesh* mesh)
 
 void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 {
-	glUseProgram(shader.shaderProgram);
+	float4x4 view = camera->camera.ViewMatrix();
+	C_Transform* model = (C_Transform*)parent->FindComponent(C_TRANSFORM);
+	C_Transform* trans = (C_Transform*)App->renderer->testLight->FindComponent(C_TRANSFORM);
+
+	shader.Use();
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.idIndices);
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "projection"), 1, GL_FALSE, camera->camera.ProjectionMatrix().Transposed().ptr());
-	math::float4x4 view = camera->camera.ViewMatrix();
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "view"), 1, GL_FALSE, view.Transposed().ptr());
-	C_Transform* model = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "model"), 1, GL_FALSE, model->globalTransform.Transposed().ptr());
-	glUniform3f(glGetUniformLocation(shader.shaderProgram, "objectColor"), color.r, color.g, color.b);
-	glUniform3f(glGetUniformLocation(shader.shaderProgram, "lightColor"), 1.0f, 1.0f, 1.0f);
-	glUniform3fv(glGetUniformLocation(shader.shaderProgram, "lightPos"), 1, (const GLfloat*)&App->renderer->lightPos);
-	glUniform3fv(glGetUniformLocation(shader.shaderProgram, "viewPos"), 1, camera->camera.pos.ptr());
-	//glUniform4fv(glGetUniformLocation(shader.shaderProgram, "color"), 1, (const GLfloat*)&color);
+	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());	
+	shader.setMat4("view", &view.Transposed());
+	shader.setMat4("model", &model->globalTransform.Transposed());
+	shader.setVec3("objectColor", color.r, color.g, color.b);
+	shader.setVec3("lightColor", 0.50f, 0.50f, 0.50f);
+	shader.setVec3("lightPos", &trans->GetPosition());
+	shader.setVec3("viewPos", &camera->camera.pos);
+
 	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	glUseProgram(0);
 }
 
-//void C_Mesh::DrawNormals(Shader shader, C_Camera* camera) const
-//{//
-//	glUseProgram(shader.shaderProgram);
-//	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-//							//glDrawArrays(GL_TRIANGLES, 0, 6);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.idIndices);
-//	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "projection"), 1, 
-//					   GL_FALSE, camera->camera.ProjectionMatrix().Transposed().ptr());
-//
-//	math::float4x4 view = camera->camera.ViewMatrix();
-//	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "view"), 1, 
-//					   GL_FALSE, view.Transposed().ptr());
-//
-//	C_Transform* model = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-//	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "model"), 1, 
-//					   GL_FALSE, model->globalTransform.Transposed().ptr());
-//
-//	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//	glBindVertexArray(0);
-//	glUseProgram(0);
-//
-//}
 void C_Mesh::DrawNormals(Shader shader, C_Camera* camera) const
 {
 	C_Transform* trans = (C_Transform*)parent->FindComponent(C_TRANSFORM);
 	float4x4 view = camera->camera.ViewMatrix();
 
-	glUseProgram(shader.shaderProgram);
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "projection"), 1,
-					   GL_FALSE, camera->camera.ProjectionMatrix().Transposed().ptr());
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "view"), 1,
-					   GL_FALSE, view.Transposed().ptr());
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "model"), 1,
-					   GL_FALSE, trans->globalTransform.Transposed().ptr());
-	glUniform4f(glGetUniformLocation(shader.shaderProgram, "color"), 1.f, 1.f, 0.f, 1.f);
+	shader.Use();
+	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());
+	shader.setMat4("view", &view.Transposed());
+	shader.setMat4("model", &trans->globalTransform.Transposed());
+	shader.setVec4("color", 1.f, 1.f, 0.f, 1.f);
 
 	glLineWidth(2.0f);
 	glBegin(GL_LINES);

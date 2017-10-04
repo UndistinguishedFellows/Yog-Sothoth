@@ -78,12 +78,10 @@ public:
 	unsigned int shaderProgram;
 	C_Camera* frustum;
 	std::vector<C_Mesh*> meshes;
-	float3 lightPos;
 	GameObject* testCube;
 	GameObject* testLight;
 	
-	Shader lightShader;
-	Shader basicShader;
-	Shader lampShader;
-	Shader normalDisplay;
+	Shader* lightShader;
+	Shader* basicShader;
+	Shader* lampShader;
 };

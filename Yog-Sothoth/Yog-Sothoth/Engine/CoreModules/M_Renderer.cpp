@@ -94,23 +94,9 @@ bool M_Renderer::Init()
 
 bool M_Renderer::Start()
 {
-
-	lightPos = { 0.f, 5.0f, 10.0f };
-
-	lightShader.LoadShader("data/shaders/1.basic_lighting.vs", VERTEX_SHADER);
-	lightShader.LoadShader("data/shaders/1.basic_lighting.fs", FRAGMENT_SHADER);
-	lightShader.CompileProgram();
-	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
-	basicShader.LoadShader("data/shaders/camera.vs", VERTEX_SHADER);
-	basicShader.LoadShader("data/shaders/basicFragment.fs", FRAGMENT_SHADER);
-	basicShader.CompileProgram();
-	lampShader.LoadShader("data/shaders/1.lamp.vs", VERTEX_SHADER);
-	lampShader.LoadShader("data/shaders/1.lamp.fs", FRAGMENT_SHADER);
-	lampShader.CompileProgram();
-	normalDisplay.LoadShader("data/shaders/normalDisplay.vs", VERTEX_SHADER);
-	normalDisplay.LoadShader("data/shaders/normalDisplay.gs", GEOMETRY_SHADER);
-	normalDisplay.LoadShader("data/shaders/normalDisplay.fs", FRAGMENT_SHADER);
-	normalDisplay.CompileProgram();
+	lightShader = new Shader("data/shaders/1.basic_lighting.vs", "data/shaders/1.basic_lighting.fs");
+	basicShader = new Shader("data/shaders/camera.vs", "data/shaders/basicFragment.fs");	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
+	lampShader = new Shader("data/shaders/1.lamp.vs", "data/shaders/1.lamp.fs");
 	
 	//###########################################
 
@@ -125,16 +111,17 @@ bool M_Renderer::Start()
 	mesh->color = { 1.0f, 1.f, 1.f, 1.f };
 	testLight->CreateComponent(C_LIGHT);
 	App->objManager->light = testLight;
-	C_Transform* transform = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
 	testLight->type = GO_LIGHT;
-	transform->SetPosition(lightPos);
+	C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
+	trans->SetPosition(float3(0.f, 20.0f, 5.0f));
+	//C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
 
 
 
 	//App->objManager->LoadFBX("data/assets/warrior.FBX");
 	//App->objManager->LoadFBX("data/assets/Street environment_V01.FBX");
-	App->objManager->LoadFBX("data/assets/baker_house/bakerHouse.FBX");
-	//App->objManager->LoadFBX("data/assets/MechaT.FBX");
+	//App->objManager->LoadFBX("data/assets/baker_house/bakerHouse.FBX");
+	App->objManager->LoadFBX("data/assets/MechaT.FBX");
 
 	return true;
 }
@@ -161,18 +148,14 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	float4x4 view = frustum->camera.ViewMatrix();
 
-	
-
-	//App->objManager->root->Draw(normalDisplay, frustum);
-	
-	App->objManager->root->Draw(lightShader, frustum);
+	App->objManager->root->Draw(*lightShader, frustum);
 	if (App->objManager->light != nullptr)
 	{
-		App->objManager->light->DrawLight(lampShader, frustum);
+		App->objManager->light->DrawLight(*lampShader, frustum);
 	}
 
 	//Draw normals of a mesh
-	App->objManager->root->DrawNormals(basicShader, frustum);
+	App->objManager->root->DrawNormals(*basicShader, frustum);
 	//Draw floor grid and world axis
 	if (grid)
 	{
