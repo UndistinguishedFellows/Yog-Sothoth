@@ -198,6 +198,27 @@ void GameObject::Draw(Shader shader, C_Camera* camera)
 		
 	}
 }
+
+void GameObject::DrawNormals(Shader shader, C_Camera* camera)
+{
+	C_Mesh* mesh = (C_Mesh*)FindComponent(C_MESH);
+	if (mesh != nullptr)
+	{
+		if (type != GO_LIGHT && mesh->drawNormals)
+		{
+			mesh->DrawNormals(shader, camera);
+		}
+	}
+
+
+	for (auto child : children)
+	{
+		child->DrawNormals(shader, camera);
+
+	}
+
+}
+
 void GameObject::DrawLight(Shader shader, C_Camera* camera)
 {
 	C_Mesh* mesh = (C_Mesh*)FindComponent(C_MESH);

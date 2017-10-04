@@ -12,6 +12,7 @@ public:
 	void Move(float dt);
 	void Rotate(float dt);
 	void LookAt(float dx, float dy);
+	void LookAt(const float3 spot);
 
 	Frustum camera;
 

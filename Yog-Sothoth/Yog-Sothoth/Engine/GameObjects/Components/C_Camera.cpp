@@ -5,13 +5,14 @@
 C_Camera::C_Camera(GameObject* parent) : Component(parent)
 {
 	camera.type = PerspectiveFrustum;
-	camera.pos = { 0.f, 0.f, 20.f };
+	camera.pos = { -10.f, 10.f, 20.f };
 	camera.up = { 0.f, 1.f, 0.f };
 	camera.front = { 0.f, 0.f, -1.f };
 	camera.horizontalFov = 1.309f;
 	camera.verticalFov = 0.82f;
 	camera.nearPlaneDistance = 0.001f;
 	camera.farPlaneDistance = 1000.f;
+	LookAt(float3(0, 0, 0));
 }
 
 C_Camera::~C_Camera()
@@ -92,4 +93,12 @@ void C_Camera::LookAt(float dx, float dy)
 		camera.up = rot.Mul(camera.up).Normalized();
 	}
 
+}
+void C_Camera::LookAt(const float3 spot)
+{
+	float3 dir = spot - camera.pos;
+	float3x3 mat = float3x3::LookAt(camera.front, dir.Normalized(), camera.up, float3::unitY);
+
+	camera.front = mat.MulDir(camera.front).Normalized();
+	camera.up = mat.MulDir(camera.up).Normalized();
 }

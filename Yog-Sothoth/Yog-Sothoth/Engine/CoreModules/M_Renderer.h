@@ -82,7 +82,8 @@ public:
 	GameObject* testCube;
 	GameObject* testLight;
 	
-	Shader basicShader;
 	Shader lightShader;
+	Shader basicShader;
 	Shader lampShader;
+	Shader normalDisplay;
 };

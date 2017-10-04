@@ -54,7 +54,7 @@ public:
 	UV uv;
 	BoundingBox boundingBox;
 	Color color = Color(1.0f,1.0f,1.0f,1.0f);
-
+	bool drawNormals;
 private:
 	OBB obb;
 	AABB aabb;
@@ -69,6 +69,7 @@ public:
 	void Update();
 	void Load(const aiMesh* mesh);
 	void Draw(Shader shader, C_Camera* camera) const;
+	void DrawNormals(Shader shader, C_Camera* camera) const;
 
 	void UpdateBoundingBoxes();
 	void Draw_OBB();
