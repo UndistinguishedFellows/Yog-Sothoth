@@ -13,10 +13,11 @@ public:
 	/**
 	 * \brief The root Game Object that stores all GO
 	 */
-	GameObject* focus;
-	GameObject* root;
-	GameObject* camera;
-	GameObject* light;
+	GameObject* focus = nullptr;
+	GameObject* root = nullptr;
+	//tmp
+	GameObject* camera = nullptr;
+	GameObject* light = nullptr; //FIX: ? There was some error with this var, crashes on App::Cleanup
 
 private:
 	

@@ -59,7 +59,7 @@ void UIInspector::Transform()
 	float3 position;
 	float3 scale;
 	Quat rot;
-	C_Transform* transform = (C_Transform*)App->objManager->GetFocusGO()->FindComponent(TRANSFORM);
+	C_Transform* transform = (C_Transform*)App->objManager->GetFocusGO()->FindComponent(C_TRANSFORM);
 	if (transform != nullptr)
 	{
 		transform->localTransform.Decompose(position, rot, scale);
