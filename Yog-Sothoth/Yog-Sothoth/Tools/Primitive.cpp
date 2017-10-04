@@ -53,8 +53,8 @@ void Primitive::Render() const
 		glLineWidth(1.0f);
 	}
 
-	//glColor3f(color.r, color.g, color.b);
-	glColor3f(255, 255, 255);
+	glColor3f(color.r, color.g, color.b);
+	//glColor3f(255, 255, 255);
 
 	if(wire)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

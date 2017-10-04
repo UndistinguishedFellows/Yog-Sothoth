@@ -3,6 +3,11 @@
 #include "Components/BaseClass/Component.h"
 #include <rpc.h>
 
+enum GameObjectType
+{
+	GO_STANDARD,
+	GO_LIGHT	
+};
 
 class Shader;
 class C_Camera;
@@ -10,6 +15,7 @@ class C_Camera;
 class GameObject
 {
 public:
+	GameObjectType type = GO_STANDARD;
 	std::vector<GameObject*> children;
 	GameObject* parent = nullptr;
 
@@ -75,4 +81,5 @@ public:
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type);
 	void Draw(Shader shader, C_Camera* camera);
+	void DrawLight(Shader shader, C_Camera* camera);
 };

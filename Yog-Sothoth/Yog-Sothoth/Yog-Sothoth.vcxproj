@@ -205,6 +205,8 @@
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Input.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Camera.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\C_Light.cpp" />
+    <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Mesh.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
@@ -276,6 +278,8 @@
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
     <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Camera.h" />
+    <ClInclude Include="Engine\GameObjects\Components\C_Light.h" />
+    <ClInclude Include="Engine\GameObjects\Components\C_Material.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Mesh.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />

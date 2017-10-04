@@ -53,7 +53,7 @@ public:
 	Normals normals;
 	UV uv;
 	BoundingBox boundingBox;
-	Color color = Color(1.0f,1.0f,0.0f,1.0f);
+	Color color = Color(1.0f,1.0f,1.0f,1.0f);
 
 private:
 	OBB obb;

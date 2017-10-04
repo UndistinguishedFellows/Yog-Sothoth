@@ -79,6 +79,8 @@ public:
 	C_Camera* frustum;
 	std::vector<C_Mesh*> meshes;
 	float3 lightPos;
+	GameObject* testCube;
+	GameObject* testLight;
 	
 	Shader basicShader;
 	Shader lightShader;

@@ -3,18 +3,19 @@
 class GameObject;
 enum ComponentType
 {
-	CAMERA,
-	TRANSFORM,
-	MESH,
-	TEXTURE,
-	UNKNOWN
+	C_CAMERA,
+	C_TRANSFORM,
+	C_MESH,
+	C_TEXTURE,
+	C_LIGHT,
+	C_UNKNOWN
 };
 
 class Component : public IJsonSerializable
 {
 public:
 	GameObject* parent = nullptr;
-	ComponentType type = UNKNOWN;
+	ComponentType type = C_UNKNOWN;
 
 	Component(GameObject* parent) { this->parent = parent; }
 	virtual ~Component(){}

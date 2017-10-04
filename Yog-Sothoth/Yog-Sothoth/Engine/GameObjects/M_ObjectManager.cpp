@@ -10,9 +10,10 @@
 
 M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
 {
+	name = "objManager";
 	root = new GameObject();
 	root->name = "/";
-	root->CreateComponent(TRANSFORM);
+	root->CreateComponent(C_TRANSFORM);
 	camera = new GameObject();
 	camera->name = "camera";
 	root->AddChild(camera);
@@ -56,6 +57,7 @@ update_status M_ObjectManager::PostUpdate(float dt)
 
 bool M_ObjectManager::CleanUp()
 {
+
 	return true;
 }
 
@@ -102,6 +104,11 @@ void M_ObjectManager::SetFocusGO(GameObject* go)
 	focus = go;
 }
 
+GameObject* M_ObjectManager::FindGameObject(std::string name)
+{
+	return root->FindChild(name);
+}
+
 GameObject* M_ObjectManager::LoadFBX(const char * path)
 {
 	yogConsole(CONSOLE_INFO, "Loading scene...");
@@ -140,43 +147,52 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 	aiVector3D ai_translation;
 	aiVector3D ai_scaling;
 	aiQuaternion ai_rotation;
+	std::string gameObjectName;
 
 	node->mTransformation.Decompose(ai_scaling, ai_rotation, ai_translation);
-	std::string gameObjectName = node->mName.C_Str();
-	float3 position(ai_translation.x, ai_translation.y, ai_translation.z);
-	float3 scale(ai_scaling.x, ai_scaling.y, ai_scaling.z);
-	Quat rotation(ai_rotation.x, ai_rotation.y, ai_rotation.z, ai_rotation.w);
-
-	GameObject* gameObject = new GameObject();// = new GameObject(parent, position, scale, rotation, gameObjectName.c_str());
-	parent->AddChild(gameObject);
-	gameObject->name = gameObjectName;
-
-	float4x4 matrix(rotation, position);
-	matrix.Scale(scale);
-
-	C_Transform* transform = (C_Transform*)gameObject->CreateComponent(TRANSFORM);
-	transform->scale = scale;
-	transform->rotation = rotation;
-	transform->position = position;
-	transform->localTransform = matrix;
-
-	C_Transform* parentTransform = (C_Transform*)gameObject->parent->FindComponent(TRANSFORM);
-
-	transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
-
-
-	for (uint i = 0; i < node->mNumMeshes; i++)
+	if (strcmp(node->mName.C_Str(), "RootNode") == 0)
 	{
-		const aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+		for (uint i = 0; i < node->mNumChildren; ++i)
+			LoadScene(scene, node->mChildren[i], root);
 
-		C_Mesh* mesh = (C_Mesh*)gameObject->CreateComponent(MESH);
-
-		mesh->Load(ai_mesh);
 	}
-	
-	for (uint i = 0; i < node->mNumChildren; ++i)
-		LoadScene(scene, node->mChildren[i], gameObject);
+	else
+	{
+		gameObjectName = node->mName.C_Str();
+		float3 position(ai_translation.x, ai_translation.y, ai_translation.z);
+		float3 scale(ai_scaling.x, ai_scaling.y, ai_scaling.z);
+		Quat rotation(ai_rotation.x, ai_rotation.y, ai_rotation.z, ai_rotation.w);
 
+		GameObject* gameObject = new GameObject();
+		parent->AddChild(gameObject);
+		gameObject->name = gameObjectName;
+
+		float4x4 matrix(rotation, position);
+		matrix.Scale(scale);
+
+		C_Transform* transform = (C_Transform*)gameObject->CreateComponent(C_TRANSFORM);
+		transform->scale = scale;
+		transform->rotation = rotation;
+		transform->position = position;
+		transform->localTransform = matrix;
+
+		C_Transform* parentTransform = (C_Transform*)gameObject->parent->FindComponent(C_TRANSFORM);
+
+		transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
+
+
+		for (uint i = 0; i < node->mNumMeshes; i++)
+		{
+			const aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+			C_Mesh* mesh = (C_Mesh*)gameObject->CreateComponent(C_MESH);
+
+			mesh->Load(ai_mesh);
+		}
+
+		for (uint i = 0; i < node->mNumChildren; ++i)
+			LoadScene(scene, node->mChildren[i], gameObject);
+	}
 
 }
 

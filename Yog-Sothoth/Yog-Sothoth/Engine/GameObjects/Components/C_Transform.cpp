@@ -24,7 +24,7 @@ const float4x4 C_Transform::GetGlobalTransform()
 
 void C_Transform::RefreshTransform()
 {
-	C_Transform* transform = (C_Transform*)parent->parent->FindComponent(TRANSFORM);
+	C_Transform* transform = (C_Transform*)parent->parent->FindComponent(C_TRANSFORM);
 	if (parent != NULL)
 	{
 		globalTransform = transform->globalTransform * localTransform;
@@ -33,7 +33,7 @@ void C_Transform::RefreshTransform()
 	for (std::vector<GameObject*>::iterator iterator = parent->children.begin();
 		 iterator != parent->children.end(); iterator++)
 	{
-		C_Transform* it_transform = (C_Transform*)(*iterator)->FindComponent(TRANSFORM);
+		C_Transform* it_transform = (C_Transform*)(*iterator)->FindComponent(C_TRANSFORM);
 		it_transform->RefreshTransform();
 	}
 	
@@ -56,7 +56,7 @@ void C_Transform::SetPosition(float3 position)
 	for (std::vector<Component*>::iterator iterator = parent->components.begin();
 		 iterator != parent->components.end(); iterator++)
 	{
-		if ((*iterator)->type == MESH)
+		if ((*iterator)->type == C_MESH)
 		{
 			C_Mesh* mesh = (C_Mesh*)(*iterator);
 			mesh->UpdateBoundingBoxes();
@@ -79,7 +79,7 @@ void C_Transform::SetRotation(Quat rotation)
 	for (std::vector<Component*>::iterator iterator = parent->components.begin();
 		 iterator != parent->components.end(); iterator++)
 	{
-		if ((*iterator)->type == MESH)
+		if ((*iterator)->type == C_MESH)
 		{
 			C_Mesh* mesh = (C_Mesh*)(*iterator);
 			mesh->UpdateBoundingBoxes();
@@ -153,7 +153,7 @@ void C_Transform::SetScale(float3 scale)
 	for (std::vector<Component*>::iterator iterator = parent->components.begin();
 		 iterator != parent->components.end(); iterator++)
 	{
-		if ((*iterator)->type == MESH)
+		if ((*iterator)->type == C_MESH)
 		{
 			C_Mesh* mesh = (C_Mesh*)(*iterator);
 			mesh->UpdateBoundingBoxes();

@@ -3,6 +3,7 @@
 #include "Components/C_Camera.h"
 #include "Components/C_Mesh.h"
 #include "Components/C_Transform.h"
+#include "Components/C_LIGHT.h"
 
 GameObject::GameObject()
 {
@@ -134,24 +135,31 @@ Component* GameObject::CreateComponent(ComponentType type)
 	Component* ret = nullptr;
 	switch (type)
 	{
-		case CAMERA:
+		case C_CAMERA:
 		{
 			ret = new C_Camera(this);
-			ret->type = CAMERA;
+			ret->type = C_CAMERA;
 			this->components.push_back(ret);
 		}
 		break;
-		case MESH:
+		case C_MESH:
 		{
 			ret = new C_Mesh(this);
-			ret->type = MESH;
+			ret->type = C_MESH;
 			this->components.push_back(ret);
 		}
 		break;
-		case TRANSFORM:
+		case C_TRANSFORM:
 		{
 			ret = new C_Transform(this);
-			ret->type = TRANSFORM;
+			ret->type = C_TRANSFORM;
+			this->components.push_back(ret);
+		}
+		break;
+		case C_LIGHT:
+		{
+			ret = new C_Light(this);
+			ret->type = C_TRANSFORM;
 			this->components.push_back(ret);
 		}
 		break;
@@ -174,15 +182,27 @@ Component* GameObject::FindComponent(ComponentType type)
 
 void GameObject::Draw(Shader shader, C_Camera* camera)
 {
-	C_Mesh* mesh = (C_Mesh*)FindComponent(MESH);
+	C_Mesh* mesh = (C_Mesh*)FindComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		mesh->Draw(shader, camera);
+		if (type != GO_LIGHT)
+		{
+			mesh->Draw(shader, camera);
+		}
 	}
 	
 
 	for (auto child : children)
 	{
 		child->Draw(shader, camera);
+		
+	}
+}
+void GameObject::DrawLight(Shader shader, C_Camera* camera)
+{
+	C_Mesh* mesh = (C_Mesh*)FindComponent(C_MESH);
+	if (mesh != nullptr)
+	{
+		mesh->Draw(shader, camera);
 	}
 }

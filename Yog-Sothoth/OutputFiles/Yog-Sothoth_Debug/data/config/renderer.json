@@ -1,5 +1,5 @@
 {
-   "cullFace" : false,
+   "cullFace" : true,
    "depthTest" : true,
    "grid" : true,
    "vsync" : true,

@@ -1,6 +1,7 @@
 #pragma once
 #include "../CoreModules/BaseClass/Module.h"
 #include "GameObject.h"
+#include "Components/C_Light.h"
 
 struct aiScene;
 struct aiNode;
@@ -15,6 +16,8 @@ public:
 	GameObject* focus;
 	GameObject* root;
 	GameObject* camera;
+	GameObject* light;
+
 private:
 	
 	/**
@@ -39,6 +42,7 @@ public:
 	void DeleteGameObject(GameObject* go);
 	GameObject* GetFocusGO();
 	void SetFocusGO(GameObject* go);
+	GameObject* FindGameObject(std::string name);
 	
 	/**
 	* \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
