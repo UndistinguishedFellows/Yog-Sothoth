@@ -115,6 +115,11 @@ void M_Window::Serialize(Json::Value& root)
 	root["maximized"] = config.maximized;
 	root["resizable"] = config.resizable;
 
+	Json::Value resolution;
+	resolution["x"] = config.w_res;
+	resolution["y"] = config.h_res;
+	root["resolution"] = resolution;
+
 	root["title"] = config.title.data();
 	root["brightness"] = config.brightness;
 }
