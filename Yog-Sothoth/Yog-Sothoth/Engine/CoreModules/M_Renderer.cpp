@@ -164,13 +164,15 @@ update_status M_Renderer::PostUpdate(float dt)
 	
 
 	//App->objManager->root->Draw(normalDisplay, frustum);
-	App->objManager->root->DrawNormals(basicShader, frustum);
+	
 	App->objManager->root->Draw(lightShader, frustum);
 	if (App->objManager->light != nullptr)
 	{
 		App->objManager->light->DrawLight(lampShader, frustum);
 	}
 
+	//Draw normals of a mesh
+	App->objManager->root->DrawNormals(basicShader, frustum);
 	//Draw floor grid and world axis
 	if (grid)
 	{

@@ -204,7 +204,7 @@ void GameObject::DrawNormals(Shader shader, C_Camera* camera)
 	C_Mesh* mesh = (C_Mesh*)FindComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		if (type != GO_LIGHT)
+		if (type != GO_LIGHT && mesh->drawNormals)
 		{
 			mesh->DrawNormals(shader, camera);
 		}
