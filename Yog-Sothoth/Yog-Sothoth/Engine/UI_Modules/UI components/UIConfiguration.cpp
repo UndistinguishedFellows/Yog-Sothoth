@@ -1,5 +1,6 @@
 #include "UIConfiguration.h"
 #include "../../../Application.h"
+#include "../../CoreModules/M_Window.h"
 
 UIConfiguration::UIConfiguration()
 {

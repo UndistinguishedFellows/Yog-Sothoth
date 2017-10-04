@@ -158,6 +158,13 @@ void Application::Serialize(Json::Value& root)
 {
 	root["name"] = appName.data();
 	root["organization"] = organization.data();
+	Json::Value paths;
+	for (std::list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it)
+	{
+		paths[(*it)->name] = configPath[(*it)->name].c_str();
+	}
+
+	root["config_paths"] = paths;
 }
 /**
  * \brief Fills configPath with the paths inside config.json
