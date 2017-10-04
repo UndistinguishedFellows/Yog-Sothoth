@@ -69,6 +69,7 @@ public:
 	void Update();
 	void Load(const aiMesh* mesh);
 	void Draw(Shader shader, C_Camera* camera) const;
+	void DrawNormals(Shader shader, C_Camera* camera) const;
 
 	void UpdateBoundingBoxes();
 	void Draw_OBB();

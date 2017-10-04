@@ -81,5 +81,6 @@ public:
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type);
 	void Draw(Shader shader, C_Camera* camera);
+	void DrawNormals(Shader shader, C_Camera* camera);
 	void DrawLight(Shader shader, C_Camera* camera);
 };

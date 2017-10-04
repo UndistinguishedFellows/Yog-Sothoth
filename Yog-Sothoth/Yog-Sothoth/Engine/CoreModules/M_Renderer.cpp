@@ -97,29 +97,29 @@ bool M_Renderer::Start()
 
 	lightPos = { 0.f, 5.0f, 10.0f };
 
-	basicShader.LoadShader("data/shaders/camera.vs", VERTEX);
-	basicShader.LoadShader("data/shaders/basicFragment.fs", FRAGMENT);
-	basicShader.CompileProgram(basicShader.vertexShader, basicShader.fragmentShader);
-
-	lightShader.LoadShader("data/shaders/1.basic_lighting.vs", VERTEX);
-	lightShader.LoadShader("data/shaders/1.basic_lighting.fs", FRAGMENT);
-	lightShader.CompileProgram(lightShader.vertexShader, lightShader.fragmentShader);
-	lampShader.LoadShader("data/shaders/1.lamp.vs", VERTEX);
-	lampShader.LoadShader("data/shaders/1.lamp.fs", FRAGMENT);
-	lampShader.CompileProgram(lampShader.vertexShader, lampShader.fragmentShader);
+	lightShader.LoadShader("data/shaders/1.basic_lighting.vs", VERTEX_SHADER);
+	lightShader.LoadShader("data/shaders/1.basic_lighting.fs", FRAGMENT_SHADER);
+	lightShader.CompileProgram();
+	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
+	basicShader.LoadShader("data/shaders/camera.vs", VERTEX_SHADER);
+	basicShader.LoadShader("data/shaders/basicFragment.fs", FRAGMENT_SHADER);
+	basicShader.CompileProgram();
+	lampShader.LoadShader("data/shaders/1.lamp.vs", VERTEX_SHADER);
+	lampShader.LoadShader("data/shaders/1.lamp.fs", FRAGMENT_SHADER);
+	lampShader.CompileProgram();
+	normalDisplay.LoadShader("data/shaders/normalDisplay.vs", VERTEX_SHADER);
+	normalDisplay.LoadShader("data/shaders/normalDisplay.gs", GEOMETRY_SHADER);
+	normalDisplay.LoadShader("data/shaders/normalDisplay.fs", FRAGMENT_SHADER);
+	normalDisplay.CompileProgram();
 	
 	//###########################################
 
-	//App->objManager->LoadFBX("warrior.FBX");
-	//App->objManager->LoadFBX("Street environment_V01.FBX");
-	//App->objManager->LoadFBX("MechaT.FBX");
-	//testCube = App->objManager->LoadFBX("Mecha.FBX");
-	App->objManager->LoadFBX("cube.FBX");
+	App->objManager->LoadFBX("data/assets/cube.FBX");
 	testCube = App->objManager->FindGameObject("pCube1");
 	C_Mesh* mesh = (C_Mesh*)testCube->FindComponent(C_MESH);
 	mesh->color = { 1.0f, 0.5f, 0.31f, 1.f };
 
-	App->objManager->LoadFBX("cube.FBX");
+	App->objManager->LoadFBX("data/assets/cube.FBX");
 	testLight = App->objManager->root->children.at(2);
 	mesh = (C_Mesh*)testLight->FindComponent(C_MESH);
 	mesh->color = { 1.0f, 1.f, 1.f, 1.f };
@@ -128,6 +128,13 @@ bool M_Renderer::Start()
 	C_Transform* transform = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
 	testLight->type = GO_LIGHT;
 	transform->SetPosition(lightPos);
+
+
+
+	//App->objManager->LoadFBX("data/assets/warrior.FBX");
+	//App->objManager->LoadFBX("data/assets/Street environment_V01.FBX");
+	App->objManager->LoadFBX("data/assets/baker_house/bakerHouse.FBX");
+	//App->objManager->LoadFBX("data/assets/MechaT.FBX");
 
 	return true;
 }
@@ -154,12 +161,16 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	float4x4 view = frustum->camera.ViewMatrix();
 
+	
+
+	//App->objManager->root->Draw(normalDisplay, frustum);
+	App->objManager->root->DrawNormals(basicShader, frustum);
 	App->objManager->root->Draw(lightShader, frustum);
 	if (App->objManager->light != nullptr)
 	{
 		App->objManager->light->DrawLight(lampShader, frustum);
 	}
-	
+
 	//Draw floor grid and world axis
 	if (grid)
 	{
