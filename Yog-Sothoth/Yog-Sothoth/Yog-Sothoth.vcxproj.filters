@@ -44,7 +44,6 @@
     <ClCompile Include="Tools\Containers\Color.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
-    <ClCompile Include="Tools\FBXImporter.cpp" />
     <ClCompile Include="Tools\Containers\Shader.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
@@ -138,7 +137,6 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
-    <ClInclude Include="Tools\FBXImporter.h" />
     <ClInclude Include="Tools\Containers\Shader.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
