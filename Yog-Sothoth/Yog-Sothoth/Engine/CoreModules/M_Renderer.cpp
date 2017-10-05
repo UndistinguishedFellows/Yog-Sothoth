@@ -14,7 +14,7 @@
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
 	name.assign("renderer");
-	frustum = new C_Camera(nullptr);
+	//frustum = new C_Camera(nullptr);
 }
 
 M_Renderer::~M_Renderer()
@@ -94,6 +94,7 @@ bool M_Renderer::Init()
 
 bool M_Renderer::Start()
 {
+	frustum = (C_Camera*)App->objManager->camera->FindComponent(C_CAMERA);
 	lightShader = new Shader("data/shaders/1.basic_lighting.vs", "data/shaders/1.basic_lighting.fs");
 	basicShader = new Shader("data/shaders/camera.vs", "data/shaders/basicFragment.fs");	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
 	lampShader = new Shader("data/shaders/1.lamp.vs", "data/shaders/1.lamp.fs");
@@ -186,9 +187,17 @@ update_status M_Renderer::PostUpdate(float dt)
 		glPopMatrix();
 
 	}
-
+	C_Transform* tr = (C_Transform*)frustum->parent->FindComponent(C_TRANSFORM);
+	C_Camera* cam = (C_Camera*)frustum->parent->FindComponent(C_CAMERA);
+	float3 scale;
+	float3 position;
+	Quat rotation;
+	tr->GetGlobalTransform().Decompose(position, rotation, scale);
+	cam->camera.pos = position;
 	frustum->Move(dt);
 	frustum->Rotate(dt);
+	frustum->FocusCamera();
+	frustum->Zoom(dt);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	App->uiManager->DrawEditor();

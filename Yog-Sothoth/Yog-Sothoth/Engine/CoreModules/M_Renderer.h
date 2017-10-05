@@ -5,6 +5,7 @@
 #include "../../Tools/Primitive.h"
 #include "../GameObjects/Components/C_Camera.h"
 #include "../GameObjects/Components/C_Mesh.h"
+#include "../GameObjects/Components/C_Transform.h"
 #include "../../Tools/GPUDetect/DeviceId.h"
 
 struct GPUInfo
