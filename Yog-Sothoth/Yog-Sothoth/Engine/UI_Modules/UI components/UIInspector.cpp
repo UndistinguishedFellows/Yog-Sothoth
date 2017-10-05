@@ -40,7 +40,7 @@ void UIInspector::Draw()
 		Transform();
 		Mesh();
 //		material();
-//		camera();
+		Camera();
 	}
 
 	ImGui::Spacing();
@@ -80,7 +80,7 @@ void UIInspector::Transform()
 				transform->SetRotation(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
 			}
 
-			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f))
+			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.001f))
 				transform->SetScale(scale);
 
 
@@ -177,4 +177,30 @@ void UIInspector::Light()
 
 void UIInspector::Camera()
 {
+	if (ImGui::CollapsingHeader("Camera##inspector"))
+	{
+		ImGui::Text("Camera");
+		C_Camera* camera = (C_Camera*)App->objManager->GetFocusGO()->FindComponent(C_CAMERA);
+		if (camera != nullptr)
+		{
+			if (ImGui::DragFloat3("Position##camera", camera->camera.pos.ptr(), 0.01f))
+			{}
+			if (ImGui::DragFloat3("UP##camera", camera->camera.up.ptr(), 0.01f))
+			{}
+			if (ImGui::DragFloat3("Front##camera", camera->camera.front.ptr(), 0.01f))
+			{}
+			if (ImGui::DragFloat("Horizontal FOV##camera", &camera->camera.horizontalFov, 0.01f, 0, math::pi))
+			{}
+			if (ImGui::DragFloat("Vertical FOV##camera", &camera->camera.verticalFov, 0.01f, 0, math::pi))
+			{}
+			if (ImGui::DragFloat("Near plane distance##camera", &camera->camera.nearPlaneDistance, 0.01f, 0))
+			{}
+			if (ImGui::DragFloat("Far plane distance##camera", &camera->camera.farPlaneDistance, 0.01f, camera->camera.nearPlaneDistance))
+			{}
+			ImGui::Text("Aspect Ratio: %f", camera->camera.AspectRatio());
+
+
+		}
+	}
+
 }
