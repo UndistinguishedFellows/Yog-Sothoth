@@ -82,9 +82,9 @@ void UIConfiguration::Draw()
 		{
 			memLog[i] = memLog[i + 1];
 		}
-		memLog[memLog.size() - 1] = memInfo.accumulatedActualMemory;
+		memLog[memLog.size() - 1] = memInfo.totalReportedMemory;
 
-		ImGui::PlotHistogram("##memory", &memLog[0], memLog.size(), 0, "Memory", 0.0f, memInfo.peakReportedMemory * 2.0f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##memory", &memLog[0], memLog.size(), 0, "Memory", 0.0f, memInfo.peakReportedMemory * 1.7f, ImVec2(310, 100));
 		
 		ImGui::Text("Total Reported Mem: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%u", memInfo.totalReportedMemory);

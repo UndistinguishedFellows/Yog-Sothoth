@@ -86,11 +86,10 @@ void UIWindowMenus::Draw()
 
 void UIWindowMenus::ShowCredits()
 {
-	ImGuiWindowFlags outilnerWindowFlags = 0;
-	outilnerWindowFlags |= ImGuiWindowFlags_AlwaysHorizontalScrollbar;
+	ImGuiWindowFlags creditsWindowFlags = 0;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 100), ImGuiSetCond_FirstUseEver);
-	if (!ImGui::Begin("Credits", &credits, outilnerWindowFlags))
+	if (!ImGui::Begin("Credits", &creditsSelected, creditsWindowFlags))
 	{
 		// Early out if the window is collapsed, as an optimization.
 		ImGui::End();
@@ -163,7 +162,7 @@ void UIWindowMenus::ShowCredits()
 	ImGui::Text("Assimp v3.3.1");
 	//Image
 	//Link
-	if (ImGui::Button("Link##Mathb"))
+	if (ImGui::Button("Link##Assipb"))
 	{
 		App->OpenBrowser("http://assimp.sourceforge.net/");
 	}
@@ -173,7 +172,7 @@ void UIWindowMenus::ShowCredits()
 	ImGui::Text("Glew v2.0.0");
 	//Image
 	//Link
-	if (ImGui::Button("Link##Mathb"))
+	if (ImGui::Button("Link##Glewb"))
 	{
 		App->OpenBrowser("http://glew.sourceforge.net/");
 	}
@@ -183,31 +182,53 @@ void UIWindowMenus::ShowCredits()
 	ImGui::Text("PhysFS v2.0.3");
 	//Image
 	//Link
-	if (ImGui::Button("Link##Mathb"))
+	if (ImGui::Button("Link##PhysFSb"))
 	{
 		App->OpenBrowser("https://icculus.org/physfs/");
+	}
+	ImGui::NextColumn();
+	ImGui::Separator();
+
+	//ImGui
+	ImGui::Text("ImGui v1.50");
+	//Image
+	//Link
+	if (ImGui::Button("Link##ImGuib"))
+	{
+		App->OpenBrowser("https://github.com/ocornut/imgui");
+	}
+	ImGui::NextColumn();
+
+	//OpenGL
+	ImGui::Text("OpenGL v3.3");
+	//Image
+	//Link
+	if (ImGui::Button("Link##OpenGLb"))
+	{
+		App->OpenBrowser("https://www.opengl.org/");
+	}
+	ImGui::NextColumn();
+
+	//Devil
+	ImGui::Text("Devil v1.7.8");
+	//Image
+	//Link
+	if (ImGui::Button("Link##Devilb"))
+	{
+		App->OpenBrowser("http://openil.sourceforge.net/");
 	}
 	ImGui::NextColumn();
 
 	ImGui::PopStyleColor(3);
 	ImGui::Columns(1);
 	ImGui::Separator();
-	
+
 	//Tanks!
 	ImGui::Text("Thanks to all libraries shown above for making this project possible.");
 
-
 	ImGui::Separator();
-	//Bullet
-	//Image
-	//Link
-	//Tanks!
-
 	ImGui::Separator();
-	//Devil
-	//Image
-	//Link
-	//Tanks!
+
 
 	//#### LICENSE ####
 

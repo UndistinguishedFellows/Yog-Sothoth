@@ -19,11 +19,6 @@ public:
 	bool openIssuesDirectory = false;
 
 	bool showfpsInfo = false;
-	
 
 	bool QUIT = false;
-
-
-	bool credits = false;
-
 };
