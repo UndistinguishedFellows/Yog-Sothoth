@@ -29,6 +29,8 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 
 	camera = new GameObject();
 	camera->name = "camera";
+	camera->CreateComponent(C_CAMERA);
+	camera->CreateComponent(C_TRANSFORM);
 	root->AddChild(camera);
 	
 }
