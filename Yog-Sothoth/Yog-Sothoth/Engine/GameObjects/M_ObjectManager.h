@@ -2,6 +2,7 @@
 #include "../CoreModules/BaseClass/Module.h"
 #include "GameObject.h"
 #include "Components/C_Light.h"
+#include <list>
 
 struct aiScene;
 struct aiNode;

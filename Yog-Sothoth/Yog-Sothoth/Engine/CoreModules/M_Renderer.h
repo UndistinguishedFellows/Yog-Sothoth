@@ -84,4 +84,5 @@ public:
 	Shader* lightShader;
 	Shader* basicShader;
 	Shader* lampShader;
+	Shader* wireframeShader;
 };

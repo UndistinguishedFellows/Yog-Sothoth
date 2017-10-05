@@ -97,6 +97,7 @@ bool M_Renderer::Start()
 	lightShader = new Shader("data/shaders/1.basic_lighting.vs", "data/shaders/1.basic_lighting.fs");
 	basicShader = new Shader("data/shaders/camera.vs", "data/shaders/basicFragment.fs");	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
 	lampShader = new Shader("data/shaders/1.lamp.vs", "data/shaders/1.lamp.fs");
+	wireframeShader = new Shader("data/shaders/wireframe.vs", "data/shaders/wireframe.fs");
 	
 	//###########################################
 
@@ -149,6 +150,20 @@ update_status M_Renderer::PostUpdate(float dt)
 	float4x4 view = frustum->camera.ViewMatrix();
 
 	App->objManager->root->Draw(*lightShader, frustum);
+	if (App->objManager->focus != nullptr && App->objManager->focus->FindComponent(C_MESH) != nullptr)
+	{
+		C_Mesh* mesh = (C_Mesh*)App->objManager->focus->FindComponent(C_MESH);
+		Color color = mesh->color;
+		mesh->color.Set(0.f, 1.f, 0.f, 1.f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glLineWidth(3.f);
+		App->objManager->focus->Draw(*wireframeShader, frustum);
+		glLineWidth(1.f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mesh->color = color;
+
+	}
+	
 	if (App->objManager->light != nullptr)
 	{
 		App->objManager->light->DrawLight(*lampShader, frustum);

@@ -2,6 +2,7 @@
 #include <vector>
 #include "Components/BaseClass/Component.h"
 #include <rpc.h>
+#include <list>
 
 enum GameObjectType
 {
@@ -66,11 +67,13 @@ public:
 	 * \return Returns the first coincident GO
 	 */
 	GameObject* FindChild(std::string goName);
+	static void MoveChild(GameObject* child, GameObject* origin, GameObject* destiny);
 	/**
 	 * \brief Adds a new relationship for this game object
 	 * \param reference the new object that references this one
 	 */
 	void AddRelationship(GameObject** reference);
+	std::vector<GameObject*> GetChildren();
 
 	/**
 	 * \brief Erase a relationship from relationship vector

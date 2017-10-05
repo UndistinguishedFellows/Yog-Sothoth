@@ -17,6 +17,8 @@
 M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
 {
 	name = "objManager";
+	deletionGameObject = new GameObject();
+	deletionGameObject->name = "deletionGameObject";
 	root = new GameObject();
 	root->name = "/";
 	root->CreateComponent(C_TRANSFORM);
@@ -28,8 +30,6 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 	camera = new GameObject();
 	camera->name = "camera";
 	root->AddChild(camera);
-
-	focus = camera;
 	
 }
 
@@ -50,7 +50,14 @@ bool M_ObjectManager::Start()
 //Todo: Here game objects will be deleted when needed
 update_status M_ObjectManager::PreUpdate(float dt)
 {
-
+	if (deletionGameObject->FindChild(focus))
+	{
+		focus = nullptr;
+	}
+	if (deletionGameObject->children.size() > 0)
+	{
+		deletionGameObject->RemoveChildren();
+	}	
 	return UPDATE_CONTINUE;
 }
 
@@ -164,6 +171,13 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path)
 	}
 	const aiScene* scene = nullptr;
 
+	std::vector<GameObject*> childs = dragAndDropVisualizer->GetChildren();
+	for (auto child : childs)
+	{
+		GameObject::MoveChild(child, dragAndDropVisualizer, deletionGameObject);
+//		deletionGameObject->AddChild(child);
+//		dragAndDropVisualizer->EraseChild(child);
+	}
 
 	std::streampos size;
 	char * memblock = nullptr;
