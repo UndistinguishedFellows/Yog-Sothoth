@@ -16,5 +16,5 @@ public:
 
 	std::vector<float> fpsLog;
 	std::vector<float> msLog;
-	
+	std::vector<float> memLog;
 };
