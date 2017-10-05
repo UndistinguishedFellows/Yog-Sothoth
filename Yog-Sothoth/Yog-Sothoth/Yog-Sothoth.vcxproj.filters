@@ -76,6 +76,7 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIInspector.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Light.cpp" />
+    <ClCompile Include="Tools\mmgr\mmgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -182,6 +183,8 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIInspector.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Material.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Light.h" />
+    <ClInclude Include="Tools\mmgr\mmgr.h" />
+    <ClInclude Include="Tools\mmgr\nommgr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
