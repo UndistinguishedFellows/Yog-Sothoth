@@ -13,10 +13,13 @@ public:
 	void Rotate(float dt);
 	void LookAt(float dx, float dy);
 	void LookAt(const float3 spot);
+	void FocusCamera();
+	void Zoom(float dt);
 
 	Frustum camera;
 
 	float movSpeed = 5.f;
 	float rotSpeed = 1.2f;
 	float zoomSpeed = 500.f;
+	float aspectRatio = 1.77f;
 };

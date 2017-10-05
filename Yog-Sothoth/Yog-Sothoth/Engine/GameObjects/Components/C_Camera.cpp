@@ -8,8 +8,10 @@ C_Camera::C_Camera(GameObject* parent) : Component(parent)
 	camera.pos = { -10.f, 10.f, 20.f };
 	camera.up = { 0.f, 1.f, 0.f };
 	camera.front = { 0.f, 0.f, -1.f };
-	camera.horizontalFov = 1.309f;
-	camera.verticalFov = 0.82f;
+	camera.horizontalFov = DegToRad(45);
+	camera.verticalFov = DegToRad(45/ aspectRatio);
+//	camera.horizontalFov = 1.309f;
+//	camera.verticalFov = 0.82f;
 	camera.nearPlaneDistance = 0.001f;
 	camera.farPlaneDistance = 1000.f;
 	LookAt(float3(0, 0, 0));
@@ -32,13 +34,15 @@ void C_Camera::Move(float dt)
 	float3 movement(float3::zero);
 	float3 forw(frust->front);
 	float3 right(frust->WorldRight());
-
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) movement += forw;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) movement -= forw;
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) movement += right;
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) movement -= right;
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement += float3::unitY;
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) movement -= float3::unitY;
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) movement += forw;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) movement -= forw;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) movement += right;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) movement -= right;
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement += float3::unitY;
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) movement -= float3::unitY;
+	}
 
 	if (!movement.Equals(float3::zero))
 	{
@@ -101,4 +105,30 @@ void C_Camera::LookAt(const float3 spot)
 
 	camera.front = mat.MulDir(camera.front).Normalized();
 	camera.up = mat.MulDir(camera.up).Normalized();
+}
+
+void C_Camera::FocusCamera()
+{
+}
+
+void C_Camera::Zoom(float dt)
+{
+	Frustum* frust = &camera;
+	float3 movement(float3::zero);
+	float3 forw(frust->front);
+
+	if (App->input->GetMouseZ() > 0)
+	{
+		movement += forw;
+	}
+	else if (App->input->GetMouseZ() < 0)
+	{
+		movement -= forw;
+	}
+	if (!movement.Equals(float3::zero))
+	{
+		movement *= (movSpeed * 20 * dt);
+		frust->pos = frust->pos + movement;
+	}
+
 }
