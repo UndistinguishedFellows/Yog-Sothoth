@@ -12,6 +12,7 @@ public:
 	void Transform();
 	void Mesh();
 	void Material();
+	void Light();
 	void Camera();
 
 	ImGuiWindowFlags inspectorWindowFlags = 0;

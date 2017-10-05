@@ -32,6 +32,7 @@ void UIInspector::Draw()
 	if (App->objManager->GetFocusGO() != nullptr)
 	{
 		ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text("%s", App->objManager->GetFocusGO()->name.c_str());
+		
 		//ImGuiStyle style = ImGui::GetStyle();
 		//ImVec4 color(0, 0, 0, 255);
 		//ImGui::ColorEdit4("BGCOlor", (float*)&style.Colors[2], true);
@@ -144,12 +145,12 @@ void UIInspector::Mesh()
 			ImGui::SameLine();
 			ImGui::Text("%d", mesh->uv.idUV);
 
-
 			ImGui::Separator();
 
-			if (ImGui::Checkbox("Normals", &mesh->drawNormals))
-			{
-			}
+			if (ImGui::Checkbox("Normals", &mesh->drawNormals)) {}
+			ImGui::SameLine();
+
+			if (ImGui::Checkbox("Wireframe##mesh", &mesh->wireframe)) {}
 
 			ImGui::Separator();
 
@@ -159,6 +160,19 @@ void UIInspector::Mesh()
 
 void UIInspector::Material()
 {
+	if (ImGui::CollapsingHeader("Material"))
+	{
+	}
+
+}
+
+void UIInspector::Light()
+{
+	if (ImGui::CollapsingHeader("Light"))
+	{
+
+	}
+
 }
 
 void UIInspector::Camera()

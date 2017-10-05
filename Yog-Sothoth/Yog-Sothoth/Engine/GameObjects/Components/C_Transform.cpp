@@ -224,6 +224,15 @@ float3 C_Transform::GetRotation() const
 
 }
 
+float3 C_Transform::GetPosition() const
+{
+	float3 pos;
+	float3 sca;
+	Quat rot;
+	localTransform.Decompose(pos, rot, sca);
+	return pos;
+}
+
 void C_Transform::UpdateBoundingBoxes()
 {
 }

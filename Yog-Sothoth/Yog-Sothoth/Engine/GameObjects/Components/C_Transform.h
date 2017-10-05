@@ -33,6 +33,7 @@ public:
 	void SetScale(float3 scale);
 	float* GetEulerRot() const;
 	float3 GetRotation() const;
+	float3 GetPosition() const;
 
 	AABB GetAABB() const;
 	void SetAABB(AABB aabb);

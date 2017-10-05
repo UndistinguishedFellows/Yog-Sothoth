@@ -17,6 +17,10 @@ GameObject::GameObject(GameObject* parent)
 
 GameObject::~GameObject()
 {
+	for (auto component : components)
+	{
+		delete component;
+	}
 	RemoveChildren();
 }
 
@@ -40,27 +44,32 @@ void GameObject::RemoveChild(GameObject* child)
 }
 void GameObject::EraseChild(GameObject* child)
 {
-	for (std::vector<GameObject*>::iterator it = children.begin();
-		 it != children.end(); ++it)
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end();)
 	{
 		if ((*it) == child)
 		{
-			children.erase(it);
+			it = children.erase(it);
 		}
+		else
+			++it;
 	}
 
 }
 
 void GameObject::RemoveChildren()
 {
-	for (std::vector<GameObject*>::iterator it = children.begin();
-		 it != children.end(); ++it)
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end();)
 	{
-		(*it)->RemoveChildren();
-		delete (*it);
-		children.erase(it);
+		if (children.size() > 0)
+		{
+			delete (*it);
+			it = children.erase(it);
+		}
+		else
+		{
+			++it;
+		}
 	}
-
 }
 
 bool GameObject::FindChild(GameObject* go)
@@ -225,5 +234,19 @@ void GameObject::DrawLight(Shader shader, C_Camera* camera)
 	if (mesh != nullptr)
 	{
 		mesh->Draw(shader, camera);
+	}
+}
+
+std::vector<GameObject*> GameObject::GetChildren()
+{
+	return children;
+}
+
+void GameObject::MoveChild(GameObject* child, GameObject* origin, GameObject* destiny)
+{
+	if (origin->FindChild(child))
+	{
+		origin->EraseChild(child);
+		destiny->AddChild(child);
 	}
 }

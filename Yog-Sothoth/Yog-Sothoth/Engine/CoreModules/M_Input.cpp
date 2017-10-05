@@ -4,6 +4,9 @@
 
 #include "../../imGUI/imgui.h"
 #include "../../imGUI/imgui_impl_sdl_gl3.h"
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
 
 #define MAX_KEYS 300
 
@@ -89,7 +92,6 @@ update_status M_Input::PreUpdate(float dt)
 
 	mouse_x_motion = mouse_y_motion = 0;
 
-	//App->quit = false;
 
 	SDL_Event e;
 	while(SDL_PollEvent(&e))
@@ -102,17 +104,32 @@ update_status M_Input::PreUpdate(float dt)
 			break;
 
 			case SDL_MOUSEMOTION:
-				mouse_x = e.motion.x;// / 1024; //FIX: Put dinamig assignment #resolution
+				mouse_x = e.motion.x;// / 1024; //FIX: Put dinamic assignment #resolution
 				mouse_y = e.motion.y;// / 720;
 
-			mouse_x_motion = e.motion.xrel;// / 1024;//FIX: Put dinamig assignment #resolution
+			mouse_x_motion = e.motion.xrel;// / 1024;//FIX: Put dinamic assignment #resolution
 				mouse_y_motion = e.motion.yrel;// / 720;
 			break;
 
 			case SDL_QUIT:
 			App->quit = true;
 			break;
-
+			case SDL_DROPFILE:
+			{      // In case if dropped file
+				dropped_filedir = e.drop.file;
+				// Shows directory of dropped file
+				SDL_ShowSimpleMessageBox(
+					SDL_MESSAGEBOX_INFORMATION,
+					"File dropped on window",
+					dropped_filedir,
+					App->window->window
+				);
+//				std::string str("data/assets/");
+//				str.append(fs::path(dropped_filedir).filename().u8string());
+				App->objManager->LoadFBXFromDragAndDrop(dropped_filedir);
+				SDL_free(dropped_filedir);    // Free dropped_filedir memory
+				break;
+			}
 			case SDL_WINDOWEVENT:
 			{
 				//if(e.window.event == SDL_WINDOWEVENT_RESIZED)
