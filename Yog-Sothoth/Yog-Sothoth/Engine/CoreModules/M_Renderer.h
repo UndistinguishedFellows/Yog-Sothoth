@@ -8,6 +8,9 @@
 #include "../GameObjects/Components/C_Transform.h"
 #include "../../Tools/GPUDetect/DeviceId.h"
 
+#define CHECKERS_WIDTH 256
+#define CHECKERS_HEIGHT 256
+
 struct GPUInfo
 {
 	uint vendor;
@@ -74,6 +77,13 @@ public:
 	Color GetColorMaterial();
 
 	//TEMP
+	void drawCubeDirectModeTexCoord();
+	void createCheckersTexture();
+
+	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
+	GLuint ImageName;
+	bool checkersCube;
+
 	unsigned int VBO, VAO, EBO, cubeVAO, cubeVBO;
 	unsigned int lightVAO;
 	unsigned int shaderProgram;

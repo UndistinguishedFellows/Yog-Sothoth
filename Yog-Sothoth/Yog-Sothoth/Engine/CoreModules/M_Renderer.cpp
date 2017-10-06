@@ -125,6 +125,8 @@ bool M_Renderer::Start()
 	//App->objManager->LoadFBX("data/assets/baker_house/bakerHouse.FBX");
 	//App->objManager->LoadFBX("data/assets/MechaT.FBX");
 
+	createCheckersTexture();
+
 	return true;
 }
 
@@ -187,17 +189,28 @@ update_status M_Renderer::PostUpdate(float dt)
 		glPopMatrix();
 
 	}
-	C_Transform* tr = (C_Transform*)frustum->parent->FindComponent(C_TRANSFORM);
+	/*C_Transform* tr = (C_Transform*)frustum->parent->FindComponent(C_TRANSFORM);
 	C_Camera* cam = (C_Camera*)frustum->parent->FindComponent(C_CAMERA);
 	float3 scale;
 	float3 position;
 	Quat rotation;
 	tr->GetGlobalTransform().Decompose(position, rotation, scale);
-	cam->camera.pos = position;
+	cam->camera.pos = position;*/
 	frustum->Move(dt);
 	frustum->Rotate(dt);
 	frustum->FocusCamera();
 	frustum->Zoom(dt);
+
+	if (checkersCube)
+	{
+		glPushMatrix();
+		glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+		glPushMatrix();
+		glMultMatrixf(view.Transposed().ptr());
+		drawCubeDirectModeTexCoord();
+		glPopMatrix();
+		glPopMatrix();
+	}
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	App->uiManager->DrawEditor();
@@ -322,4 +335,92 @@ void M_Renderer::setGPUInfo()
 		 gpuInfo.videoMemAvaliable = float(videoMemAvailable) / (1024.f * 1024.f);
 		 gpuInfo.videoMemReserved = float(videoMemReserved) / (1024.f * 1024.f);
 	 }
+}
+
+void M_Renderer::createCheckersTexture()
+{
+	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
+		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+	
+}
+
+void M_Renderer::drawCubeDirectModeTexCoord()
+{
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &ImageName);
+	glBindTexture(GL_TEXTURE_2D, ImageName);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
+	// Draw a cube with 12 triangles
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_TRIANGLES);
+
+	// front face
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+	
+	// left face
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, -10.0f);
+
+	// top face
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, -10.0f);
+
+	// right face
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+
+	// back face
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+
+	// top face
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

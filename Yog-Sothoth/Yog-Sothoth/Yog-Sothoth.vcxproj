@@ -120,14 +120,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)VirtuosoConsole/;$(SolutionDir)PhysFS/include;$(ProjectDir)jsoncpp/json;../Glew/include;$(SolutionDir)SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Devil/include;$(SolutionDir)VirtuosoConsole/;$(SolutionDir)PhysFS/include;$(ProjectDir)jsoncpp/json;../Glew/include;$(SolutionDir)SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Devil\libx86;$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;DevIL.lib;SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -159,15 +159,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)VirtuosoConsole/;$(SolutionDir)PhysFS/include;$(ProjectDir)jsoncpp/json;../Glew/include;$(SolutionDir)SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Devil\include;$(SolutionDir)VirtuosoConsole/;$(SolutionDir)PhysFS/include;$(ProjectDir)jsoncpp/json;../Glew/include;$(SolutionDir)SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Devil\libx86;$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;DevIL.lib;SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>

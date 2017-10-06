@@ -1,6 +1,7 @@
 #include "UITests.h"
 #include "../../../Application.h"
 #include "../../Test/YogTest.h"
+#include "../../CoreModules/M_Renderer.h"
 
 UITests::UITests()
 {
@@ -116,6 +117,15 @@ void UITests::Draw()
 		{
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.0f, 0.5f, 0.0f, 1.0f), "%d",randInt);
+		}
+	}
+
+	if (ImGui::CollapsingHeader("OpenGL"))
+	{
+		bool drawCheckersCube = App->renderer->checkersCube;
+		if (ImGui::Checkbox("Draw checkers cube", &drawCheckersCube))
+		{
+			App->renderer->checkersCube = drawCheckersCube;
 		}
 	}
 
