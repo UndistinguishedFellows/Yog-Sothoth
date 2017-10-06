@@ -80,7 +80,7 @@ void UIInspector::Transform()
 				transform->SetRotation(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
 			}
 
-			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.001f))
+			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.01f))
 				transform->SetScale(scale);
 
 

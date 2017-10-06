@@ -76,6 +76,7 @@ public:
 	void UpdateBoundingBoxes();
 	void Draw_OBB();
 	void Draw_AABB();
+	AABB GetAABB();
 
 	void Serialize(Json::Value& root);
 	void Deserialize(Json::Value& root);

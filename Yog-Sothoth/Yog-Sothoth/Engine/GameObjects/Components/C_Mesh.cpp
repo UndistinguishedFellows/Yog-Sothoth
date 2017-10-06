@@ -208,6 +208,11 @@ void C_Mesh::UpdateBoundingBoxes()
 
 }
 
+AABB C_Mesh::GetAABB()
+{
+	return aabb;
+}
+
 void C_Mesh::Serialize(Json::Value& root)
 {
 }

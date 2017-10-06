@@ -4,6 +4,7 @@
 #include "Components/C_Mesh.h"
 #include "Components/C_Transform.h"
 #include "Components/C_LIGHT.h"
+#include <algorithm>
 
 GameObject::GameObject()
 {
@@ -139,6 +140,50 @@ void GameObject::EraseRelationship(GameObject** reference)
 		}
 }
 
+void GameObject::LookAt(float3 pos)
+{
+	C_Camera* camera = (C_Camera*)FindComponent(C_CAMERA);
+	if (camera != nullptr)
+	{
+		camera->LookAt(pos);
+
+	}
+}
+
+void GameObject::SetPos(float3 pos)
+{
+	C_Transform* transform = (C_Transform*)FindComponent(C_TRANSFORM);
+	if (transform != nullptr)
+	{
+		transform->SetPosition(pos);
+	}	
+}
+
+AABB GameObject::UpdateBoundingBoxes()
+{
+	aabb.SetNegativeInfinity();
+	std::vector<AABB> aabbVector;
+	
+	C_Mesh* mesh = (C_Mesh*)FindComponent(C_MESH);
+	if (mesh != nullptr)
+	{
+		mesh->UpdateBoundingBoxes();
+		aabbVector.push_back(mesh->GetAABB());
+		for (auto child : children)
+		{
+			aabbVector.push_back(child->UpdateBoundingBoxes());
+		}
+
+		for (std::vector<AABB>::iterator iterator = aabbVector.begin(); iterator != aabbVector.end(); iterator++)
+		{
+			aabb.Enclose((*iterator));
+		}
+
+	}
+
+	return aabb;
+}
+
 Component* GameObject::CreateComponent(ComponentType type)
 {
 	Component* ret = nullptr;
@@ -237,6 +282,12 @@ void GameObject::DrawLight(Shader shader, C_Camera* camera)
 	}
 }
 
+AABB GameObject::GetAABB()
+{
+	UpdateBoundingBoxes();
+	return aabb;
+}
+
 std::vector<GameObject*> GameObject::GetChildren()
 {
 	return children;
@@ -249,4 +300,57 @@ void GameObject::MoveChild(GameObject* child, GameObject* origin, GameObject* de
 		origin->EraseChild(child);
 		destiny->AddChild(child);
 	}
+}
+
+void GameObject::Draw_AABB()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glDisable(GL_CULL_FACE);
+	glLineWidth(1.f);
+	glColor4f(0.f, 1.f, 0.f, 1.f);
+
+	float3 vertices[8];
+	aabb.GetCornerPoints(vertices);
+
+	//glColor4f(color.r, color.g, color.b, color.a);
+
+	glBegin(GL_QUADS);
+
+	glVertex3fv((GLfloat*)&vertices[1]);
+	glVertex3fv((GLfloat*)&vertices[5]);
+	glVertex3fv((GLfloat*)&vertices[7]);
+	glVertex3fv((GLfloat*)&vertices[3]);
+
+	glVertex3fv((GLfloat*)&vertices[4]);
+	glVertex3fv((GLfloat*)&vertices[0]);
+	glVertex3fv((GLfloat*)&vertices[2]);
+	glVertex3fv((GLfloat*)&vertices[6]);
+
+	glVertex3fv((GLfloat*)&vertices[5]);
+	glVertex3fv((GLfloat*)&vertices[4]);
+	glVertex3fv((GLfloat*)&vertices[6]);
+	glVertex3fv((GLfloat*)&vertices[7]);
+
+	glVertex3fv((GLfloat*)&vertices[0]);
+	glVertex3fv((GLfloat*)&vertices[1]);
+	glVertex3fv((GLfloat*)&vertices[3]);
+	glVertex3fv((GLfloat*)&vertices[2]);
+
+	glVertex3fv((GLfloat*)&vertices[3]);
+	glVertex3fv((GLfloat*)&vertices[7]);
+	glVertex3fv((GLfloat*)&vertices[6]);
+	glVertex3fv((GLfloat*)&vertices[2]);
+
+	glVertex3fv((GLfloat*)&vertices[0]);
+	glVertex3fv((GLfloat*)&vertices[4]);
+	glVertex3fv((GLfloat*)&vertices[5]);
+	glVertex3fv((GLfloat*)&vertices[1]);
+
+	glEnd();
+
+	glEnable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable(GL_LIGHTING);
+	//glLineWidth(1.f);
+
 }
