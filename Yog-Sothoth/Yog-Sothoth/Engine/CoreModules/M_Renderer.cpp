@@ -185,21 +185,27 @@ update_status M_Renderer::PostUpdate(float dt)
 		floor.color = { 0.1f, 0.1f, 0.1f , 1.f };
 		floor.axis = true;
 		floor.Render();
+
 		glPopMatrix();
 		glPopMatrix();
 
 	}
-	/*C_Transform* tr = (C_Transform*)frustum->parent->FindComponent(C_TRANSFORM);
+
+	C_Transform* tr = (C_Transform*)frustum->parent->FindComponent(C_TRANSFORM);
 	C_Camera* cam = (C_Camera*)frustum->parent->FindComponent(C_CAMERA);
 	float3 scale;
 	float3 position;
 	Quat rotation;
-	tr->GetGlobalTransform().Decompose(position, rotation, scale);
-	cam->camera.pos = position;*/
+
+	tr->GetLocalTransform().Decompose(position, rotation, scale);
+	cam->camera.pos = position;
 	frustum->Move(dt);
 	frustum->Rotate(dt);
 	frustum->FocusCamera();
 	frustum->Zoom(dt);
+	//frustum->parent->LookAt(float3(0, 0, 0));
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) frustum->LookAt(float3(0,0,0));
+
 
 	if (checkersCube)
 	{

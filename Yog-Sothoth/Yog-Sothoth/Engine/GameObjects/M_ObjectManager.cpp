@@ -31,6 +31,7 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 	camera->name = "camera";
 	camera->CreateComponent(C_CAMERA);
 	camera->CreateComponent(C_TRANSFORM);
+
 	root->AddChild(camera);
 	
 }
@@ -42,11 +43,16 @@ M_ObjectManager::~M_ObjectManager()
 
 bool M_ObjectManager::Init()
 {
+
 	return true;
 }
 
 bool M_ObjectManager::Start()
 {
+	camera->SetPos(float3(0, 10.f, 70.f));
+	C_Transform* transform = (C_Transform*)camera->FindComponent(C_TRANSFORM);
+	transform->SetRotation(0, 180, 0);
+
 	return true;
 }
 //Todo: Here game objects will be deleted when needed

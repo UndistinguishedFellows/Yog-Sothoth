@@ -13,7 +13,7 @@ public:
 	void Rotate(float dt);
 	void LookAt(float dx, float dy);
 	void LookAt(const float3 spot);
-	void FocusCamera();
+	void FocusCamera(GameObject* focus = nullptr);
 	void Zoom(float dt);
 
 	Frustum camera;
@@ -22,4 +22,6 @@ public:
 	float rotSpeed = 1.2f;
 	float zoomSpeed = 500.f;
 	float aspectRatio = 1.77f;
+
+	float editorCamera = false;
 };

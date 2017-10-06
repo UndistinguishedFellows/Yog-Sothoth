@@ -3,6 +3,7 @@
 #include "Components/BaseClass/Component.h"
 #include <rpc.h>
 #include <list>
+#include "../../MathGeoLib/Geometry/AABB.h"
 
 enum GameObjectType
 {
@@ -27,6 +28,8 @@ public:
 
 	std::string name = "NO_NAME";
 	UUID uuid;
+
+	AABB aabb;
 
 	bool active = true;
 	bool selected = false;
@@ -80,10 +83,15 @@ public:
 	 * \param reference the relationship to remove
 	 */
 	void EraseRelationship(GameObject** reference);
+	void LookAt(float3 pos);
+	void SetPos(float3 pos);
+	AABB UpdateBoundingBoxes();
 
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type);
 	void Draw(Shader shader, C_Camera* camera);
 	void DrawNormals(Shader shader, C_Camera* camera);
 	void DrawLight(Shader shader, C_Camera* camera);
+	void Draw_AABB();
+	AABB GetAABB();
 };

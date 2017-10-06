@@ -4,6 +4,7 @@
 
 #include "../../imGUI/imgui.h"
 #include "../../imGUI/imgui_impl_sdl_gl3.h"
+#include "../GameObjects/Components/C_Camera.h"
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
@@ -127,6 +128,8 @@ update_status M_Input::PreUpdate(float dt)
 //				std::string str("data/assets/");
 //				str.append(fs::path(dropped_filedir).filename().u8string());
 				App->objManager->LoadFBXFromDragAndDrop(dropped_filedir);
+				C_Camera* camera = (C_Camera*)App->objManager->camera->FindComponent(C_CAMERA);
+				camera->LookAt(float3(0, 0, 0));
 				SDL_free(dropped_filedir);    // Free dropped_filedir memory
 				break;
 			}
