@@ -76,6 +76,7 @@
     <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Light.cpp" />
     <ClCompile Include="Tools\mmgr\mmgr.cpp" />
+    <ClCompile Include="Tools\TextureImporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Engine\GameObjects\Components\C_Light.h" />
     <ClInclude Include="Tools\mmgr\mmgr.h" />
     <ClInclude Include="Tools\mmgr\nommgr.h" />
+    <ClInclude Include="Tools\TextureImporter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

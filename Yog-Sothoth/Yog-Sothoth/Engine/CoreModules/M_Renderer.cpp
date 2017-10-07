@@ -10,11 +10,13 @@
 #include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/scene.h"
 #include "../GameObjects/Components/C_Transform.h"
+#include "../../Tools/TextureImporter.h"
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
 	name.assign("renderer");
 	//frustum = new C_Camera(nullptr);
+	texImporter = new TextureImporter();
 }
 
 M_Renderer::~M_Renderer()
@@ -127,6 +129,8 @@ bool M_Renderer::Start()
 
 	createCheckersTexture();
 
+	textureLenna = texImporter->loadTexture("data/assets/Lenna.png");
+
 	return true;
 }
 
@@ -217,6 +221,14 @@ update_status M_Renderer::PostUpdate(float dt)
 		glPopMatrix();
 		glPopMatrix();
 	}
+
+	glPushMatrix();
+	glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+	glPushMatrix();
+	glMultMatrixf(view.Transposed().ptr());
+	drawCubeDirectModeTexture();
+	glPopMatrix();
+	glPopMatrix();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	App->uiManager->DrawEditor();
@@ -382,6 +394,72 @@ void M_Renderer::drawCubeDirectModeTexCoord()
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
 	
+	// left face
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, -10.0f);
+
+	// top face
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, -10.0f);
+
+	// right face
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+
+	// back face
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(10.0f, 10.0f, -10.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+
+	// top face
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, -10.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, -10.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void M_Renderer::drawCubeDirectModeTexture()
+{
+	
+	// Draw a cube with 12 triangles
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textureLenna);
+	glBegin(GL_TRIANGLES);
+
+	// front face
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+
 	// left face
 	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 10.0f, 0.0f);

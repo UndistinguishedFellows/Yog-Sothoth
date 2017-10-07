@@ -7,6 +7,7 @@
 #include "../GameObjects/Components/C_Mesh.h"
 #include "../GameObjects/Components/C_Transform.h"
 #include "../../Tools/GPUDetect/DeviceId.h"
+#include "../../Tools/TextureImporter.h"
 
 #define CHECKERS_WIDTH 256
 #define CHECKERS_HEIGHT 256
@@ -78,11 +79,14 @@ public:
 
 	//TEMP
 	void drawCubeDirectModeTexCoord();
+	void drawCubeDirectModeTexture();
 	void createCheckersTexture();
 
 	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
 	GLuint ImageName;
 	bool checkersCube;
+	TextureImporter* texImporter = nullptr;
+	unsigned int textureLenna;
 
 	unsigned int VBO, VAO, EBO, cubeVAO, cubeVBO;
 	unsigned int lightVAO;
