@@ -80,7 +80,7 @@ unsigned int TextureImporter::loadTexture(const char* path)
 	}
 	else
 	{
-		yogConsole(CONSOLE_ERROR, "Error loading texture");
+		yogConsole(CONSOLE_ERROR, "Error loading texture %s", path);
 		ret = 0;
 	}
 
