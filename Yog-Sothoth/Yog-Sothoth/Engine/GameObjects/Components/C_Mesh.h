@@ -5,6 +5,7 @@
 #include "BaseClass/Component.h"
 #include "../../../Tools/Containers/Shader.h"
 #include "C_Camera.h"
+#include "C_Material.h"
 
 class GameObject;
 struct aiMesh;
@@ -56,6 +57,8 @@ public:
 	Color color = Color(1.0f,1.0f,1.0f,1.0f);
 	bool drawNormals = false;
 	bool wireframe = false;
+	C_Material* associatedMaterial = nullptr;
+
 private:
 	OBB obb;
 	AABB aabb;

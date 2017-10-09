@@ -92,8 +92,14 @@ void C_Mesh::Load(const aiMesh* mesh)
 	}
 	if (mesh->HasTextureCoords(0))
 	{
-		uv.uv = new float[vertices.numVertices * 3];
-		memcpy(uv.uv, mesh->mTextureCoords[0], sizeof(float) * vertices.numVertices * 3);
+		uv.uv = new float[vertices.numVertices * 2];
+		aiVector3D* tmp = mesh->mTextureCoords[0];
+		for (uint i = 0; i < vertices.numVertices * 2; i += 2)
+		{
+			uv.uv[i] = tmp->x;
+			uv.uv[i + 1] = tmp->y;
+			++tmp;
+		}
 	}
 
 	//Generating GL Buffers
@@ -121,13 +127,21 @@ void C_Mesh::Load(const aiMesh* mesh)
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(1);
 	}
-//	//UV
-//	if (uv.uv != nullptr)
-//	{
-//		glGenBuffers(1, (GLuint*) &(uv.idUV));
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, uv.idUV);
-//		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t)*vertices.numVertices * 3, uv.uv, GL_STATIC_DRAW);
-//	}
+	//UV
+	if (uv.uv != nullptr)
+	{
+		glGenBuffers(1, (GLuint*) &(uv.idUV));
+		glBindBuffer(GL_ARRAY_BUFFER, uv.idUV);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.numVertices * 2, uv.uv, GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(2);
+//		for (int i = 0; i < vertices.numVertices; i += 2)
+//		{
+//			yogConsole(CONSOLE_INFO, "UV: (%f, %f)", uv.uv[i], uv.uv[i+1]);
+//		}
+		
+
+	}
 		
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -143,16 +157,22 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	C_Transform* trans = (C_Transform*)App->renderer->testLight->FindComponent(C_TRANSFORM);
 
 	shader.Use();
+	shader.setInt("tex", 0);
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.idIndices);
+	
 	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
+	//shader.setMat4("model", &float4x4::identity);
 	shader.setMat4("model", &model->globalTransform.Transposed());
 	shader.setVec3("objectColor", color.r, color.g, color.b);
 	shader.setVec3("lightColor", 0.50f, 0.50f, 0.50f);
 	shader.setVec3("lightPos", &trans->GetPosition());
 	shader.setVec3("viewPos", &camera->camera.pos);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, associatedMaterial->texture);
 
 	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);		
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
