@@ -119,12 +119,12 @@ update_status M_Input::PreUpdate(float dt)
 			{      // In case if dropped file
 				dropped_filedir = e.drop.file;
 				// Shows directory of dropped file
-				SDL_ShowSimpleMessageBox(
-					SDL_MESSAGEBOX_INFORMATION,
-					"File dropped on window",
-					dropped_filedir,
-					App->window->window
-				);
+//				SDL_ShowSimpleMessageBox(
+//					SDL_MESSAGEBOX_INFORMATION,
+//					"File dropped on window",
+//					dropped_filedir,
+//					App->window->window
+//				);
 //				std::string str("data/assets/");
 //				str.append(fs::path(dropped_filedir).filename().u8string());
 				App->objManager->LoadFBXFromDragAndDrop(dropped_filedir);
