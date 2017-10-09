@@ -129,7 +129,7 @@ bool M_Renderer::Start()
 
 	createCheckersTexture();
 
-	textureLenna = texImporter->loadTexture("data/assets/Lenna.png");
+	//textureLenna = texImporter->LoadTexture("data/assets/Lenna.png");
 
 	return true;
 }
@@ -211,24 +211,24 @@ update_status M_Renderer::PostUpdate(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) frustum->LookAt(float3(0,0,0));
 
 
-	if (checkersCube)
-	{
-		glPushMatrix();
-		glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
-		glPushMatrix();
-		glMultMatrixf(view.Transposed().ptr());
-		drawCubeDirectModeTexCoord();
-		glPopMatrix();
-		glPopMatrix();
-	}
-
-	glPushMatrix();
-	glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
-	glPushMatrix();
-	glMultMatrixf(view.Transposed().ptr());
-	drawCubeDirectModeTexture();
-	glPopMatrix();
-	glPopMatrix();
+//	if (checkersCube)
+//	{
+//		glPushMatrix();
+//		glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+//		glPushMatrix();
+//		glMultMatrixf(view.Transposed().ptr());
+//		drawCubeDirectModeTexCoord();
+//		glPopMatrix();
+//		glPopMatrix();
+//	}
+//
+//	glPushMatrix();
+//	glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+//	glPushMatrix();
+//	glMultMatrixf(view.Transposed().ptr());
+//	drawCubeDirectModeTexture();
+//	glPopMatrix();
+//	glPopMatrix();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	App->uiManager->DrawEditor();
