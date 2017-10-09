@@ -6,7 +6,7 @@ enum ComponentType
 	C_CAMERA,
 	C_TRANSFORM,
 	C_MESH,
-	C_TEXTURE,
+	C_MATERIAL,
 	C_LIGHT,
 	C_UNKNOWN
 };
