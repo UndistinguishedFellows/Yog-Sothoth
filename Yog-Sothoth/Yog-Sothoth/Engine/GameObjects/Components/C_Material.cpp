@@ -7,7 +7,7 @@ C_Material::~C_Material()
 uint C_Material::LoadTexture(const char* path)
 {
 	TextureImporter importer;
-	texture = importer.LoadTexture(path);
+	texture = importer.LoadTextureBuffer(path);
 	return texture;
 }
 void C_Material::Serialize(Json::Value& root)

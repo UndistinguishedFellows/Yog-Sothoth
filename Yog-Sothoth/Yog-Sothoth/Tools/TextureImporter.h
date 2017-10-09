@@ -10,5 +10,6 @@ public:
 	~TextureImporter();
 
 	//GLuint loadTextureTuto(const char* path);
-	unsigned int loadTexture(const char* path);
+	unsigned int LoadTexture(const char* path);
+	unsigned int LoadTextureBuffer(const char* path);
 };

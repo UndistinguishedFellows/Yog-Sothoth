@@ -1,5 +1,10 @@
+#include <glew.h>
+#include <gl/GL.h>
+
 #include "TextureImporter.h"
 #include "../Globals.h"
+#include "../Application.h"
+#include "../Engine/CoreModules/M_FileSystem.h"
 
 TextureImporter::TextureImporter()
 {
@@ -68,7 +73,7 @@ GLuint TextureImporter::loadTextureTuto(const char* path)
 	return textureID;
 }
 */
-unsigned int TextureImporter::loadTexture(const char* path)
+unsigned int TextureImporter::LoadTexture(const char* path)
 {
 	char tmp_path[128];
 	strcpy_s(tmp_path, path);
@@ -85,4 +90,39 @@ unsigned int TextureImporter::loadTexture(const char* path)
 	}
 
 	return ret;
+}
+
+unsigned TextureImporter::LoadTextureBuffer(const char* path)
+{
+	uint ret = 0;
+
+	char* data = nullptr;
+	uint size = App->fs->load(path, &data);
+
+	if (data && size > 0)
+	{
+		ILuint image = 0;
+		ilGenImages(1, &image);
+		ilBindImage(image);
+
+		if (ilLoadL(IL_PNG, (const void*)data, size))
+		{
+			uint ImgID = ilutGLBindTexImage();
+
+			if (ImgID != 0)
+			{
+				ret = ImgID;
+			}
+			else
+			{
+				yogConsole(CONSOLE_ERROR, "Error loading texture %s", path);
+				ret = 0;
+			}
+			ilDeleteImages(1, &image);
+		}
+	}
+	RELEASE_ARRAY(data);
+
+	return ret;
+
 }
