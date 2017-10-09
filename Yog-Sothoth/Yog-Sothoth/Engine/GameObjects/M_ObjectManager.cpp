@@ -49,7 +49,7 @@ bool M_ObjectManager::Init()
 
 bool M_ObjectManager::Start()
 {
-	camera->SetPos(float3(0, 10.f, 70.f));
+	camera->SetPos(float3(0, 5.f, 10.f));
 	C_Transform* transform = (C_Transform*)camera->FindComponent(C_TRANSFORM);
 	transform->SetRotation(0, 180, 0);
 
@@ -270,6 +270,38 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 			C_Mesh* mesh = (C_Mesh*)gameObject->CreateComponent(C_MESH);
 
 			mesh->Load(ai_mesh);
+
+			//PNG path && Filename
+			if (scene->HasMaterials())
+			{
+				aiColor4D color;
+				scene->mMaterials[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+				C_Material* material = (C_Material*)gameObject->CreateComponent(C_MATERIAL);
+				material->color.Set(color.r, color.g, color.b, color.a);
+				aiString ai_path;
+				std::string fileName;
+				scene->mMaterials[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, 0, &ai_path);
+				int j = 0;
+				for (int i = ai_path.length - 1; i > 0; i--)
+				{
+					if (ai_path.data[i] != '/' && ai_path.data[i] != '\\')
+					{
+						j++;
+					}
+					else
+						break;
+				}
+				fileName.assign(ai_path.C_Str() + ai_path.length - j,
+								ai_path.C_Str() + ai_path.length);
+				SDL_Log("Texture path: %s", ai_path.C_Str());
+				SDL_Log("Texture name: %s", fileName.c_str());
+				std::string fullPath = "data/assets/";
+				fullPath.append(fileName);
+				material->LoadTexture(fullPath.c_str());
+				mesh->associatedMaterial = material;
+			}
+
+
 		}
 
 		for (uint i = 0; i < node->mNumChildren; ++i)
