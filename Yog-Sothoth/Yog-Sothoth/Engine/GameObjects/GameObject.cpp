@@ -217,6 +217,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			this->components.push_back(ret);
 		}
 		break;
+		case C_MATERIAL:
+		{
+			ret = new C_Material(this);
+			ret->type = C_MATERIAL;
+			this->components.push_back(ret);
+		}
+		break;
 	}
 
 	return ret;
