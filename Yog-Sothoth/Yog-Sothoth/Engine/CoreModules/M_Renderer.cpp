@@ -205,7 +205,7 @@ update_status M_Renderer::PostUpdate(float dt)
 	cam->camera.pos = position;
 	frustum->Move(dt);
 	frustum->Rotate(dt);
-	frustum->FocusCamera();
+	//frustum->FocusCamera();
 	frustum->Zoom(dt);
 	//frustum->parent->LookAt(float3(0, 0, 0));
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) frustum->LookAt(float3(0,0,0));

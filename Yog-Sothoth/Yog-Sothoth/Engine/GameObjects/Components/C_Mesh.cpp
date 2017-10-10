@@ -158,6 +158,20 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 
 	shader.Use();
 	shader.setInt("tex", 0);
+	if (associatedMaterial != nullptr)
+	{
+		if(associatedMaterial->texture != 0)
+		{
+			shader.setInt("hasTex", 1);
+		}
+		else
+			shader.setInt("hasTex", 0);
+
+	}
+	else
+	{
+		shader.setInt("hasTex", 0);
+	}
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.idIndices);
