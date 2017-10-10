@@ -28,7 +28,8 @@ void UIOutliner::Draw()
 	}
 	ImGui::Spacing();
 
-	const GameObject* root = App->objManager->root;
+	//const GameObject* root = App->objManager->root;
+	const GameObject* root = App->objManager->dragAndDropVisualizer;
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 	flags |= ImGuiTreeNodeFlags_OpenOnArrow;

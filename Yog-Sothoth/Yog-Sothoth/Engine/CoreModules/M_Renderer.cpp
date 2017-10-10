@@ -118,6 +118,9 @@ bool M_Renderer::Start()
 	testLight->type = GO_LIGHT;
 	C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
 	trans->SetPosition(float3(0.f, 20.0f, 5.0f));
+
+
+
 	//C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
 
 
@@ -156,24 +159,27 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	float4x4 view = frustum->camera.ViewMatrix();
 
-	App->objManager->root->Draw(*lightShader, frustum);
-	if (App->objManager->focus != nullptr && App->objManager->focus->FindComponent(C_MESH) != nullptr)
-	{
-		C_Mesh* mesh = (C_Mesh*)App->objManager->focus->FindComponent(C_MESH);
-		Color color = mesh->color;
-		mesh->color.Set(0.f, 1.f, 0.f, 1.f);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glLineWidth(3.f);
-		App->objManager->focus->Draw(*wireframeShader, frustum);
-		glLineWidth(1.f);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mesh->color = color;
-
-	}
+	App->objManager->dragAndDropVisualizer->Draw(*lightShader, frustum);
+	//App->objManager->root->Draw(*lightShader, frustum);
+	
+	//draw Wireframe when selected
+//	if (App->objManager->focus != nullptr && App->objManager->focus->FindComponent(C_MESH) != nullptr)
+//	{
+//		C_Mesh* mesh = (C_Mesh*)App->objManager->focus->FindComponent(C_MESH);
+//		Color color = mesh->color;
+//		mesh->color.Set(0.f, 1.f, 0.f, 1.f);
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//		glLineWidth(3.f);
+//		App->objManager->focus->Draw(*wireframeShader, frustum);
+//		glLineWidth(1.f);
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//		mesh->color = color;
+//
+//	}
 	
 	if (App->objManager->light != nullptr)
 	{
-		App->objManager->light->DrawLight(*lampShader, frustum);
+		//App->objManager->light->DrawLight(*lampShader, frustum);
 	}
 
 	//Draw normals of a mesh

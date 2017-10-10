@@ -144,8 +144,8 @@ void C_Camera::LookAt(const float3 spot)
 		mat = mat.Mul(transform->localTransform.RotatePart());
 		transform->localTransform.SetRotatePart(mat);
 
-		camera.front = transform->localTransform.WorldZ();
-		camera.up = transform->localTransform.WorldY();
+		camera.front = transform->localTransform.WorldZ().Normalized();
+		camera.up = transform->localTransform.WorldY().Normalized();
 		transform->RefreshTransform();
 
 	}

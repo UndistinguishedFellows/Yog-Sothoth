@@ -92,7 +92,7 @@ unsigned int TextureImporter::LoadTexture(const char* path)
 	return ret;
 }
 
-unsigned TextureImporter::LoadTextureBuffer(const char* path)
+unsigned TextureImporter::LoadTextureBuffer(const char* path, ImageInfo *im_info)
 {
 	uint ret = 0;
 
@@ -104,11 +104,19 @@ unsigned TextureImporter::LoadTextureBuffer(const char* path)
 		ILuint image = 0;
 		ilGenImages(1, &image);
 		ilBindImage(image);
-
+		
 		if (ilLoadL(IL_PNG, (const void*)data, size))
 		{
 			uint ImgID = ilutGLBindTexImage();
-
+			if(im_info != nullptr)
+			{
+				ILinfo info;
+				iluGetImageInfo(&info);
+				im_info->width = info.Width;
+				im_info->height = info.Height;
+				im_info->bytes = info.SizeOfData;				
+			}
+			
 			if (ImgID != 0)
 			{
 				ret = ImgID;

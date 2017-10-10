@@ -3,6 +3,7 @@
 #include "BaseClass/Component.h"
 #include "../../CoreModules/M_Window.h"
 #include "../../../Tools/Containers/Color.h"
+#include "../../../Tools/TextureImporter.h"
 
 class C_Material : public Component
 {
@@ -15,6 +16,8 @@ public:
 	Color color;
 
 	uint texture;
+
+	ImageInfo imInfo;
 
 	C_Material(GameObject* parent,
 			   const float3& ambient = float3(1.f, 1.f, 1.f),

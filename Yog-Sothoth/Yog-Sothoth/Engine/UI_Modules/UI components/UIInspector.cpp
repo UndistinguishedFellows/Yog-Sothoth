@@ -39,7 +39,7 @@ void UIInspector::Draw()
 
 		Transform();
 		Mesh();
-//		material();
+		Material();
 		Camera();
 	}
 
@@ -70,18 +70,18 @@ void UIInspector::Transform()
 			float3 localEulerAngles(transform->GetRotation());
 
 			if (ImGui::DragFloat3("Position", position.ptr(), 0.01f))
-				transform->SetPosition(position);
+			{
+			}//transform->SetPosition(position);
 
 
 			if (ImGui::DragFloat3("Rotation", localEulerAngles.ptr(), 1.f))
 			{
-				//localEulerAngles *= DEGTORAD;
-				//rot = Quat::FromEulerXYZ(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
-				transform->SetRotation(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
+				//transform->SetRotation(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
 			}
 
 			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.01f))
-				transform->SetScale(scale);
+			{
+			}//transform->SetScale(scale);
 
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,6 +162,24 @@ void UIInspector::Material()
 {
 	if (ImGui::CollapsingHeader("Material"))
 	{
+		ImGui::Text("Mesh");
+		C_Material* material = (C_Material*)App->objManager->GetFocusGO()->FindComponent(C_MATERIAL);
+		C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
+		Color color;
+		if (material != nullptr && mesh != nullptr)
+		{
+			color = mesh->color;
+			if (ImGui::DragFloat3("Color", &color, 0.01f, 0.f, 1.f))
+			{
+				mesh->color.Set(color.r, color.g, color.b, color.a);
+			}
+			ImGui::Text("%dx%d", material->imInfo.width, material->imInfo.height);
+			//ImGui::Text("%d bytes", material->imInfo.bytes); //Not working
+			ImGui::Image((ImTextureID)material->texture, ImVec2(256, 256), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+
+		}
+
+
 	}
 
 }

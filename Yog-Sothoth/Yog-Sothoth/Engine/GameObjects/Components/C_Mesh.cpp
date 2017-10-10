@@ -166,7 +166,6 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 		}
 		else
 			shader.setInt("hasTex", 0);
-
 	}
 	else
 	{
@@ -178,8 +177,8 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	
 	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
-	//shader.setMat4("model", &float4x4::identity);
-	shader.setMat4("model", &model->globalTransform.Transposed());
+	shader.setMat4("model", &float4x4::identity);
+	//shader.setMat4("model", &model->globalTransform.Transposed());
 	shader.setVec3("objectColor", color.r, color.g, color.b);
 	shader.setVec3("lightColor", 0.50f, 0.50f, 0.50f);
 	shader.setVec3("lightPos", &trans->GetPosition());
@@ -206,7 +205,8 @@ void C_Mesh::DrawNormals(Shader shader, C_Camera* camera) const
 	shader.Use();
 	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
-	shader.setMat4("model", &trans->globalTransform.Transposed());
+	shader.setMat4("model", &float4x4::identity);
+	//shader.setMat4("model", &trans->globalTransform.Transposed());
 	shader.setVec4("objectColor", 1.f, 1.f, 0.f, 1.f);
 
 	glLineWidth(2.0f);
