@@ -296,8 +296,11 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 				SDL_Log("Texture path: %s", ai_path.C_Str());
 				SDL_Log("Texture name: %s", fileName.c_str());
 				std::string fullPath = "data/assets/";
-				fullPath.append(ai_path.data);
-				material->LoadTexture(fullPath.c_str());
+				if (strcmp(ai_path.C_Str(), "") != 0)
+				{
+					fullPath.append(ai_path.data);
+					material->LoadTexture(fullPath.c_str());
+				}
 				mesh->associatedMaterial = material;
 			}
 

@@ -56,15 +56,14 @@ void UIInspector::Draw()
 
 void UIInspector::Transform()
 {
-	if (ImGui::CollapsingHeader("Transform"))
-	{
-		ImGui::Text("Local Transform");
-		float3 position;
-		float3 scale;
-		Quat rot;
-		C_Transform* transform = (C_Transform*)App->objManager->GetFocusGO()->FindComponent(C_TRANSFORM);
-		if (transform != nullptr)
+	C_Transform* transform = (C_Transform*)App->objManager->GetFocusGO()->FindComponent(C_TRANSFORM);
+	if (transform != nullptr)
+		if (ImGui::CollapsingHeader("Transform"))
 		{
+			ImGui::Text("Local Transform");
+			float3 position;
+			float3 scale;
+			Quat rot;
 			transform->localTransform.Decompose(position, rot, scale);
 
 			float3 localEulerAngles(transform->GetRotation());
@@ -101,18 +100,20 @@ void UIInspector::Transform()
 			//Grot = Quat::FromEulerXYZ(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 			ImGui::Separator();
 		}
-	}
 
 }
 
 void UIInspector::Mesh()
 {
-	if (ImGui::CollapsingHeader("Mesh"))
-	{
-		ImGui::Text("Mesh");
-		C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
-		if (mesh != nullptr)
+	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
+	if (mesh != nullptr)
+		if (ImGui::CollapsingHeader("Mesh"))
 		{
+			ImGui::Text("Mesh");
+
+			ImGui::Text("Triangle count: "); ImGui::SameLine();
+			ImGui::Text("%d", mesh->indices.numIndices/3);
+
 			ImGui::Text("Num Vertices: "); 
 			ImGui::SameLine(); 
 			ImGui::Text("%d", mesh->vertices.numVertices);
@@ -139,7 +140,7 @@ void UIInspector::Mesh()
 
 			ImGui::Text("Num UV: ");
 			ImGui::SameLine();
-			ImGui::Text("%d", mesh->uv.numUV);
+			ImGui::Text("%d", mesh->vertices.numVertices);
 			ImGui::SameLine();
 			ImGui::Text("Id UV: ");
 			ImGui::SameLine();
@@ -153,21 +154,19 @@ void UIInspector::Mesh()
 			if (ImGui::Checkbox("Wireframe##mesh", &mesh->wireframe)) {}
 
 			ImGui::Separator();
-
 		}
-	}
 }
 
 void UIInspector::Material()
 {
-	if (ImGui::CollapsingHeader("Material"))
-	{
-		ImGui::Text("Mesh");
-		C_Material* material = (C_Material*)App->objManager->GetFocusGO()->FindComponent(C_MATERIAL);
-		C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
-		Color color;
-		if (material != nullptr && mesh != nullptr)
+	C_Material* material = (C_Material*)App->objManager->GetFocusGO()->FindComponent(C_MATERIAL);
+	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
+	Color color;
+	if (material != nullptr && mesh != nullptr)
+		if (ImGui::CollapsingHeader("Material"))
 		{
+			ImGui::Text("Material");
+			ImGui::Text("Color");
 			color = mesh->color;
 			if (ImGui::DragFloat3("Color", &color, 0.01f, 0.f, 1.f))
 			{
@@ -178,14 +177,8 @@ void UIInspector::Material()
 				ImGui::Text("%dx%d", material->imInfo.width, material->imInfo.height);
 				//ImGui::Text("%d bytes", material->imInfo.bytes); //Not working
 				ImGui::Image((ImTextureID)material->texture, ImVec2(256, 256), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
-
 			}
-
 		}
-
-
-	}
-
 }
 
 void UIInspector::Light()
@@ -199,12 +192,11 @@ void UIInspector::Light()
 
 void UIInspector::Camera()
 {
-	if (ImGui::CollapsingHeader("Camera##inspector"))
-	{
-		ImGui::Text("Camera");
-		C_Camera* camera = (C_Camera*)App->objManager->GetFocusGO()->FindComponent(C_CAMERA);
-		if (camera != nullptr)
+	C_Camera* camera = (C_Camera*)App->objManager->GetFocusGO()->FindComponent(C_CAMERA);
+	if (camera != nullptr)
+		if (ImGui::CollapsingHeader("Camera##inspector"))
 		{
+			ImGui::Text("Camera");
 			if (ImGui::DragFloat3("Position##camera", camera->camera.pos.ptr(), 0.01f))
 			{}
 			if (ImGui::DragFloat3("UP##camera", camera->camera.up.ptr(), 0.01f))
@@ -220,9 +212,6 @@ void UIInspector::Camera()
 			if (ImGui::DragFloat("Far plane distance##camera", &camera->camera.farPlaneDistance, 0.01f, camera->camera.nearPlaneDistance))
 			{}
 			ImGui::Text("Aspect Ratio: %f", camera->camera.AspectRatio());
-
-
 		}
-	}
 
 }
