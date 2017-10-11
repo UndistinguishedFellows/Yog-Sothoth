@@ -1,13 +1,13 @@
 {
-	"resolution":
-	{
-		"x": 800,
-		"y": 600
-	},
-	"fullscreen" : false,
-	"resizable" : true,
-	"borderless" : false,
-	"fullscreen_desktop" : false,
-	"maximized" : true,
-	"title" : "Yog-Sothoth"
+   "borderless" : false,
+   "brightness" : 1.0,
+   "fullscreen" : false,
+   "fullscreen_desktop" : false,
+   "maximized" : true,
+   "resizable" : true,
+   "resolution" : {
+      "x" : 1920,
+      "y" : 1017
+   },
+   "title" : "Yog-Sothoth"
 }

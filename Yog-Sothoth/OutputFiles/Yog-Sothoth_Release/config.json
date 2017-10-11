@@ -1,11 +1,12 @@
 {
-  "name" : "Yog-Sothoth",
-  "organization": "UndistinguishedMan",
-  "config_paths":
-  {
-    "window": "data/config/window.json",
-    "renderer" :  "data/config/renderer.json"
-  }
-
-
-}	
+   "config_paths" : {
+      "" : "",
+      "filesystem" : "",
+      "objManager" : "",
+      "renderer" : "data/config/renderer.json",
+      "uiManager" : "",
+      "window" : "data/config/window.json"
+   },
+   "name" : "Yog-Sothoth",
+   "organization" : "UndistinguishedFellows"
+}
