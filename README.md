@@ -2,6 +2,7 @@
   <img alt="Coverity Scan Build Status"
        src="https://img.shields.io/coverity/scan/13988.svg"/>
 </a>
+
 [![Build status](https://ci.appveyor.com/api/projects/status/ylgj0yoobs8mf7rf?svg=true)](https://ci.appveyor.com/project/CapitanLiteral/yog-sothoth)
 
 
