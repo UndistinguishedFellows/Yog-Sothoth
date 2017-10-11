@@ -57,6 +57,7 @@ To interact with camera
 	- space -> focus the selected object (NOT DONE)
 	- mouse movement -> rotate camera
 	- alt + mouse movement -> orbit around selected object (NOT DONE)
+	- mouse wheel -> Zoom (NOT WORKING)
 
 
 
