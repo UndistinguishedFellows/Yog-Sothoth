@@ -7,13 +7,7 @@
 #include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/postprocess.h"
 #include <experimental/filesystem>
-
-
-
-#include <string>
 #include <fstream>
-#include <sstream>
-#include <iostream>
 #include <iterator>
 
 
@@ -151,7 +145,7 @@ GameObject* M_ObjectManager::LoadFBX(const char * path)
 
 	char* buffer;
 	uint fileSize = App->fs->load(path, &buffer);
-	const aiScene* scene = NULL;
+	const aiScene* scene = nullptr;
 
 	if (buffer && fileSize > 0)
 	{
@@ -160,13 +154,16 @@ GameObject* M_ObjectManager::LoadFBX(const char * path)
 	else
 	{
 		yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
-		return NULL;
+		return nullptr;
 	}
-
-	if (scene, scene->HasMeshes())
+	if (scene != nullptr)
 	{
-		yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
-		LoadScene(scene, scene->mRootNode, root);
+		if (scene, scene->HasMeshes())
+		{
+			yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
+			LoadScene(scene, scene->mRootNode, root);
+		}
+
 	}
 
 	aiReleaseImport(scene);
@@ -223,7 +220,6 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path, const char
 		{
 			yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
 			LoadScene(scene, scene->mRootNode, dragAndDropVisualizer, oldPath);
-
 		}
 	}
 	else
