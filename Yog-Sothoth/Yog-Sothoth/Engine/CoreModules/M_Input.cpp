@@ -21,7 +21,7 @@ M_Input::M_Input(bool enable) : Module(enable)
 // Destructor
 M_Input::~M_Input()
 {
-	delete[] keyboard;
+	RELEASE_ARRAY(keyboard);
 }
 
 // Called before render is available
@@ -151,7 +151,7 @@ update_status M_Input::PreUpdate(float dt)
 					}
 				}
 				// release dynamically-allocated memory
-				delete[] buffer;
+				RELEASE_ARRAY(buffer);
 
 				
 				// Shows directory of dropped file

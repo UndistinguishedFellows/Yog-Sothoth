@@ -20,7 +20,7 @@ GameObject::~GameObject()
 {
 	for (auto component : components)
 	{
-		delete component;
+		RELEASE(component);
 	}
 	RemoveChildren();
 }
@@ -38,7 +38,7 @@ void GameObject::RemoveChild(GameObject* child)
 	{
 		if ((*it) == child)
 		{
-			delete (*it);
+			RELEASE((*it));
 			children.erase(it);
 		}
 	}
@@ -63,7 +63,7 @@ void GameObject::RemoveChildren()
 	{
 		if (children.size() > 0)
 		{
-			delete (*it);
+			RELEASE((*it));
 			it = children.erase(it);
 		}
 		else

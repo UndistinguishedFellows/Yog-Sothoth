@@ -216,7 +216,7 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path, const char
 			return NULL;
 		}
 	}
-	delete[] memblock;
+	RELEASE_ARRAY(memblock);
 	if (scene != nullptr)
 	{
 		if (scene, scene->HasMeshes())
