@@ -9,9 +9,9 @@ Application::Application()
 {
 	outputStream = new std::ostringstream();
 	inputStream = new std::istringstream();
-	log.setStream(*outputStream);
-	console.setConsoleInput(*inputStream);
-	console.setConsoleOutput(log);
+	//log.setStream(*outputStream);
+	//console.setConsoleInput(*inputStream);
+	//console.setConsoleOutput(log);
 
 	fs = new M_FileSystem();
 	window = new M_Window();

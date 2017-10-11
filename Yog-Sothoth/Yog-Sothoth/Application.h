@@ -62,8 +62,8 @@ public:
 	std::istringstream* inputStream = nullptr;
 	std::ostringstream* outputStream = nullptr;
 
-	SimpleYogLog log;
-	Virtuoso::GameConsole console;
+	//SimpleYogLog log;
+	//Virtuoso::GameConsole console;
 
 	YogClock appTimer;
 	HardwareInfo hardwareInfo;

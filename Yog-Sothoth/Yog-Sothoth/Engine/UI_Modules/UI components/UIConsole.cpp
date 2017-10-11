@@ -15,7 +15,7 @@ UIConsole::UIConsole()
 	memset(InputBuf, 0, sizeof(InputBuf));
 	HistoryPos = -1;
 
-	App->console.bindCommand("addObject", std::function<void(std::string, std::string)>(std::bind(&M_ObjectManager::ConsoleCreateGameObject, App->objManager, _1, _2)), "Adds a game object");
+	//App->console.bindCommand("addObject", std::function<void(std::string, std::string)>(std::bind(&M_ObjectManager::ConsoleCreateGameObject, App->objManager, _1, _2)), "Adds a game object");
 	
 }
 
@@ -164,7 +164,7 @@ void UIConsole::ExecCommand(const char * command_line)
 
 	// Process command
 	App->inputStream->str(InputBuf);
-	App->console.commandExecute(App->inputStream);
+	//App->console.commandExecute(App->inputStream);
 	std::string str/* = App->outputStream->str()*/;
 	std::stringstream stringstream(App->outputStream->str());
 	while (std::getline(stringstream, str, '\n'))
