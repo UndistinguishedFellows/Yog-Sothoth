@@ -103,21 +103,25 @@ bool M_Renderer::Start()
 	wireframeShader = new Shader("data/shaders/wireframe.vs", "data/shaders/wireframe.fs");
 	
 	//###########################################
-
-	App->objManager->LoadFBX("data/assets/cube.FBX");
+	//Light and testing cube
+	App->objManager->LoadFBX("data/assets/primitives/cube.FBX");
 	testCube = App->objManager->FindGameObject("pCube1");
 	C_Mesh* mesh = (C_Mesh*)testCube->FindComponent(C_MESH);
 	mesh->color = { 1.0f, 0.5f, 0.31f, 1.f };
 
-	App->objManager->LoadFBX("data/assets/cube.FBX");
+	App->objManager->LoadFBX("data/assets/primitives/cube.FBX");
 	testLight = App->objManager->root->children.at(3);
-	mesh = (C_Mesh*)testLight->FindComponent(C_MESH);
-	mesh->color = { 1.0f, 1.f, 0.f, 1.f };
-	testLight->CreateComponent(C_LIGHT);
-	App->objManager->light = testLight;
-	testLight->type = GO_LIGHT;
-	C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
-	trans->SetPosition(float3(0.f, 20.0f, 5.0f));
+	if (testLight != nullptr)
+	{
+		mesh = (C_Mesh*)testLight->FindComponent(C_MESH);
+		mesh->color = { 1.0f, 1.f, 0.f, 1.f };
+		testLight->CreateComponent(C_LIGHT);
+		App->objManager->light = testLight;
+		testLight->type = GO_LIGHT;
+		C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
+		trans->SetPosition(float3(0.f, 20.0f, 5.0f));
+
+	}
 
 
 

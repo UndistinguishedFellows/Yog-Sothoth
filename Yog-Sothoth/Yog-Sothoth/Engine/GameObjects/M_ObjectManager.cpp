@@ -217,12 +217,18 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path, const char
 		}
 	}
 	delete[] memblock;
-
-	if (scene, scene->HasMeshes())
+	if (scene != nullptr)
 	{
-		yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
-		LoadScene(scene, scene->mRootNode, dragAndDropVisualizer, oldPath);
+		if (scene, scene->HasMeshes())
+		{
+			yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
+			LoadScene(scene, scene->mRootNode, dragAndDropVisualizer, oldPath);
 
+		}
+	}
+	else
+	{
+		yogConsole(CONSOLE_ERROR, "Error loading FBX, path: %s.", path);
 	}
 
 	aiReleaseImport(scene);
