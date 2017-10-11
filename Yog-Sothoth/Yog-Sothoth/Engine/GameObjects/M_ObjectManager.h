@@ -51,11 +51,11 @@ public:
 	* \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
 	*/
 	GameObject* LoadFBX(const char* path);
-	GameObject* LoadFBXFromDragAndDrop(const char* path);
+	GameObject* LoadFBXFromDragAndDrop(const char* path, const char* oldPath = nullptr);
 	/**
 	 * \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated
 	 */
-	void LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent);
+	void LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent, const char* oldPath = nullptr);
 
 
 	void Serialize(Json::Value& root) override;

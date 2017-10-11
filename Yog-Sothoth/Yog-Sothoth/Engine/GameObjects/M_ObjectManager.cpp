@@ -6,6 +6,9 @@
 #include "../../Application.h"
 #include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/postprocess.h"
+#include <experimental/filesystem>
+
+
 
 #include <string>
 #include <fstream>
@@ -13,6 +16,8 @@
 #include <iostream>
 #include <iterator>
 
+
+namespace fs = std::experimental::filesystem;
 
 M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
 {
@@ -169,7 +174,7 @@ GameObject* M_ObjectManager::LoadFBX(const char * path)
 	return root;
 }
 
-GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path)
+GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path, const char* oldPath)
 {
 	yogConsole(CONSOLE_INFO, "Loading scene...");
 	if (path == NULL)
@@ -190,15 +195,16 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path)
 	std::streampos size;
 	char * memblock = nullptr;
 
-	std::ifstream input(path, std::ios::in | std::ios::binary | std::ios::ate);
+	//std::ifstream input(path, std::ios::in | std::ios::binary | std::ios::ate);
+	size = App->fs->load(path, &memblock);
 
-	if (input.is_open())
+	if (size > 0)
 	{
-		size = input.tellg();
-		memblock = new char[size];
-		input.seekg(0, std::ios::beg);
-		input.read(memblock, size);
-		input.close();
+//		size = input.tellg();
+//		memblock = new char[size];
+//		input.seekg(0, std::ios::beg);
+//		input.read(memblock, size);
+//		input.close();
 
 		if (size > 0)
 		{
@@ -215,7 +221,8 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path)
 	if (scene, scene->HasMeshes())
 	{
 		yogConsole(CONSOLE_INFO, "FBX path: %s.", path);
-		LoadScene(scene, scene->mRootNode, dragAndDropVisualizer);
+		LoadScene(scene, scene->mRootNode, dragAndDropVisualizer, oldPath);
+
 	}
 
 	aiReleaseImport(scene);
@@ -224,7 +231,7 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path)
 
 }
 
-void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent)
+void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent, const char* _oldPath)
 {
 	aiVector3D ai_translation;
 	aiVector3D ai_scaling;
@@ -235,7 +242,7 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 	if (strcmp(node->mName.C_Str(), "RootNode") == 0)
 	{
 		for (uint i = 0; i < node->mNumChildren; ++i)
-			LoadScene(scene, node->mChildren[i], parent);
+			LoadScene(scene, node->mChildren[i], parent, _oldPath);
 
 	}
 	else
@@ -280,26 +287,40 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 				material->color.Set(color.r, color.g, color.b, color.a);
 				aiString ai_path;
 				std::string fileName;
+				
+				
 				scene->mMaterials[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, 0, &ai_path);
-				int j = 0;
-				for (int i = ai_path.length - 1; i > 0; i--)
-				{
-					if (ai_path.data[i] != '/' && ai_path.data[i] != '\\')
-					{
-						j++;
-					}
-					else
-						break;
-				}
-				fileName.assign(ai_path.C_Str() + ai_path.length - j,
-								ai_path.C_Str() + ai_path.length);
-				SDL_Log("Texture path: %s", ai_path.C_Str());
-				SDL_Log("Texture name: %s", fileName.c_str());
+
 				std::string fullPath = "data/assets/";
 				if (strcmp(ai_path.C_Str(), "") != 0)
 				{
-					fullPath.append(ai_path.data);
-					material->LoadTexture(fullPath.c_str());
+					if (_oldPath != nullptr)
+					{
+						std::string finalPath("data/assets/");
+						std::experimental::filesystem::path oldPath(_oldPath);
+						oldPath.append(ai_path.C_Str());
+						finalPath.append(ai_path.C_Str());
+						std::ifstream infile(oldPath, std::ifstream::binary);
+						//size
+						infile.seekg(0, infile.end);
+						int length = infile.tellg();
+						infile.seekg(0, infile.beg);
+
+						char * buffer = new char[length];
+						infile.read(buffer, length);
+						infile.close();
+
+						if (oldPath.extension().generic_string() == ".png")
+						{
+							yogConsole(CONSOLE_INFO, "Loading png");
+							App->fs->save(finalPath.c_str(), buffer, length);
+
+							fullPath.append(ai_path.data);
+							material->LoadTexture(fullPath.c_str());
+						}
+					}
+					
+
 				}
 				mesh->associatedMaterial = material;
 			}

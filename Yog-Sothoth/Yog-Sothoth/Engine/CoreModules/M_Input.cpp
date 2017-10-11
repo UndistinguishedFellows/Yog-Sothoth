@@ -118,6 +118,42 @@ update_status M_Input::PreUpdate(float dt)
 			case SDL_DROPFILE:
 			{      // In case if dropped file
 				dropped_filedir = e.drop.file;
+				std::experimental::filesystem::path oldPath(dropped_filedir);
+				std::string finalPath("data/assets/");
+				finalPath.append(oldPath.filename().string());
+				std::ifstream infile(dropped_filedir, std::ifstream::binary);
+				//size
+				infile.seekg(0, infile.end);
+				int length = infile.tellg();
+				infile.seekg(0, infile.beg);
+
+				char * buffer = new char[length];
+				infile.read(buffer, length);
+				infile.close();
+				if (oldPath.extension().generic_string() == ".fbx")
+				{
+					yogConsole(CONSOLE_INFO, "Loading fbx");
+					App->fs->save(finalPath.c_str(), buffer, length);
+					App->objManager->LoadFBXFromDragAndDrop(finalPath.c_str(), oldPath.parent_path().string().c_str());
+					
+				}
+				else if (oldPath.extension().generic_string() == ".png")
+				{
+					yogConsole(CONSOLE_INFO, "Loading png");
+					App->fs->save(finalPath.c_str(), buffer, length);
+					if (App->objManager->dragAndDropVisualizer != nullptr)
+					{
+						for (auto child : App->objManager->dragAndDropVisualizer->children)
+						{
+							C_Material* material = (C_Material*)child->FindComponent(C_MATERIAL);
+							material->LoadTexture(finalPath.c_str());
+						}
+					}
+				}
+				// release dynamically-allocated memory
+				delete[] buffer;
+
+				
 				// Shows directory of dropped file
 //				SDL_ShowSimpleMessageBox(
 //					SDL_MESSAGEBOX_INFORMATION,
@@ -127,9 +163,7 @@ update_status M_Input::PreUpdate(float dt)
 //				);
 //				std::string str("data/assets/");
 //				str.append(fs::path(dropped_filedir).filename().u8string());
-				App->objManager->LoadFBXFromDragAndDrop(dropped_filedir);
-				C_Camera* camera = (C_Camera*)App->objManager->camera->FindComponent(C_CAMERA);
-				camera->LookAt(float3(0, 0, 0));
+
 				SDL_free(dropped_filedir);    // Free dropped_filedir memory
 				break;
 			}
