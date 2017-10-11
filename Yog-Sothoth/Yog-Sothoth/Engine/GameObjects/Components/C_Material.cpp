@@ -1,5 +1,6 @@
 ﻿#include "C_Material.h"
 #include "../../../Tools/TextureImporter.h"
+#include <glew.h>
 
 C_Material::~C_Material()
 {
@@ -7,6 +8,10 @@ C_Material::~C_Material()
 uint C_Material::LoadTexture(const char* path)
 {
 	TextureImporter importer;
+	if (texture != 0)
+	{
+		glDeleteTextures(1, &texture);
+	}
 	texture = importer.LoadTextureBuffer(path, &imInfo);
 	return texture;
 }
