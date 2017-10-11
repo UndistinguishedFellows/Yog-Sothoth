@@ -1,6 +1,10 @@
 #include <glew.h>
 #include <gl/GL.h>
 
+#include "il.h"
+#include "ilu.h"
+#include "ilut.h"
+
 #include "TextureImporter.h"
 #include "../Globals.h"
 #include "../Application.h"

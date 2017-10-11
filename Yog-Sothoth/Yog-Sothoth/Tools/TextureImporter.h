@@ -1,7 +1,4 @@
 #pragma once
-#include "il.h"
-#include "ilu.h"
-#include "ilut.h"
 
 struct ImageInfo
 {
