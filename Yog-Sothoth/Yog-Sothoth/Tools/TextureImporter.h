@@ -5,6 +5,7 @@ struct ImageInfo
 	int width;
 	int height;
 	unsigned int bytes;
+	char* name;
 };
 
 class TextureImporter
