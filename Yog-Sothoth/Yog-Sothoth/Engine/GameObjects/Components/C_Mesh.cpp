@@ -17,19 +17,19 @@ C_Mesh::~C_Mesh()
 	//Delete arrays
 	if (vertices.vertices != nullptr)
 	{
-		delete vertices.vertices;
+		RELEASE(vertices.vertices);
 	}
 	if (indices.indices != nullptr)
 	{
-		delete indices.indices;
+		RELEASE(indices.indices);
 	}
 	if (normals.normals != nullptr)
 	{
-		delete normals.normals;
+		RELEASE(normals.normals);
 	}
 	if (uv.uv != nullptr)
 	{
-		delete uv.uv;
+		RELEASE(uv.uv);
 	}
 
 	// Delete Buffers and restore de ID's
