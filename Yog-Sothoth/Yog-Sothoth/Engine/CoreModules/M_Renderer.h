@@ -84,7 +84,7 @@ public:
 	void createCheckersTexture();
 
 	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-	GLuint ImageName = 0;
+	GLuint checkTexture = 0;
 	bool checkersCube = false;
 	TextureImporter* texImporter = nullptr;
 	unsigned int textureLenna = 0;

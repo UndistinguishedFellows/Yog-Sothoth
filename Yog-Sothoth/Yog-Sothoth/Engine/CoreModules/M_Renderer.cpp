@@ -355,19 +355,20 @@ void M_Renderer::createCheckersTexture()
 		}
 	}
 
-	
-}
-
-void M_Renderer::drawCubeDirectModeTexCoord()
-{
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &ImageName);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
+	glGenTextures(1, &checkTexture);
+	glBindTexture(GL_TEXTURE_2D, checkTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void M_Renderer::drawCubeDirectModeTexCoord()
+{
+	glBindTexture(GL_TEXTURE_2D, checkTexture);
 
 	// Draw a cube with 12 triangles
 	glEnable(GL_TEXTURE_2D);

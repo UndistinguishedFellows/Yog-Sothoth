@@ -183,6 +183,8 @@ void UIInspector::Material()
 				//ImGui::Text("%d bytes", material->imInfo.bytes); //Not working
 				ImGui::Image((ImTextureID)material->texture, ImVec2(256, 256), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
 			}
+
+			if (ImGui::Checkbox("Checkers##mat", &material->checkers)) {}
 		}
 }
 

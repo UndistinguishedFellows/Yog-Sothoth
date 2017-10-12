@@ -189,7 +189,15 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	shader.setVec3("viewPos", &camera->frustum.pos);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, associatedMaterial->texture);
+
+	if(associatedMaterial->checkers)
+	{
+		glBindTexture(GL_TEXTURE_2D, App->renderer->checkTexture);
+	}
+	else
+	{
+		glBindTexture(GL_TEXTURE_2D, associatedMaterial->texture);
+	}
 
 	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);		
 	glBindTexture(GL_TEXTURE_2D, 0);
