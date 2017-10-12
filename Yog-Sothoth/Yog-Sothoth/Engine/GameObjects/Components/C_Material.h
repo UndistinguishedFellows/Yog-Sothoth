@@ -8,6 +8,8 @@
 class C_Material : public Component
 {
 public:
+	bool checkers = false;
+
 	float3 ambient;
 	float3 diffuse;
 	float3 specular;

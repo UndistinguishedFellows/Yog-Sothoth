@@ -202,13 +202,13 @@ update_status M_Renderer::PostUpdate(float dt)
 	App->objManager->activeCamera->Camera->Move(dt);
 	App->objManager->activeCamera->Camera->Rotate(dt);
 	//App->objManager->activeCamera->Camera->FocusCamera();
-	App->objManager->activeCamera->Camera->Zoom(dt);
 	//frustum->ownerParent->LookAt(float3(0, 0, 0));
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) 
 		App->objManager->activeCamera->Camera->LookAt(float3(0,0,0));
+	App->objManager->activeCamera->Camera->Zoom(dt);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);		
 	basicShader->Use();
 	glBindVertexArray(primi->pCube.VAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, primi->pCube.indices.idIndices);
@@ -394,19 +394,20 @@ void M_Renderer::createCheckersTexture()
 		}
 	}
 
-	
-}
-
-void M_Renderer::drawCubeDirectModeTexCoord()
-{
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &ImageName);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
+	glGenTextures(1, &checkTexture);
+	glBindTexture(GL_TEXTURE_2D, checkTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void M_Renderer::drawCubeDirectModeTexCoord()
+{
+	glBindTexture(GL_TEXTURE_2D, checkTexture);
 
 	// Draw a cube with 12 triangles
 	glEnable(GL_TEXTURE_2D);

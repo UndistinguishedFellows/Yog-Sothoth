@@ -18,6 +18,8 @@ public:
 	bool openRepoDirectory = false;
 	bool openIssuesDirectory = false;
 
+	bool imGuiDemo = false;
+
 	bool showfpsInfo = false;
 
 	bool QUIT = false;

@@ -54,7 +54,10 @@ update_status M_UIManager::PreUpdate(float dt)
 
 update_status M_UIManager::Update(float dt)
 {
-	ImGui::ShowTestWindow();
+	if (menus->imGuiDemo)
+	{
+		ImGui::ShowTestWindow();
+	}
 	
 	return UPDATE_CONTINUE;
 }
