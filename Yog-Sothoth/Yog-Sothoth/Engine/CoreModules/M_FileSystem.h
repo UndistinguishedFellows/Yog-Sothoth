@@ -26,8 +26,8 @@ public:
 
 	const char* getBasePath();
 
-	unsigned int load(const char* file, char** buffer)const;
-	SDL_RWops* load(const char* file)const;
+	unsigned int Load(const char* file, char** buffer)const;
+	SDL_RWops* Load(const char* file)const;
 	unsigned int save(const char* file, const char* buffer, unsigned int size);
 
 	void Serialize(Json::Value& root) override;

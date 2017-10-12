@@ -40,7 +40,7 @@ bool JsonSerializer::DeserializeFormPath(IJsonSerializable * pObj, std::string p
 		return false;
 
 	char* buffer = nullptr;
-	if (App->fs->load(path.c_str(), &buffer) > 0)
+	if (App->fs->Load(path.c_str(), &buffer) > 0)
 	{
 		std::string input(buffer);
 		RELEASE_ARRAY(buffer);

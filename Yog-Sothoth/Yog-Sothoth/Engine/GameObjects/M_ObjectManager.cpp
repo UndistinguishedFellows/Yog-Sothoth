@@ -153,7 +153,7 @@ GameObject* M_ObjectManager::LoadFBX(const char * path)
 	}
 
 	char* buffer;
-	uint fileSize = App->fs->load(path, &buffer);
+	uint fileSize = App->fs->Load(path, &buffer);
 	const aiScene* scene = nullptr;
 
 	if (buffer && fileSize > 0)
@@ -202,7 +202,7 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path, const char
 	char * memblock = nullptr;
 
 	//std::ifstream input(path, std::ios::in | std::ios::binary | std::ios::ate);
-	size = App->fs->load(path, &memblock);
+	size = App->fs->Load(path, &memblock);
 
 	if (size > 0)
 	{
@@ -219,7 +219,7 @@ GameObject* M_ObjectManager::LoadFBXFromDragAndDrop(const char* path, const char
 		else
 		{
 			yogConsole(CONSOLE_ERROR, "Error while loading fbx.");
-			return NULL;
+			return nullptr;
 		}
 	}
 	RELEASE_ARRAY(memblock);

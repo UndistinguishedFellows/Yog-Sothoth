@@ -20,8 +20,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	try
 	{
 		// open files
-		vShaderFile_size = App->fs->load(vertexPath, &vShaderFile);
-		fShaderFile_size = App->fs->load(fragmentPath, &fShaderFile);
+		vShaderFile_size = App->fs->Load(vertexPath, &vShaderFile);
+		fShaderFile_size = App->fs->Load(fragmentPath, &fShaderFile);
 		if (true)
 			int i;
 		else
@@ -49,7 +49,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 		// if geometry shader path is present, also load a geometry shader
 		if (geometryPath != nullptr)
 		{
-			gShaderFile_size = App->fs->load(geometryPath, &gShaderFile);
+			gShaderFile_size = App->fs->Load(geometryPath, &gShaderFile);
 			if (gShaderFile_size == 0)
 			{
 				yogConsole(CONSOLE_ERROR, "Error loading %s", geometryPath);

@@ -130,7 +130,7 @@ const char* M_FileSystem::getBasePath()
 	return PHYSFS_getBaseDir();
 }
 
-unsigned M_FileSystem::load(const char* file, char** buffer)const
+unsigned M_FileSystem::Load(const char* file, char** buffer)const
 {
 	unsigned int ret = 0;
 
@@ -165,10 +165,10 @@ unsigned M_FileSystem::load(const char* file, char** buffer)const
 	return ret;
 }
 
-SDL_RWops* M_FileSystem::load(const char* file)const
+SDL_RWops* M_FileSystem::Load(const char* file)const
 {
 	char* buffer;
-	int size = load(file, &buffer);
+	int size = Load(file, &buffer);
 
 	if (size > 0)
 	{

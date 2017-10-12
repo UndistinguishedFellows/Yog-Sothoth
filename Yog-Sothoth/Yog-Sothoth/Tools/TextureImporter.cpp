@@ -101,7 +101,7 @@ unsigned TextureImporter::LoadTextureBuffer(const char* path, ImageInfo *im_info
 	uint ret = 0;
 
 	char* data = nullptr;
-	uint size = App->fs->load(path, &data);
+	uint size = App->fs->Load(path, &data);
 
 	if (data && size > 0)
 	{

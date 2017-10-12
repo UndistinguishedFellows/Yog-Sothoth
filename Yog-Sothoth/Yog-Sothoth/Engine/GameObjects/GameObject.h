@@ -86,11 +86,6 @@ protected:
 
 	std::vector<GameObject*> GetChildren();
 
-	/**
-	 * \brief Erase a relationship from relationship vector
-	 * \param reference the relationship to remove
-	 */
-	void EraseRelationship(GameObject** reference);
 	void LookAt(float3 pos);
 	void SetPos(float3 pos);
 	AABB UpdateBoundingBoxes();
