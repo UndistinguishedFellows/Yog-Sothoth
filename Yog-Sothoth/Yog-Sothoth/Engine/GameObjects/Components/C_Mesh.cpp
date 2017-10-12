@@ -259,7 +259,8 @@ void C_Mesh::UpdateBoundingBoxes()
 		aabb.Enclose((float3*)vertices.vertices, vertices.numVertices);
 
 		obb = aabb;
-		obb.Transform(ownerParent->Transform->globalTransform);
+		if(!App->renderer->fbxViewer)
+			obb.Transform(ownerParent->Transform->globalTransform);
 		aabb.SetFrom(obb);
 
 	}
