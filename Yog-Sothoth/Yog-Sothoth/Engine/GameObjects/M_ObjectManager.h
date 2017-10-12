@@ -65,6 +65,7 @@ public:
 
 	void Draw(GameObject* drawFrom, Shader shader) const;
 	void DrawNormals(GameObject* drawFrom, Shader shader) const;
+	void DrawAABB(GameObject* drawFrom, Shader shader) const;
 
 	void Serialize(Json::Value& root) override;
 	void Deserialize(Json::Value& root) override;

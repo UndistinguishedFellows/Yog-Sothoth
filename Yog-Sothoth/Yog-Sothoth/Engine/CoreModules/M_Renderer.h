@@ -4,6 +4,7 @@
 #include "../../Tools/TextureImporter.h"
 #include "../../Tools/Containers/Color.h"
 #include <glew.h>
+#include "../../Tools/Primitives.h"
 
 
 #define CHECKERS_WIDTH 256
@@ -96,4 +97,6 @@ public:
 
 	//Implied in refactor
 	//C_Camera* frustum;
+
+	Primitives::Primitives* primi;
 };

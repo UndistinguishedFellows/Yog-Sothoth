@@ -39,6 +39,8 @@ public:
 
 	bool active = true;
 	bool selected = false;
+	bool drawAABB = false;
+
 private:
 	//For now there will be only one attribute of each
 	C_Mesh*			mesh		= nullptr;
@@ -51,6 +53,11 @@ protected:
 	GameObject();
 	GameObject(GameObject* parent);
 	~GameObject();
+
+	void DoPreupdate();
+	void DoUpdate();
+	void DoPostUpdate();
+
 	/**
 	 * \brief Add a child into children list of this object
 	 * \param child Child to be added
@@ -95,8 +102,9 @@ protected:
 	void Draw(Shader shader, C_Camera* camera);
 	void DrawNormals(Shader shader, C_Camera* camera);
 	void DrawLight(Shader shader, C_Camera* camera);
-	void Draw_AABB();
+	void DrawAABB(Shader shader, C_Camera* camera);
 	AABB GetAABB();
+
 
 public:
 	C_Mesh* mesh1() const { return mesh; }

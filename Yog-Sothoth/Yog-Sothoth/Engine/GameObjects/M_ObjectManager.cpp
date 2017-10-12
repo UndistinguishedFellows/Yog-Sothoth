@@ -356,6 +356,27 @@ void M_ObjectManager::DrawNormals(GameObject* drawFrom, Shader shader) const
 	drawFrom->DrawNormals(shader, activeCamera->Camera);
 }
 
+void M_ObjectManager::DrawAABB(GameObject* drawFrom, Shader shader) const
+{
+	std::stack<GameObject*> stack;
+	stack.push(drawFrom);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+
+		if (top->drawAABB)
+			top->DrawAABB(shader, activeCamera->Camera);
+
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+
+
+}
+
 void M_ObjectManager::Serialize(Json::Value& root)
 {
 }

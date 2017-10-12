@@ -5,6 +5,8 @@
 #include "Components/C_Transform.h"
 #include "Components/C_LIGHT.h"
 #include <algorithm>
+#include "../../Tools/Primitive.h"
+#include "../../Application.h"
 
 GameObject::GameObject()
 {
@@ -23,6 +25,10 @@ GameObject::~GameObject()
 		RELEASE(component);
 	}
 	RemoveChildren();
+}
+
+void GameObject::DoPostUpdate()
+{
 }
 
 void GameObject::AddChild(GameObject* child)
@@ -275,6 +281,17 @@ void GameObject::DrawLight(Shader shader, C_Camera* camera)
 	}
 }
 
+void GameObject::DrawAABB(Shader shader, C_Camera* camera)
+{
+	float3 corners[8];
+	float3 size = aabb.Size();
+	size.x = 10.f;
+	size.y = 10.f;
+	size.z = 10.f;
+	aabb.GetCornerPoints(corners);
+
+}
+
 AABB GameObject::GetAABB()
 {
 	UpdateBoundingBoxes();
@@ -294,7 +311,7 @@ void GameObject::MoveChild(GameObject* child, GameObject* origin, GameObject* de
 		destiny->AddChild(child);
 	}
 }
-
+/*
 void GameObject::Draw_AABB()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -347,3 +364,4 @@ void GameObject::Draw_AABB()
 	//glLineWidth(1.f);
 
 }
+*/

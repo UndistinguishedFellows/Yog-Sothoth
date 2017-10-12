@@ -37,6 +37,7 @@ void UIInspector::Draw()
 		//ImGuiStyle style = ImGui::GetStyle();
 		//ImVec4 color(0, 0, 0, 255);
 		//ImGui::ColorEdit4("BGCOlor", (float*)&style.Colors[2], true);
+		if (ImGui::Checkbox("AABB##gameObject", &App->objManager->GetFocusGO()->drawAABB)){}
 
 		Transform();
 		Mesh();
@@ -155,7 +156,6 @@ void UIInspector::Mesh()
 
 			if (ImGui::Checkbox("Normals", &mesh->drawNormals)) {}
 			ImGui::SameLine();
-
 			if (ImGui::Checkbox("Wireframe##mesh", &mesh->wireframe)) {}
 
 			ImGui::Separator();
