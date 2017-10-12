@@ -181,10 +181,11 @@ update_status M_Renderer::PostUpdate(float dt)
 	App->objManager->activeCamera->Camera->Move(dt);
 	App->objManager->activeCamera->Camera->Rotate(dt);
 	//App->objManager->activeCamera->Camera->FocusCamera();
-	App->objManager->activeCamera->Camera->Zoom(dt);
 	//frustum->ownerParent->LookAt(float3(0, 0, 0));
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) 
 		App->objManager->activeCamera->Camera->LookAt(float3(0,0,0));
+
+	App->objManager->activeCamera->Camera->Zoom(dt);
 
 
 //	if (checkersCube)

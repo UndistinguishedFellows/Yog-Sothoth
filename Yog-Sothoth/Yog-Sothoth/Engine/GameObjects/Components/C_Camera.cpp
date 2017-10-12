@@ -189,6 +189,10 @@ void C_Camera::Zoom(float dt)
 	Frustum* frust = &frustum;
 	float3 movement(float3::zero);
 	float3 forw(frust->front);
+	float3 pos;
+	float3 sca;
+	Quat rot;
+	ownerParent->Transform->localTransform.Decompose(pos, rot, sca);
 
 	if (App->input->GetMouseZ() > 0)
 	{
@@ -202,6 +206,6 @@ void C_Camera::Zoom(float dt)
 	{
 		movement *= (movSpeed * 20 * dt);
 		frust->pos = frust->pos + movement;
+		ownerParent->Transform->localTransform = float4x4::FromTRS(frust->pos, rot,sca );
 	}
-
 }
