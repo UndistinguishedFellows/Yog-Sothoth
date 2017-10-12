@@ -283,12 +283,39 @@ void GameObject::DrawLight(Shader shader, C_Camera* camera)
 
 void GameObject::DrawAABB(Shader shader, C_Camera* camera)
 {
-	float3 corners[8];
+	UpdateBoundingBoxes();
+	float4x4 view = camera->frustum.ViewMatrix();
 	float3 size = aabb.Size();
-	size.x = 10.f;
-	size.y = 10.f;
-	size.z = 10.f;
-	aabb.GetCornerPoints(corners);
+//	OBB obb = aabb;	
+//	obb.Transform(this->Transform->globalTransform);
+//	aabb.SetFrom(obb);
+	//aabb.Enclose(obb);
+	Quat rot;
+	float3 pos;
+	float3 scale;
+	this->Transform->globalTransform.Decompose(pos, rot, scale);
+	float4x4 model = float4x4::identity;
+
+	model = model.Scale(size).ToFloat4x4();
+	model.SetTranslatePart(aabb.CenterPoint());
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	shader.Use();
+	glBindVertexArray(App->objManager->primitives->pCube.VAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->objManager->primitives->pCube.indices.idIndices);
+	shader.setMat4("view", &view.Transposed());
+	shader.setMat4("projection", &App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed());
+	shader.setMat4("model", &model.Transposed());
+	shader.setVec4("objectColor", &float4(1.f, 0.f, 0.5f, 1.0f));
+	glLineWidth(20.0f);
+	//glPointSize(10.0f);
+	//glDrawElements(GL_POINTS, primi.pCube.indices.numIndices, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, App->objManager->primitives->pCube.indices.numIndices, GL_UNSIGNED_INT, 0);
+	glLineWidth(1.0f);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	glUseProgram(0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 }
 

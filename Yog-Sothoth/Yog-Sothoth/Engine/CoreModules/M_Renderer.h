@@ -98,5 +98,5 @@ public:
 	//Implied in refactor
 	//C_Camera* frustum;
 
-	Primitives::Primitives* primi;
+	
 };

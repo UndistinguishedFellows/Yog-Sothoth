@@ -21,6 +21,7 @@ M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObj
 
 M_ObjectManager::~M_ObjectManager()
 {
+	RELEASE(primitives);
 }
 
 bool M_ObjectManager::Init()
@@ -61,6 +62,34 @@ bool M_ObjectManager::Start()
 	testLight->Transform->SetPosition(float3(0.f, 20.0f, 5.0f));
 	
 	activeCamera = camera;
+
+	primitives = new Primitives::Primitives();
+
+	glGenVertexArrays(1, &primitives->pCube.VAO);
+	glGenBuffers(1, (GLuint*) &(primitives->pCube.vertices.idVertices));
+	glGenBuffers(1, (GLuint*) &(primitives->pCube.indices.idIndices));
+	glBindVertexArray(primitives->pCube.VAO);
+	//vertices	
+	glBindBuffer(GL_ARRAY_BUFFER, primitives->pCube.vertices.idVertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * primitives->pCube.vertices.numVertices * 3, primitives->pCube.vertices.vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	//indices	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, primitives->pCube.indices.idIndices);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * primitives->pCube.indices.numIndices, primitives->pCube.indices.indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+
+
+
+
+
+
+
+
+
 	return true;
 }
 //Todo: Here game objects will be deleted when needed

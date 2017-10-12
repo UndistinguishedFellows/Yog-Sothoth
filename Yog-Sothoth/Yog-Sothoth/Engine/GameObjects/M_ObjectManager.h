@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Components/C_Light.h"
 #include <list>
+#include "../../Tools/Primitives.h"
 
 struct aiScene;
 struct aiNode;
@@ -26,6 +27,8 @@ public:
 
 	std::vector<GameObject*> lights;
 	std::vector<GameObject*> cameras;
+
+	Primitives::Primitives* primitives;
 
 private:
 	

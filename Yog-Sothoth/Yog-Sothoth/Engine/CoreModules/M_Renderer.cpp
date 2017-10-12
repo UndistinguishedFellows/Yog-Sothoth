@@ -107,24 +107,6 @@ bool M_Renderer::Start()
 	
 	createCheckersTexture();
 	
-	primi = new Primitives::Primitives();
-
-	glGenVertexArrays(1, &primi->pCube.VAO);
-	glGenBuffers(1, (GLuint*) &(primi->pCube.vertices.idVertices));
-	glGenBuffers(1, (GLuint*) &(primi->pCube.indices.idIndices));
-	glBindVertexArray(primi->pCube.VAO);
-	//vertices	
-	glBindBuffer(GL_ARRAY_BUFFER, primi->pCube.vertices.idVertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * primi->pCube.vertices.numVertices * 3, primi->pCube.vertices.vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	//indices	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, primi->pCube.indices.idIndices);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * primi->pCube.indices.numIndices, primi->pCube.indices.indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
 
 	return true;
 }
@@ -154,7 +136,6 @@ update_status M_Renderer::PostUpdate(float dt)
 	if (fbxViewer)
 	{
 		App->objManager->Draw(App->objManager->dragAndDropVisualizer, *lightShader);
-		App->objManager->DrawAABB(App->objManager->dragAndDropVisualizer, *lightShader);
 	}
 	else
 	{
@@ -176,6 +157,8 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	//Draw normals of a mesh
 	App->objManager->DrawNormals(App->objManager->root, *basicShader);
+	App->objManager->DrawAABB(App->objManager->dragAndDropVisualizer, *basicShader);
+
 	//Draw floor grid and world axis
 	if (grid)
 	{
@@ -208,22 +191,6 @@ update_status M_Renderer::PostUpdate(float dt)
 	App->objManager->activeCamera->Camera->Zoom(dt);
 
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);		
-	basicShader->Use();
-	glBindVertexArray(primi->pCube.VAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, primi->pCube.indices.idIndices);
-	basicShader->setMat4("view", &view.Transposed());
-	basicShader->setMat4("projection", &App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed());
-	float4x4 model = float4x4::identity;
-	model = model.Scale(6, 2, 2).ToFloat4x4();
-
-	basicShader->setMat4("model", &model);
-	basicShader->setVec4("objectColor", &float4(1.f, 0.f, 0.5f, 1.0f));
-	glDrawElements(GL_TRIANGLES, primi->pCube.indices.numIndices, GL_UNSIGNED_INT, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	glUseProgram(0);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
 //	if (checkersCube)
