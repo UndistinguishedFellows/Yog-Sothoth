@@ -62,6 +62,17 @@ void UIConfiguration::Draw()
 			App->organization = orgName;
 		}
 
+		static int MaxFPSSlider;
+		MaxFPSSlider = (int)App->MaxFPS;
+		if (ImGui::SliderInt("Max FPS", &MaxFPSSlider, 0, 200))
+		{
+			App->MaxFPS = MaxFPSSlider;
+		}
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip("0 = no limit");
+		}
+
 		if (ImGui::Button("Save##app"))
 		{
 			App->SaveConfig();

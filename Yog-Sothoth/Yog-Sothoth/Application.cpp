@@ -114,6 +114,11 @@ update_status Application::Update()
 
 	FinishUpdate();
 
+	if (MaxFPS > 0 && (appTimer.LastFrameMs() < (1000 / MaxFPS)))
+	{
+		SDL_Delay((1000 / MaxFPS) - appTimer.LastFrameMs());
+	}
+
 	return ret;
 }
 bool Application::CleanUp()

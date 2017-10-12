@@ -68,6 +68,8 @@ public:
 	YogClock appTimer;
 	HardwareInfo hardwareInfo;
 
+	float MaxFPS;
+
 private:
 	std::list<Module*> list_modules;
 
