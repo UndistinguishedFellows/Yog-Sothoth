@@ -329,6 +329,7 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 							fullPath.append(ai_path.data);
 							material->LoadTexture(fullPath.c_str());
 						}
+						RELEASE_ARRAY(buffer);
 					}
 					
 
