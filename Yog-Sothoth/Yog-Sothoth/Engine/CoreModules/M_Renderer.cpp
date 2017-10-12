@@ -6,17 +6,20 @@
 #include "../../OpenGL.h"
 #include "../../Tools/Static/JsonSerializer.h"
 #include "../UI_Modules/M_UIManager.h"
-#include "../../../Assimp/Assimp/include/postprocess.h"
-#include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/scene.h"
 #include "../GameObjects/Components/C_Transform.h"
-#include "../../Tools/TextureImporter.h"
+#include "../GameObjects/Components/C_Camera.h"
+#include "../GameObjects/Components/C_Mesh.h"
+#include "../../MathGeoLib/MathGeoLib.h"
+#include "../GameObjects/M_ObjectManager.h"
+#include "../GameObjects/GameObject.h"
+#include "../../Tools/Containers/Shader.h"
+#include "../../Tools/Primitive.h"
+#include "../../Tools/GPUDetect/DeviceId.h"
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
 	name.assign("renderer");
-	//frustum = new C_Camera(nullptr);
-	texImporter = new TextureImporter();
 }
 
 M_Renderer::~M_Renderer()
@@ -96,48 +99,13 @@ bool M_Renderer::Init()
 
 bool M_Renderer::Start()
 {
-	frustum = (C_Camera*)App->objManager->camera->FindComponent(C_CAMERA);
 	lightShader = new Shader("data/shaders/1.basic_lighting.vs", "data/shaders/1.basic_lighting.fs");
 	basicShader = new Shader("data/shaders/camera.vs", "data/shaders/basicFragment.fs");	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
 	lampShader = new Shader("data/shaders/1.lamp.vs", "data/shaders/1.lamp.fs");
 	wireframeShader = new Shader("data/shaders/wireframe.vs", "data/shaders/wireframe.fs");
 	
-	//###########################################
-	//Light and testing cube
-	App->objManager->LoadFBX("data/assets/primitives/cube.FBX");
-	testCube = App->objManager->FindGameObject("pCube1");
-	C_Mesh* mesh = (C_Mesh*)testCube->FindComponent(C_MESH);
-	mesh->color = { 1.0f, 0.5f, 0.31f, 1.f };
-
-	App->objManager->LoadFBX("data/assets/primitives/cube.FBX");
-	testLight = App->objManager->root->children.at(3);
-	if (testLight != nullptr)
-	{
-		mesh = (C_Mesh*)testLight->FindComponent(C_MESH);
-		mesh->color = { 1.0f, 1.f, 0.f, 1.f };
-		testLight->CreateComponent(C_LIGHT);
-		App->objManager->light = testLight;
-		testLight->type = GO_LIGHT;
-		C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
-		trans->SetPosition(float3(0.f, 20.0f, 5.0f));
-
-	}
-
-
-
-	//C_Transform* trans = (C_Transform*)testLight->FindComponent(C_TRANSFORM);
-
-
-
-	//App->objManager->LoadFBX("data/assets/warrior.FBX");
-	//App->objManager->LoadFBX("data/assets/Street environment_V01.FBX");
-	//App->objManager->LoadFBX("data/assets/baker_house/bakerHouse.FBX");
-	//App->objManager->LoadFBX("data/assets/MechaT.FBX");
-
 	createCheckersTexture();
-
-	//textureLenna = texImporter->LoadTexture("data/assets/Lenna.png");
-
+	
 	return true;
 }
 
@@ -161,38 +129,37 @@ update_status M_Renderer::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float4x4 view = frustum->camera.ViewMatrix();
+	float4x4 view = App->objManager->camera->Camera->frustum.ViewMatrix();
 
-	App->objManager->dragAndDropVisualizer->Draw(*lightShader, frustum);
-	//App->objManager->root->Draw(*lightShader, frustum);
-	
-	//draw Wireframe when selected
-//	if (App->objManager->focus != nullptr && App->objManager->focus->FindComponent(C_MESH) != nullptr)
-//	{
-//		C_Mesh* mesh = (C_Mesh*)App->objManager->focus->FindComponent(C_MESH);
-//		Color color = mesh->color;
-//		mesh->color.Set(0.f, 1.f, 0.f, 1.f);
-//		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//		glLineWidth(3.f);
-//		App->objManager->focus->Draw(*wireframeShader, frustum);
-//		glLineWidth(1.f);
-//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-//		mesh->color = color;
-//
-//	}
-	
-	if (App->objManager->light != nullptr)
+	if (fbxViewer)
 	{
-		//App->objManager->light->DrawLight(*lampShader, frustum);
+		App->objManager->Draw(App->objManager->dragAndDropVisualizer, *lightShader);
+	}
+	else
+	{
+		App->objManager->Draw(App->objManager->root, *lightShader);
+
+		//draw Wireframe when selected
+		if (App->objManager->focus != nullptr && App->objManager->focus->Mesh != nullptr)
+		{
+			Color color = App->objManager->focus->Mesh->color;
+			App->objManager->focus->Mesh->color.Set(0.f, 1.f, 0.f, 1.f);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glLineWidth(3.f);
+			App->objManager->Draw(App->objManager->focus, *wireframeShader);
+			glLineWidth(1.f);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			App->objManager->focus->Mesh->color = color;
+		}
 	}
 
 	//Draw normals of a mesh
-	App->objManager->root->DrawNormals(*basicShader, frustum);
+	App->objManager->DrawNormals(App->objManager->root, *basicShader);
 	//Draw floor grid and world axis
 	if (grid)
 	{
 		glPushMatrix();
-		glMultMatrixf(frustum->camera.ProjectionMatrix().Transposed().ptr());
+		glMultMatrixf(App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed().ptr());
 		glPushMatrix();
 		glMultMatrixf(view.Transposed().ptr());
 		P_Plane floor(0, 1, 0, 0);
@@ -205,20 +172,19 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	}
 
-	C_Transform* tr = (C_Transform*)frustum->parent->FindComponent(C_TRANSFORM);
-	C_Camera* cam = (C_Camera*)frustum->parent->FindComponent(C_CAMERA);
 	float3 scale;
 	float3 position;
 	Quat rotation;
 
-	tr->GetLocalTransform().Decompose(position, rotation, scale);
-	cam->camera.pos = position;
-	frustum->Move(dt);
-	frustum->Rotate(dt);
-	//frustum->FocusCamera();
-	frustum->Zoom(dt);
-	//frustum->parent->LookAt(float3(0, 0, 0));
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) frustum->LookAt(float3(0,0,0));
+	App->objManager->activeCamera->Transform->GetLocalTransform().Decompose(position, rotation, scale);
+	App->objManager->activeCamera->Camera->frustum.pos = position;
+	App->objManager->activeCamera->Camera->Move(dt);
+	App->objManager->activeCamera->Camera->Rotate(dt);
+	//App->objManager->activeCamera->Camera->FocusCamera();
+	App->objManager->activeCamera->Camera->Zoom(dt);
+	//frustum->ownerParent->LookAt(float3(0, 0, 0));
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) 
+		App->objManager->activeCamera->Camera->LookAt(float3(0,0,0));
 
 
 //	if (checkersCube)

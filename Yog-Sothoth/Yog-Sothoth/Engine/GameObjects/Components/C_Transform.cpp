@@ -12,29 +12,27 @@ C_Transform::~C_Transform()
 {
 }
 
-const float4x4 C_Transform::GetLocalTransform()
+const float4x4 C_Transform::GetLocalTransform() const
 {
 	return localTransform;
 }
 
-const float4x4 C_Transform::GetGlobalTransform()
+const float4x4 C_Transform::GetGlobalTransform() const
 {
 	return globalTransform;
 }
 
 void C_Transform::RefreshTransform()
 {
-	C_Transform* transform = (C_Transform*)parent->parent->FindComponent(C_TRANSFORM);
-	if (parent != NULL)
+	if (ownerParent != nullptr)
 	{
-		globalTransform = transform->globalTransform * localTransform;
+		globalTransform = ownerParent->parent->Transform->globalTransform * localTransform;
 	}
 
-	for (std::vector<GameObject*>::iterator iterator = parent->children.begin();
-		 iterator != parent->children.end(); iterator++)
+	for (std::vector<GameObject*>::iterator iterator = ownerParent->children.begin();
+		 iterator != ownerParent->children.end(); ++iterator)
 	{
-		C_Transform* it_transform = (C_Transform*)(*iterator)->FindComponent(C_TRANSFORM);
-		it_transform->RefreshTransform();
+		(*iterator)->Transform->RefreshTransform();
 	}
 	
 }
@@ -52,16 +50,7 @@ void C_Transform::SetPosition(float3 position)
 
 	RefreshTransform();
 
-	//This need refactor TODO findComponents
-	for (std::vector<Component*>::iterator iterator = parent->components.begin();
-		 iterator != parent->components.end(); iterator++)
-	{
-		if ((*iterator)->type == C_MESH)
-		{
-			C_Mesh* mesh = (C_Mesh*)(*iterator);
-			mesh->UpdateBoundingBoxes();
-		}
-	}
+	ownerParent->Transform->UpdateBoundingBoxes();
 
 }
 
@@ -75,16 +64,11 @@ void C_Transform::SetRotation(Quat rotation)
 	localTransform = float4x4::FromTRS(pos, rotation, sca);
 	RefreshTransform();
 
-	//This need refactor TODO findComponents
-	for (std::vector<Component*>::iterator iterator = parent->components.begin();
-		 iterator != parent->components.end(); iterator++)
+	if (ownerParent->Mesh != nullptr)
 	{
-		if ((*iterator)->type == C_MESH)
-		{
-			C_Mesh* mesh = (C_Mesh*)(*iterator);
-			mesh->UpdateBoundingBoxes();
-		}
+		ownerParent->Mesh->UpdateBoundingBoxes();
 	}
+
 
 }
 
@@ -149,16 +133,7 @@ void C_Transform::SetScale(float3 scale)
 	localTransform = float4x4::FromTRS(pos, rot, scale);
 	RefreshTransform();
 
-	//This need refactor TODO findComponents
-	for (std::vector<Component*>::iterator iterator = parent->components.begin();
-		 iterator != parent->components.end(); iterator++)
-	{
-		if ((*iterator)->type == C_MESH)
-		{
-			C_Mesh* mesh = (C_Mesh*)(*iterator);
-			mesh->UpdateBoundingBoxes();
-		}
-	}
+	ownerParent->Mesh->UpdateBoundingBoxes();
 
 }
 

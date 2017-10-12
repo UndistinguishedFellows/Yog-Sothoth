@@ -120,26 +120,6 @@ GameObject* GameObject::FindChild(std::string goName)
 
 }
 
-void GameObject::AddRelationship(GameObject** reference)
-{
-	if(reference != nullptr)
-		relationship.push_back(reference);
-}
-
-void GameObject::EraseRelationship(GameObject** reference)
-{
-	if (reference != nullptr)
-		for (std::vector<GameObject**>::iterator it = relationship.begin();
-				it != relationship.end(); ++it)
-		{
-			if (reference == (*it))
-			{
-				(*reference) = nullptr;
-				relationship.erase(it);
-			}
-		}
-}
-
 void GameObject::LookAt(float3 pos)
 {
 	C_Camera* camera = (C_Camera*)FindComponent(C_CAMERA);
@@ -194,6 +174,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 			ret = new C_Camera(this);
 			ret->type = C_CAMERA;
 			this->components.push_back(ret);
+			camera = static_cast<C_Camera*>(ret);
 		}
 		break;
 		case C_MESH:
@@ -201,6 +182,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 			ret = new C_Mesh(this);
 			ret->type = C_MESH;
 			this->components.push_back(ret);
+			mesh = static_cast<C_Mesh*>(ret);
 		}
 		break;
 		case C_TRANSFORM:
@@ -208,13 +190,16 @@ Component* GameObject::CreateComponent(ComponentType type)
 			ret = new C_Transform(this);
 			ret->type = C_TRANSFORM;
 			this->components.push_back(ret);
+			transform = static_cast<C_Transform*>(ret);
 		}
 		break;
 		case C_LIGHT:
 		{
 			ret = new C_Light(this);
-			ret->type = C_TRANSFORM;
+			ret->type = C_LIGHT;
+			ret->ownerParent->type = GO_LIGHT;
 			this->components.push_back(ret);
+			light = static_cast<C_Light*>(ret);
 		}
 		break;
 		case C_MATERIAL:
@@ -222,6 +207,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 			ret = new C_Material(this);
 			ret->type = C_MATERIAL;
 			this->components.push_back(ret);
+			material = static_cast<C_Material*>(ret);
 		}
 		break;
 	}

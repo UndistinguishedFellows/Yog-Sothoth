@@ -17,9 +17,15 @@ public:
 	GameObject* focus = nullptr;
 	GameObject* root = nullptr;
 	GameObject* dragAndDropVisualizer = nullptr;
-	//tmp
+	GameObject* testLight;
+
+	//Main Camera
 	GameObject* camera = nullptr;
-	GameObject* light = nullptr; //FIX: ? There was some error with this var, crashes on App::Cleanup
+	//Active camera
+	GameObject* activeCamera = nullptr;
+
+	std::vector<GameObject*> lights;
+	std::vector<GameObject*> cameras;
 
 private:
 	
@@ -57,11 +63,14 @@ public:
 	 */
 	void LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent, const char* oldPath = nullptr);
 
+	void Draw(GameObject* drawFrom, Shader shader) const;
+	void DrawNormals(GameObject* drawFrom, Shader shader) const;
 
 	void Serialize(Json::Value& root) override;
 	void Deserialize(Json::Value& root) override;
 	void LoadConfig() override;
 	void SaveConfig() override;
 
+	
 };
 

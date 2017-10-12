@@ -1,19 +1,21 @@
 ﻿#include "C_Camera.h"
 #include "../../Application.h"
 #include "../../Engine/CoreModules/M_Input.h"
+#include "C_Transform.h"
+#include "C_Mesh.h"
 
 C_Camera::C_Camera(GameObject* parent) : Component(parent)
 {
-	camera.type = PerspectiveFrustum;
+	frustum.type = PerspectiveFrustum;
 	//camera.pos = { -10.f, 10.f, 20.f };
-	camera.up = { 0.f, 1.f, 0.f };
-	camera.front = { 0.f, 0.f, -1.f };
-	camera.horizontalFov = DegToRad(45);
-	camera.verticalFov = DegToRad(45/ aspectRatio);
+	frustum.up = { 0.f, 1.f, 0.f };
+	frustum.front = { 0.f, 0.f, -1.f };
+	frustum.horizontalFov = DegToRad(45);
+	frustum.verticalFov = DegToRad(45/ aspectRatio);
 //	camera.horizontalFov = 1.309f;
 //	camera.verticalFov = 0.82f;
-	camera.nearPlaneDistance = 0.001f;
-	camera.farPlaneDistance = 1000.f;
+	frustum.nearPlaneDistance = 0.001f;
+	frustum.farPlaneDistance = 1000.f;
 	//LookAt(float3(0, 0, 0));
 }
 
@@ -23,15 +25,14 @@ C_Camera::~C_Camera()
 
 void C_Camera::Move(float dt)
 {
-	C_Transform* transform = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	if (transform != nullptr)
+	if (ownerParent->Transform != nullptr)
 	{
 		float3 pos;
 		float3 sca;
 		Quat rot;
-		transform->localTransform.Decompose(pos, rot, sca);
+		ownerParent->Transform->localTransform.Decompose(pos, rot, sca);
 
-		Frustum* frust = &camera;
+		Frustum* frust = &frustum;
 
 		float speed;
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
@@ -56,19 +57,18 @@ void C_Camera::Move(float dt)
 		{
 			movement *= (speed * dt);
 			frust->pos = pos + movement;
-			transform->localTransform = float4x4::FromTRS(pos + movement, rot, sca);
+			ownerParent->Transform->localTransform = float4x4::FromTRS(pos + movement, rot, sca);
 		}
-		transform->RefreshTransform();
+		ownerParent->Transform->RefreshTransform();
 	}
 }
 
 void C_Camera::Rotate(float dt)
 {
-	C_Transform* transform = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	if (transform != nullptr)
+	if (ownerParent->Transform != nullptr)
 	{
-		camera.front = transform->localTransform.WorldZ();
-		camera.up = transform->localTransform.WorldY();
+		frustum.front = ownerParent->Transform->localTransform.WorldZ();
+		frustum.up = ownerParent->Transform->localTransform.WorldY();
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
@@ -98,8 +98,7 @@ void C_Camera::Rotate(float dt)
 void C_Camera::LookAt(float dx, float dy)
 {
 	//dx will be rotation along x axis
-	C_Transform* transform = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	if (transform != nullptr)
+	if (ownerParent->Transform != nullptr)
 	{
 		
 		if (dx != 0.f)
@@ -109,25 +108,25 @@ void C_Camera::LookAt(float dx, float dy)
 			float3 pos;
 			float3 sca;
 			Quat rot;
-			transform->localTransform.Decompose(pos, rot, sca);
+			ownerParent->Transform->localTransform.Decompose(pos, rot, sca);
 			matrot = matrot.Mul(matrot.FromQuat(roty));
-			matrot = matrot.Mul(transform->localTransform.RotatePart());
-			transform->localTransform.SetRotatePart(matrot);
+			matrot = matrot.Mul(ownerParent->Transform->localTransform.RotatePart());
+			ownerParent->Transform->localTransform.SetRotatePart(matrot);
 
-			camera.front = transform->localTransform.WorldZ().Normalized();
-			camera.up = transform->localTransform.WorldY().Normalized();
-			transform->RefreshTransform();
+			frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
+			frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
+			ownerParent->Transform->RefreshTransform();
 		}
 
 		//dy will be rotation along y axis
 		//more complex as the frustum up changes
 		if (dy != 0.f)
 		{
-			Quat rot = Quat::RotateAxisAngle(camera.WorldRight(), dy);
-			transform->localTransform = transform->localTransform.Mul(transform->localTransform.RotateX(-dy));
-			camera.front = transform->localTransform.WorldZ();
-			camera.up = transform->localTransform.WorldY();
-			transform->RefreshTransform();
+			Quat rot = Quat::RotateAxisAngle(frustum.WorldRight(), dy);
+			ownerParent->Transform->localTransform = ownerParent->Transform->localTransform.Mul(ownerParent->Transform->localTransform.RotateX(-dy));
+			frustum.front = ownerParent->Transform->localTransform.WorldZ();
+			frustum.up = ownerParent->Transform->localTransform.WorldY();
+			ownerParent->Transform->RefreshTransform();
 		}
 		
 	}
@@ -135,18 +134,17 @@ void C_Camera::LookAt(float dx, float dy)
 }
 void C_Camera::LookAt(const float3 spot)
 {
-	C_Transform* transform = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	if (transform != nullptr)
+	if (ownerParent->Transform != nullptr)
 	{
-		float3 dir = spot - camera.pos;
-		float3x3 mat = float3x3::LookAt(camera.front, dir.Normalized(), camera.up, float3::unitY);
+		float3 dir = spot - frustum.pos;
+		float3x3 mat = float3x3::LookAt(frustum.front, dir.Normalized(), frustum.up, float3::unitY);
 
-		mat = mat.Mul(transform->localTransform.RotatePart());
-		transform->localTransform.SetRotatePart(mat);
+		mat = mat.Mul(ownerParent->Transform->localTransform.RotatePart());
+		ownerParent->Transform->localTransform.SetRotatePart(mat);
 
-		camera.front = transform->localTransform.WorldZ().Normalized();
-		camera.up = transform->localTransform.WorldY().Normalized();
-		transform->RefreshTransform();
+		frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
+		frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
+		ownerParent->Transform->RefreshTransform();
 
 	}
 }
@@ -159,31 +157,28 @@ void C_Camera::FocusCamera(GameObject* focus)
 	}
 	if (focus != nullptr)
 	{
-		C_Mesh* mesh = (C_Mesh*)focus->FindComponent(C_MESH);
-		C_Transform* transform = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-
-		if (mesh != nullptr && transform != nullptr)
+		if (ownerParent->Mesh != nullptr && ownerParent->Transform != nullptr)
 		{
 			AABB focusAABB;
 			focusAABB.SetNegativeInfinity();
-			focusAABB.Enclose((float3*)mesh->vertices.vertices, mesh->vertices.numVertices);
+			focusAABB.Enclose((float3*)ownerParent->Mesh->vertices.vertices, ownerParent->Mesh->vertices.numVertices);
 
 			float3 centerPoint = focusAABB.CenterPoint();
 			float3 size = focusAABB.Size();
 
-			float cameraDist_y = (size.y/2) / math::Tan(camera.verticalFov/2);
-			float cameraDist_x = (size.x/2) / math::Tan(camera.horizontalFov/2);
+			float cameraDist_y = (size.y/2) / math::Tan(frustum.verticalFov/2);
+			float cameraDist_x = (size.x/2) / math::Tan(frustum.horizontalFov/2);
 
 			if (cameraDist_y > cameraDist_x)
 			{
-				transform->SetPosition(float3(0, centerPoint.y, cameraDist_y));
+				ownerParent->Transform->SetPosition(float3(0, centerPoint.y, cameraDist_y));
 			}
 			else
 			{
-				transform->SetPosition(float3(0, centerPoint.y, cameraDist_x));
+				ownerParent->Transform->SetPosition(float3(0, centerPoint.y, cameraDist_x));
 			}
 			//LookAt(centerPoint);
-			transform->RefreshTransform();
+			ownerParent->Transform->RefreshTransform();
 		}
 	}
 
@@ -191,7 +186,7 @@ void C_Camera::FocusCamera(GameObject* focus)
 
 void C_Camera::Zoom(float dt)
 {
-	Frustum* frust = &camera;
+	Frustum* frust = &frustum;
 	float3 movement(float3::zero);
 	float3 forw(frust->front);
 

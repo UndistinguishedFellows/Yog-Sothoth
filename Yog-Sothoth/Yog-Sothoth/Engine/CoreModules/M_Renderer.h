@@ -1,16 +1,15 @@
 ﻿#pragma once
 
 #include "BaseClass/Module.h"
-#include "../../Tools/Containers/Shader.h"
-#include "../../Tools/Primitive.h"
-#include "../GameObjects/Components/C_Camera.h"
-#include "../GameObjects/Components/C_Mesh.h"
-#include "../GameObjects/Components/C_Transform.h"
-#include "../../Tools/GPUDetect/DeviceId.h"
 #include "../../Tools/TextureImporter.h"
+#include "../../Tools/Containers/Color.h"
+#include <glew.h>
+
 
 #define CHECKERS_WIDTH 256
 #define CHECKERS_HEIGHT 256
+
+class Shader;
 
 struct GPUInfo
 {
@@ -26,21 +25,21 @@ struct GPUInfo
 class M_Renderer : public Module
 {
 public:
-	SDL_GLContext context;
+	SDL_GLContext context = nullptr;
 
 	Json::Value root;
 
-	bool vSync;
-
+	bool vSync = false;
+	bool fbxViewer = true;
 	GPUInfo gpuInfo;
 
 private:
-	bool depthTest;
-	bool cullFace;
-	bool lightning;
-	bool wireframe;
-	bool grid;
-	Color colorMaterial;
+	bool depthTest = false;
+	bool cullFace = false;
+	bool lightning = false;
+	bool wireframe = false;
+	bool grid = false;
+	Color colorMaterial = Color(1, 1, 1, 1);
 
 public:
 	M_Renderer(bool enabled = true);
@@ -83,21 +82,16 @@ public:
 	void createCheckersTexture();
 
 	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-	GLuint ImageName;
-	bool checkersCube;
+	GLuint ImageName = 0;
+	bool checkersCube = false;
 	TextureImporter* texImporter = nullptr;
-	unsigned int textureLenna;
-
-	unsigned int VBO, VAO, EBO, cubeVAO, cubeVBO;
-	unsigned int lightVAO;
-	unsigned int shaderProgram;
-	C_Camera* frustum;
-	std::vector<C_Mesh*> meshes;
-	GameObject* testCube;
-	GameObject* testLight;
+	unsigned int textureLenna = 0;
 	
-	Shader* lightShader;
-	Shader* basicShader;
-	Shader* lampShader;
-	Shader* wireframeShader;
+	Shader* lightShader = nullptr;		//Shader with light
+	Shader* basicShader = nullptr;
+	Shader* lampShader = nullptr;			//Shader of a light emmiter
+	Shader* wireframeShader = nullptr;	//Shader for a wireframe display
+
+	//Implied in refactor
+	//C_Camera* frustum;
 };

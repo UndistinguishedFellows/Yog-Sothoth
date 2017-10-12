@@ -152,9 +152,9 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 {
 	if (wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	float4x4 view = camera->camera.ViewMatrix();
-	C_Transform* model = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	C_Transform* trans = (C_Transform*)App->renderer->testLight->FindComponent(C_TRANSFORM);
+	float4x4 view = camera->frustum.ViewMatrix();
+	C_Transform* model = ownerParent->Transform;
+	C_Transform* trans = App->objManager->testLight->Transform;
 
 	shader.Use();
 	shader.setInt("tex", 0);
@@ -175,14 +175,14 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 							//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.idIndices);
 	
-	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());
+	shader.setMat4("projection", &camera->frustum.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
 	shader.setMat4("model", &float4x4::identity);
 	//shader.setMat4("model", &model->globalTransform.Transposed());
 	shader.setVec3("objectColor", color.r, color.g, color.b);
 	shader.setVec3("lightColor", 0.50f, 0.50f, 0.50f);
 	shader.setVec3("lightPos", &trans->GetPosition());
-	shader.setVec3("viewPos", &camera->camera.pos);
+	shader.setVec3("viewPos", &camera->frustum.pos);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, associatedMaterial->texture);
@@ -201,11 +201,11 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 
 void C_Mesh::DrawNormals(Shader shader, C_Camera* camera) const
 {
-	C_Transform* trans = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	float4x4 view = camera->camera.ViewMatrix();
+	C_Transform* trans = ownerParent->Transform;
+	float4x4 view = camera->frustum.ViewMatrix();
 
 	shader.Use();
-	shader.setMat4("projection", &camera->camera.ProjectionMatrix().Transposed());
+	shader.setMat4("projection", &camera->frustum.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
 	shader.setMat4("model", &float4x4::identity);
 	//shader.setMat4("model", &trans->globalTransform.Transposed());
@@ -235,12 +235,15 @@ void C_Mesh::DrawSelected(Shader shader, C_Camera* camera) const
 void C_Mesh::UpdateBoundingBoxes()
 {
 	aabb.SetNegativeInfinity();
-	aabb.Enclose((float3*)vertices.vertices, vertices.numVertices);
+	if (vertices.vertices != nullptr)
+	{
+		aabb.Enclose((float3*)vertices.vertices, vertices.numVertices);
 
-	obb = aabb;
-	C_Transform* transform = (C_Transform*)parent->FindComponent(C_TRANSFORM);
-	obb.Transform(transform->globalTransform);
-	aabb.SetFrom(obb);
+		obb = aabb;
+		obb.Transform(ownerParent->Transform->globalTransform);
+		aabb.SetFrom(obb);
+
+	}
 
 }
 

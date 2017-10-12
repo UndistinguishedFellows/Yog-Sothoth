@@ -21,8 +21,8 @@ public:
 	C_Transform(GameObject* parent);
 	~C_Transform();
 
-	const float4x4 GetLocalTransform();
-	const float4x4 GetGlobalTransform();
+	const float4x4 GetLocalTransform() const;
+	const float4x4 GetGlobalTransform() const;
 
 	void RefreshTransform();
 

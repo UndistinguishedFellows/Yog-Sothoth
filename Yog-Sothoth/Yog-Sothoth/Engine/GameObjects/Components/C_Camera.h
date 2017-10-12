@@ -16,7 +16,7 @@ public:
 	void FocusCamera(GameObject* focus = nullptr);
 	void Zoom(float dt);
 
-	Frustum camera;
+	Frustum frustum;
 
 	float movSpeed = 5.f;
 	float rotSpeed = 1.2f;

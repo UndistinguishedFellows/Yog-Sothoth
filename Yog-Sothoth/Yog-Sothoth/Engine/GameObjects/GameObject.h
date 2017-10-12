@@ -13,9 +13,15 @@ enum GameObjectType
 
 class Shader;
 class C_Camera;
+class C_Mesh;
+class C_Transform;
+class C_Light;
+class C_Material;
+class M_GameObjectManager;
 
 class GameObject
 {
+	friend class M_ObjectManager;
 public:
 	GameObjectType type = GO_STANDARD;
 	std::vector<GameObject*> children;
@@ -33,12 +39,18 @@ public:
 
 	bool active = true;
 	bool selected = false;
+private:
+	//For now there will be only one attribute of each
+	C_Mesh*			mesh		= nullptr;
+	C_Transform*	transform	= nullptr;
+	C_Camera*		camera		= nullptr;
+	C_Material*		material	= nullptr;
+	C_Light*		light		= nullptr;
 
-public:
+protected:	
 	GameObject();
 	GameObject(GameObject* parent);
 	~GameObject();
-
 	/**
 	 * \brief Add a child into children list of this object
 	 * \param child Child to be added
@@ -71,11 +83,7 @@ public:
 	 */
 	GameObject* FindChild(std::string goName);
 	static void MoveChild(GameObject* child, GameObject* origin, GameObject* destiny);
-	/**
-	 * \brief Adds a new relationship for this game object
-	 * \param reference the new object that references this one
-	 */
-	void AddRelationship(GameObject** reference);
+
 	std::vector<GameObject*> GetChildren();
 
 	/**
@@ -94,4 +102,27 @@ public:
 	void DrawLight(Shader shader, C_Camera* camera);
 	void Draw_AABB();
 	AABB GetAABB();
+
+public:
+	C_Mesh* mesh1() const { return mesh; }
+	void set_mesh(C_Mesh* const mesh) { this->mesh = mesh; }
+	__declspec(property(get = mesh1, put = set_mesh)) C_Mesh* Mesh;
+
+	C_Transform* transform1() const { return transform; }
+	void set_transform(C_Transform* const transform) { this->transform = transform; }
+	__declspec(property(get = transform1, put = set_transform)) C_Transform* Transform;
+
+	C_Camera* camera1() const { return camera; }
+	void set_camera(C_Camera* const camera) { this->camera = camera; }
+	__declspec(property(get = camera1, put = set_camera)) C_Camera* Camera;
+
+	C_Material* material1() const { return material; }
+	void set_material(C_Material* const material) { this->material = material; }
+	__declspec(property(get = material1, put = set_material)) C_Material* Material;
+
+	C_Light* light1() const { return light; }
+	void set_light(C_Light* const light) { this->light = light; }
+	__declspec(property(get = light1, put = set_light)) C_Light* Light;
+
+
 };

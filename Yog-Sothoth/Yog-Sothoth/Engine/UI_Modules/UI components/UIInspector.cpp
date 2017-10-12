@@ -3,6 +3,7 @@
 #include "../../../Application.h"
 #include "../../Engine/GameObjects/M_ObjectManager.h"
 #include "../../GameObjects/Components/C_Transform.h"
+#include "../../GameObjects/Components/C_Mesh.h"
 
 UIInspector::UIInspector()
 {
@@ -56,7 +57,7 @@ void UIInspector::Draw()
 
 void UIInspector::Transform()
 {
-	C_Transform* transform = (C_Transform*)App->objManager->GetFocusGO()->FindComponent(C_TRANSFORM);
+	C_Transform* transform = App->objManager->GetFocusGO()->Transform;
 	if (transform != nullptr)
 		if (ImGui::CollapsingHeader("Transform"))
 		{
@@ -105,7 +106,7 @@ void UIInspector::Transform()
 
 void UIInspector::Mesh()
 {
-	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
+	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->Mesh;
 	if (mesh != nullptr)
 		if (ImGui::CollapsingHeader("Mesh"))
 		{
@@ -159,8 +160,8 @@ void UIInspector::Mesh()
 
 void UIInspector::Material()
 {
-	C_Material* material = (C_Material*)App->objManager->GetFocusGO()->FindComponent(C_MATERIAL);
-	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->FindComponent(C_MESH);
+	C_Material* material = (C_Material*)App->objManager->GetFocusGO()->Material;
+	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->Mesh;
 	Color color;
 	if (material != nullptr && mesh != nullptr)
 		if (ImGui::CollapsingHeader("Material"))
@@ -192,26 +193,26 @@ void UIInspector::Light()
 
 void UIInspector::Camera()
 {
-	C_Camera* camera = (C_Camera*)App->objManager->GetFocusGO()->FindComponent(C_CAMERA);
+	C_Camera* camera = App->objManager->GetFocusGO()->Camera;
 	if (camera != nullptr)
 		if (ImGui::CollapsingHeader("Camera##inspector"))
 		{
 			ImGui::Text("Camera");
-			if (ImGui::DragFloat3("Position##camera", camera->camera.pos.ptr(), 0.01f))
+			if (ImGui::DragFloat3("Position##camera", camera->frustum.pos.ptr(), 0.01f))
 			{}
-			if (ImGui::DragFloat3("UP##camera", camera->camera.up.ptr(), 0.01f))
+			if (ImGui::DragFloat3("UP##camera", camera->frustum.up.ptr(), 0.01f))
 			{}
-			if (ImGui::DragFloat3("Front##camera", camera->camera.front.ptr(), 0.01f))
+			if (ImGui::DragFloat3("Front##camera", camera->frustum.front.ptr(), 0.01f))
 			{}
-			if (ImGui::DragFloat("Horizontal FOV##camera", &camera->camera.horizontalFov, 0.01f, 0, math::pi))
+			if (ImGui::DragFloat("Horizontal FOV##camera", &camera->frustum.horizontalFov, 0.01f, 0, math::pi))
 			{}
-			if (ImGui::DragFloat("Vertical FOV##camera", &camera->camera.verticalFov, 0.01f, 0, math::pi))
+			if (ImGui::DragFloat("Vertical FOV##camera", &camera->frustum.verticalFov, 0.01f, 0, math::pi))
 			{}
-			if (ImGui::DragFloat("Near plane distance##camera", &camera->camera.nearPlaneDistance, 0.01f, 0))
+			if (ImGui::DragFloat("Near plane distance##camera", &camera->frustum.nearPlaneDistance, 0.01f, 0))
 			{}
-			if (ImGui::DragFloat("Far plane distance##camera", &camera->camera.farPlaneDistance, 0.01f, camera->camera.nearPlaneDistance))
+			if (ImGui::DragFloat("Far plane distance##camera", &camera->frustum.farPlaneDistance, 0.01f, camera->frustum.nearPlaneDistance))
 			{}
-			ImGui::Text("Aspect Ratio: %f", camera->camera.AspectRatio());
+			ImGui::Text("Aspect Ratio: %f", camera->frustum.AspectRatio());
 		}
 
 }

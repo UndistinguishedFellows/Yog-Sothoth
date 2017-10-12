@@ -16,23 +16,6 @@ namespace fs = std::experimental::filesystem;
 M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
 {
 	name = "objManager";
-	deletionGameObject = new GameObject();
-	deletionGameObject->name = "deletionGameObject";
-	root = new GameObject();
-	root->name = "/";
-	root->CreateComponent(C_TRANSFORM);
-	dragAndDropVisualizer = new GameObject();
-	dragAndDropVisualizer->name = "drag&drop";
-	dragAndDropVisualizer->CreateComponent(C_TRANSFORM);
-	root->AddChild(dragAndDropVisualizer);
-
-	camera = new GameObject();
-	camera->name = "camera";
-	camera->CreateComponent(C_CAMERA);
-	camera->CreateComponent(C_TRANSFORM);
-
-	root->AddChild(camera);
-	
 }
 
 
@@ -48,10 +31,36 @@ bool M_ObjectManager::Init()
 
 bool M_ObjectManager::Start()
 {
-	camera->SetPos(float3(0, 5.f, 10.f));
-	C_Transform* transform = (C_Transform*)camera->FindComponent(C_TRANSFORM);
-	transform->SetRotation(0, 180, 0);
 
+	deletionGameObject = new GameObject();
+	deletionGameObject->name = "deletionGameObject";
+
+	root = new GameObject();
+	root->name = "/";
+	root->CreateComponent(C_TRANSFORM);
+
+	dragAndDropVisualizer = new GameObject();
+	dragAndDropVisualizer->name = "drag&drop";
+	root->AddChild(dragAndDropVisualizer);
+	dragAndDropVisualizer->CreateComponent(C_TRANSFORM);	
+
+	camera = new GameObject();
+	camera->name = "camera";
+	root->AddChild(camera);
+	camera->CreateComponent(C_CAMERA);
+	camera->CreateComponent(C_TRANSFORM);	
+	camera->SetPos(float3(0, 5.f, 10.f));
+	camera->Transform->SetRotation(0, 180, 0);	
+
+	testLight = new GameObject();
+	testLight->name = "testLight";
+	root->AddChild(testLight);
+	testLight->CreateComponent(C_LIGHT);
+	testLight->CreateComponent(C_TRANSFORM);
+	testLight->type = GO_LIGHT;
+	testLight->Transform->SetPosition(float3(0.f, 20.0f, 5.0f));
+	
+	activeCamera = camera;
 	return true;
 }
 //Todo: Here game objects will be deleted when needed
@@ -334,6 +343,16 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 			LoadScene(scene, node->mChildren[i], gameObject);
 	}
 
+}
+
+void M_ObjectManager::Draw(GameObject* drawFrom, Shader shader) const
+{
+	drawFrom->Draw(shader, activeCamera->Camera);
+}
+
+void M_ObjectManager::DrawNormals(GameObject* drawFrom, Shader shader) const
+{
+	drawFrom->DrawNormals(shader, activeCamera->Camera);
 }
 
 void M_ObjectManager::Serialize(Json::Value& root)

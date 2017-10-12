@@ -14,10 +14,10 @@ enum ComponentType
 class Component : public IJsonSerializable
 {
 public:
-	GameObject* parent = nullptr;
+	GameObject* ownerParent = nullptr;
 	ComponentType type = C_UNKNOWN;
 
-	Component(GameObject* parent) { this->parent = parent; }
+	Component(GameObject* parent) { this->ownerParent = parent; }
 	virtual ~Component(){}
 
 	void Serialize(Json::Value& root) {};

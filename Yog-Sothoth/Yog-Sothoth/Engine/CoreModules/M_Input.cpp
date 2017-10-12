@@ -2,9 +2,10 @@
 #include "M_Input.h"
 #include "M_Renderer.h"
 
-#include "../../imGUI/imgui.h"
 #include "../../imGUI/imgui_impl_sdl_gl3.h"
 #include "../GameObjects/Components/C_Camera.h"
+#include "../GameObjects/Components/C_Material.h"
+
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
@@ -145,8 +146,7 @@ update_status M_Input::PreUpdate(float dt)
 					{
 						for (auto child : App->objManager->dragAndDropVisualizer->children)
 						{
-							C_Material* material = (C_Material*)child->FindComponent(C_MATERIAL);
-							material->LoadTexture(finalPath.c_str());
+							child->Material->LoadTexture(finalPath.c_str());
 						}
 					}
 				}
