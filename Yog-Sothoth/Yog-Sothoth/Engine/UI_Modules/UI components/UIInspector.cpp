@@ -71,17 +71,21 @@ void UIInspector::Transform()
 
 			if (ImGui::DragFloat3("Position", position.ptr(), 0.01f))
 			{
-			}//transform->SetPosition(position);
-
+				if (!App->renderer->fbxViewer)
+					transform->SetPosition(position);
+			}
 
 			if (ImGui::DragFloat3("Rotation", localEulerAngles.ptr(), 1.f))
 			{
-				//transform->SetRotation(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
+				if (!App->renderer->fbxViewer)
+				transform->SetRotation(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z);
 			}
 
 			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.01f))
 			{
-			}//transform->SetScale(scale);
+				if (!App->renderer->fbxViewer)
+					transform->SetScale(scale);
+			}
 
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////

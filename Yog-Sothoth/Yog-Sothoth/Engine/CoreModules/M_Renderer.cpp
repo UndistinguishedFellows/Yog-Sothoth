@@ -227,6 +227,7 @@ void M_Renderer::Serialize(Json::Value& root)
 	root["cullFace"] = cullFace;
 	root["wireframe"] = wireframe;
 	root["grid"] = grid;
+	root["fbxViewer"] = fbxViewer;
 }
 
 void M_Renderer::Deserialize(Json::Value& root)
@@ -236,6 +237,7 @@ void M_Renderer::Deserialize(Json::Value& root)
 	cullFace = root.get("cullFace", true).asBool();	
 	wireframe = root.get("wireframe", true).asBool();	
 	grid = root.get("grid", true).asBool();
+	fbxViewer = root.get("fbxViewer", true).asBool();
 }
 
 void M_Renderer::LoadConfig()
@@ -301,6 +303,16 @@ bool M_Renderer::GetGrid()
 bool M_Renderer::IsVSyncActive()const
 {
 	return vSync;
+}
+
+bool M_Renderer::IsFBXViewerActive() const
+{
+	return fbxViewer;
+}
+
+void M_Renderer::setFBXViewer(bool set)
+{
+	fbxViewer = set;
 }
 
 void M_Renderer::SetVSync(bool set)

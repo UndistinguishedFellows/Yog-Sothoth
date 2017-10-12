@@ -153,8 +153,6 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	if (wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	float4x4 view = camera->frustum.ViewMatrix();
-	C_Transform* model = ownerParent->Transform;
-	C_Transform* trans = App->objManager->testLight->Transform;
 
 	shader.Use();
 	shader.setInt("tex", 0);
@@ -177,11 +175,17 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	
 	shader.setMat4("projection", &camera->frustum.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
-	shader.setMat4("model", &float4x4::identity);
-	//shader.setMat4("model", &model->globalTransform.Transposed());
+	if (App->renderer->fbxViewer)
+	{
+		shader.setMat4("model", &float4x4::identity);
+	}
+	else
+	{
+		shader.setMat4("model", &ownerParent->Transform->globalTransform.Transposed());
+	}
 	shader.setVec3("objectColor", color.r, color.g, color.b);
 	shader.setVec3("lightColor", 0.50f, 0.50f, 0.50f);
-	shader.setVec3("lightPos", &trans->GetPosition());
+	shader.setVec3("lightPos", &App->objManager->testLight->Transform->GetPosition());
 	shader.setVec3("viewPos", &camera->frustum.pos);
 
 	glActiveTexture(GL_TEXTURE0);
@@ -207,8 +211,10 @@ void C_Mesh::DrawNormals(Shader shader, C_Camera* camera) const
 	shader.Use();
 	shader.setMat4("projection", &camera->frustum.ProjectionMatrix().Transposed());
 	shader.setMat4("view", &view.Transposed());
-	shader.setMat4("model", &float4x4::identity);
-	//shader.setMat4("model", &trans->globalTransform.Transposed());
+	if (App->renderer->fbxViewer)
+		shader.setMat4("model", &float4x4::identity);
+	else
+		shader.setMat4("model", &trans->globalTransform.Transposed());
 	shader.setVec4("objectColor", 1.f, 1.f, 0.f, 1.f);
 
 	glLineWidth(2.0f);

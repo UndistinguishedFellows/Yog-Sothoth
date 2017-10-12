@@ -227,6 +227,7 @@ void UIConfiguration::Draw()
 		bool wireframe = App->renderer->GetWireframe();
 		bool grid = App->renderer->GetGrid();
 		bool vSync = App->renderer->IsVSyncActive();
+		bool fbxViewer = App->renderer->IsFBXViewerActive();
 
 		if (ImGui::Checkbox("DepthTest", &depthTest))
 		{
@@ -250,6 +251,10 @@ void UIConfiguration::Draw()
 		if (ImGui::Checkbox("vSync", &vSync))
 		{
 			App->renderer->SetVSync(vSync);
+		}
+		if (ImGui::Checkbox("Fbx Viewer mode", &fbxViewer))
+		{
+			App->renderer->setFBXViewer(fbxViewer);
 		}
 
 		if (ImGui::Button("Save##render"))

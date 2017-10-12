@@ -29,7 +29,12 @@ void UIOutliner::Draw()
 	ImGui::Spacing();
 
 	//const GameObject* root = App->objManager->root;
-	const GameObject* root = App->objManager->dragAndDropVisualizer;
+	const GameObject* root;
+	if (App->renderer->fbxViewer)
+		root = App->objManager->dragAndDropVisualizer;
+	else
+		root = App->objManager->root;
+
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 	flags |= ImGuiTreeNodeFlags_OpenOnArrow;

@@ -53,6 +53,8 @@ public:
 	bool CleanUp() override;
 
 	bool IsVSyncActive()const;
+	bool IsFBXViewerActive()const;
+	void setFBXViewer(bool set);
 	void SetVSync(bool set);
 
 	void Serialize(Json::Value& root) override;
