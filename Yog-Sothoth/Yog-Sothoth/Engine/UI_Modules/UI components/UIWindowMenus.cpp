@@ -63,6 +63,7 @@ void UIWindowMenus::Draw()
 		if (ImGui::BeginMenu("Help"))
 		{
 			ImGui::MenuItem("Report an Issue", nullptr, &openIssuesDirectory, true);
+			ImGui::MenuItem("ImGui demo window", nullptr, &imGuiDemo, true);
 			ImGui::MenuItem("Tests", nullptr, &App->uiManager->tests->active, true);
 			ImGui::EndMenu();
 		}
