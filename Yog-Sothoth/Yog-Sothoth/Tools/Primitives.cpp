@@ -25,17 +25,12 @@ void Primitives::Primitives::Deserialize(Json::Value& root)
 		pCube.vertices.vertices = new float[pCube.vertices.numVertices];
 		Json::Value jValue;
 		jValue = jpCube.get("indices", root);
-		yogConsole(CONSOLE_INFO, "%s", jValue.toStyledString().c_str());
 		for (int i = 0; i != jValue.size(); ++i)
 		{
 			pCube.indices.indices[i] = jValue[i].asUInt();
-			yogConsole(CONSOLE_INFO, "%d", pCube.indices.indices[i]);
 		}
-		yogConsole(CONSOLE_INFO, "----------------------------------------");
 		jpCube = root.get("pCube", 0);
-		jValue = jpCube.get("vertices", root);
-		yogConsole(CONSOLE_INFO, "----------------------------------------");
-		yogConsole(CONSOLE_INFO, "%s", jValue.toStyledString().c_str());		
+		jValue = jpCube.get("vertices", root);		
 
 		for (int i = 0; i != jValue.size(); ++i)
 		{

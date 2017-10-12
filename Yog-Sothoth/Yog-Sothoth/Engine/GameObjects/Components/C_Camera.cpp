@@ -67,8 +67,8 @@ void C_Camera::Rotate(float dt)
 {
 	if (ownerParent->Transform != nullptr)
 	{
-		frustum.front = ownerParent->Transform->localTransform.WorldZ();
-		frustum.up = ownerParent->Transform->localTransform.WorldY();
+		frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
+		frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
@@ -124,8 +124,8 @@ void C_Camera::LookAt(float dx, float dy)
 		{
 			Quat rot = Quat::RotateAxisAngle(frustum.WorldRight(), dy);
 			ownerParent->Transform->localTransform = ownerParent->Transform->localTransform.Mul(ownerParent->Transform->localTransform.RotateX(-dy));
-			frustum.front = ownerParent->Transform->localTransform.WorldZ();
-			frustum.up = ownerParent->Transform->localTransform.WorldY();
+			frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
+			frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
 			ownerParent->Transform->RefreshTransform();
 		}
 		
