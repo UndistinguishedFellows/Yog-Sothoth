@@ -163,7 +163,7 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	shader.setInt("tex", 0);
 	if (associatedMaterial != nullptr)
 	{
-		if(associatedMaterial->texture != 0)
+		if(associatedMaterial->texture != 0 || associatedMaterial->checkers)
 		{
 			shader.setInt("hasTex", 1);
 		}

@@ -7,6 +7,7 @@
       "uiManager" : "",
       "window" : "data/config/window.json"
    },
+   "max_fps" : 0.0,
    "name" : "Yog-Sothoth",
    "organization" : "UndistinguishedFellows"
 }
