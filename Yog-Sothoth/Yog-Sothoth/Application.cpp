@@ -163,6 +163,7 @@ void Application::Serialize(Json::Value& root)
 {
 	root["name"] = appName.data();
 	root["organization"] = organization.data();
+	root["max_fps"] = MaxFPS;
 	Json::Value paths;
 	for (std::list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it)
 	{
@@ -179,6 +180,7 @@ void Application::Deserialize(Json::Value& root)
 {	
 	organization = root.get("organization", "Org not loaded").asString();
 	appName = root.get("name", "AppName not loaded").asString();
+	MaxFPS = root.get("max_fps", 0).asFloat();
 
 	Json::Value paths = root["config_paths"];
 	Json::Value::Members members =  paths.getMemberNames();
