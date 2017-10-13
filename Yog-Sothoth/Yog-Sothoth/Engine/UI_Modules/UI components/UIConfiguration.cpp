@@ -64,7 +64,7 @@ void UIConfiguration::Draw()
 
 		static int MaxFPSSlider;
 		MaxFPSSlider = (int)App->MaxFPS;
-		if (ImGui::SliderInt("Max FPS", &MaxFPSSlider, 0, 200))
+		if (ImGui::SliderInt("Max FPS", &MaxFPSSlider, 0, 100))
 		{
 			App->MaxFPS = MaxFPSSlider;
 		}
