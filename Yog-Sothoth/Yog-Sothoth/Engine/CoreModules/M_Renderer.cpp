@@ -78,7 +78,13 @@ bool M_Renderer::Init()
 		}
 
 		//Initialize clear color
-		glClearColor(0.2f, 0.3f, 0.3f, 1.f);
+		//glClearColor(0.2f, 0.3f, 0.3f, 1.f);
+		glClearDepth(1.0f);
+		glDepthFunc(GL_LESS);
+		GLint depthBytes;
+		glGetIntegerv(GL_DEPTH_BITS, &depthBytes);
+		yogConsole(CONSOLE_INFO, "Depth Bytes: %d", depthBytes);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 		//Check for error
 		error = glGetError();
@@ -113,8 +119,9 @@ bool M_Renderer::Start()
 
 update_status M_Renderer::PreUpdate(float dt)
 {
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
 	return UPDATE_CONTINUE;
 }
 

@@ -134,7 +134,7 @@ bool Application::CleanUp()
 }
 bool Application::OpenBrowser(const char* link)
 {
-	ShellExecute(NULL, "open", link, NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(nullptr, "open", link, nullptr, nullptr, SW_SHOWNORMAL);
 	return true;
 }
 void Application::Log(char* str)
