@@ -49,8 +49,15 @@ void C_Camera::Move(float dt)
 			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) movement -= forw;
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) movement += right;
 			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) movement -= right;
-			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement += float3::unitY;
-			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) movement -= float3::unitY;
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) movement += float3::unitY;
+			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) movement -= float3::unitY;
+		}
+		else
+		{
+			if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) movement += forw;
+			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) movement -= forw;
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) movement += right;
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) movement -= right;
 		}
 
 		if (!movement.Equals(float3::zero))
