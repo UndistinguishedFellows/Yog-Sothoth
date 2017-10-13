@@ -110,6 +110,21 @@ update_status M_ObjectManager::PreUpdate(float dt)
 update_status M_ObjectManager::Update(float dt)
 {
 
+	float3 scale;
+	float3 position;
+	Quat rotation;
+
+	App->objManager->activeCamera->Transform->GetLocalTransform().Decompose(position, rotation, scale);
+	App->objManager->activeCamera->Camera->frustum.pos = position;
+	App->objManager->activeCamera->Camera->Move(dt);
+	App->objManager->activeCamera->Camera->Rotate(dt);
+	//App->objManager->activeCamera->Camera->FocusCamera();
+	//frustum->ownerParent->LookAt(float3(0, 0, 0));
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+		App->objManager->activeCamera->Camera->LookAt(float3(0, 0, 0));
+	App->objManager->activeCamera->Camera->Zoom(dt);
+	//App->objManager->activeCamera->Camera->Orbit(dt);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -170,6 +185,29 @@ void M_ObjectManager::SetFocusGO(GameObject* go)
 GameObject* M_ObjectManager::FindGameObject(std::string name)
 {
 	return root->FindChild(name);
+}
+
+void M_ObjectManager::UpdateBoundingBoxes(GameObject* go)
+{
+	GameObject* ret = nullptr;
+	std::stack<GameObject*> stack;
+	if (go == nullptr)
+		go = root;
+
+	stack.push(go);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+
+		top->UpdateBoundingBoxes();
+
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+
 }
 
 GameObject* M_ObjectManager::LoadFBX(const char * path)

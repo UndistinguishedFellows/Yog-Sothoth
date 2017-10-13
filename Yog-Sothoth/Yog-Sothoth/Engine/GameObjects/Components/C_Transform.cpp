@@ -39,13 +39,14 @@ void C_Transform::RefreshTransform()
 
 void C_Transform::SetPosition(float3 position)
 {
-	float3 pos;
-	float3 sca;
-	Quat rot;
-	localTransform.Decompose(pos, rot, sca);
-
-	localTransform = float4x4::FromTRS(position, rot, sca);
-
+//	float3 pos;
+//	float3 sca;
+//	Quat rot;
+//	localTransform.Decompose(pos, rot, sca);
+//
+//	localTransform = float4x4::FromTRS(position, rot, sca);
+//
+	localTransform.SetTranslatePart(position);
 	//localTransform = localTransform.Translate(position);
 
 	RefreshTransform();

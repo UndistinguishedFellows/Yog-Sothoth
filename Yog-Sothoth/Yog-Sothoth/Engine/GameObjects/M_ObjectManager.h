@@ -55,6 +55,7 @@ public:
 	GameObject* GetFocusGO();
 	void SetFocusGO(GameObject* go);
 	GameObject* FindGameObject(std::string name);
+	void UpdateBoundingBoxes(GameObject* go = nullptr);
 	
 	/**
 	* \brief  TODO:Temporal method to load a FBX, this must be removed when resource manager will be implementated

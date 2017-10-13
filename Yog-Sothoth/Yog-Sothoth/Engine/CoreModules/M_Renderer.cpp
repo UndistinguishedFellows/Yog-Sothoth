@@ -183,19 +183,7 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	}
 
-	float3 scale;
-	float3 position;
-	Quat rotation;
 
-	App->objManager->activeCamera->Transform->GetLocalTransform().Decompose(position, rotation, scale);
-	App->objManager->activeCamera->Camera->frustum.pos = position;
-	App->objManager->activeCamera->Camera->Move(dt);
-	App->objManager->activeCamera->Camera->Rotate(dt);
-	//App->objManager->activeCamera->Camera->FocusCamera();
-	//frustum->ownerParent->LookAt(float3(0, 0, 0));
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) 
-		App->objManager->activeCamera->Camera->LookAt(float3(0,0,0));
-	App->objManager->activeCamera->Camera->Zoom(dt);
 
 
 
