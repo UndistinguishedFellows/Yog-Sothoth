@@ -21,6 +21,8 @@ public:
 	UIInspector* inspector = nullptr;
 
 	bool outlinerSelected = false;
+	bool isUsingMouse;
+	bool isUsingKeyboard;
 
 public:
 	M_UIManager(bool enabled = true);

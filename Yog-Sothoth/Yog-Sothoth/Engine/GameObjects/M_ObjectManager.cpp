@@ -114,16 +114,20 @@ update_status M_ObjectManager::Update(float dt)
 	float3 position;
 	Quat rotation;
 
-	App->objManager->activeCamera->Transform->GetLocalTransform().Decompose(position, rotation, scale);
-	App->objManager->activeCamera->Camera->frustum.pos = position;
-	App->objManager->activeCamera->Camera->Move(dt);
-	App->objManager->activeCamera->Camera->Rotate(dt);
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
-		App->objManager->activeCamera->Camera->FocusCamera();
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-		App->objManager->activeCamera->Camera->LookAt(float3(0, 0, 0));
-	App->objManager->activeCamera->Camera->Zoom(dt);
-	App->objManager->activeCamera->Camera->Orbit(dt);
+	if (!App->uiManager->isUsingKeyboard && !App->uiManager->isUsingMouse)
+	{
+		App->objManager->activeCamera->Transform->GetLocalTransform().Decompose(position, rotation, scale);
+		App->objManager->activeCamera->Camera->frustum.pos = position;
+		App->objManager->activeCamera->Camera->Move(dt);
+		App->objManager->activeCamera->Camera->Rotate(dt);
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+			App->objManager->activeCamera->Camera->FocusCamera();
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+			App->objManager->activeCamera->Camera->LookAt(float3(0, 0, 0));
+		App->objManager->activeCamera->Camera->Zoom(dt);
+		App->objManager->activeCamera->Camera->Orbit(dt);
+
+	}
 
 	return UPDATE_CONTINUE;
 }

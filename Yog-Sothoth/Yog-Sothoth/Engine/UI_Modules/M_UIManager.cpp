@@ -49,6 +49,11 @@ bool M_UIManager::Start()
 update_status M_UIManager::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL3_NewFrame(App->window->GetWindow());
+
+	ImGuiIO& io = ImGui::GetIO();
+	isUsingMouse = io.WantCaptureMouse;
+	isUsingKeyboard = io.WantCaptureKeyboard;
+
 	return UPDATE_CONTINUE;
 }
 
