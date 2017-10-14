@@ -143,7 +143,7 @@ void C_Camera::Orbit(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		float3 orbitPoint;
-		if (App->objManager->GetFocusGO() == nullptr)
+		if (App->objManager->GetFocusGO() == nullptr || !App->objManager->GetFocusGO()->aabb.IsFinite())
 		{
 			orbitPoint = customOrbitPoint;
 		}
