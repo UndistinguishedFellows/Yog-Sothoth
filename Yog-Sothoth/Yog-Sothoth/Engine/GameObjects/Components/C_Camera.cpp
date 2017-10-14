@@ -160,7 +160,7 @@ void C_Camera::Orbit(float dt)
 		ownerParent->Transform->localTransform.SetTranslatePart(pos + distf3);
 		frustum.pos = pos + distf3;
 
-		LookAt(motX * dt, motY * dt);
+		LookAt(-motX * dt, -motY * dt);
 
 		distf3 = frustum.front.Normalized() * dist;
 		pos = ownerParent->Transform->localTransform.TranslatePart();
