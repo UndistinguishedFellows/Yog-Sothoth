@@ -171,6 +171,7 @@ void UIInspector::Material()
 		if (ImGui::CollapsingHeader("Material"))
 		{
 			ImGui::Text("Material");
+			ImGui::Text("Name: %s", material->imInfo.name.c_str());
 			ImGui::Text("Color");
 			color = mesh->color;
 			if (ImGui::DragFloat3("Color", &color, 0.01f, 0.f, 1.f))

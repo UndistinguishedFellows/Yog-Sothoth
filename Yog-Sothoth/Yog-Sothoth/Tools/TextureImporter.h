@@ -1,11 +1,12 @@
 #pragma once
+#include <string>
 
 struct ImageInfo
 {
 	int width;
 	int height;
 	unsigned int bytes;
-	char* name;
+	std::string name;
 };
 
 class TextureImporter

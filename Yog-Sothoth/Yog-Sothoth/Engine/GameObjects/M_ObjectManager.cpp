@@ -397,6 +397,7 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 							yogConsole(CONSOLE_INFO, "Loading png");
 							App->fs->save(finalPath.c_str(), buffer, length);
 
+							material->imInfo.name = ai_path.data;
 							fullPath.append(ai_path.data);
 							material->LoadTexture(fullPath.c_str());
 						}
