@@ -148,6 +148,7 @@ update_status M_Input::PreUpdate(float dt)
 						for (auto child : App->objManager->dragAndDropVisualizer->children)
 						{
 							child->Material->LoadTexture(finalPath.c_str());
+							child->Material->imInfo.name = oldPath.filename().string();
 						}
 					}
 				}

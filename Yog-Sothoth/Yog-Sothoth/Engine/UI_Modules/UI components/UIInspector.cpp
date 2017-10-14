@@ -118,39 +118,39 @@ void UIInspector::Mesh()
 			ImGui::Text("Mesh");
 
 			ImGui::Text("Triangle count: "); ImGui::SameLine();
-			ImGui::Text("%d", mesh->indices.numIndices/3);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.numIndices/3);
 
 			ImGui::Text("Num Vertices: "); 
 			ImGui::SameLine(); 
-			ImGui::Text("%d", mesh->vertices.numVertices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->vertices.numVertices);
 			ImGui::SameLine();
 			ImGui::Text("Id Vertices: "); 
 			ImGui::SameLine(); 
-			ImGui::Text("%d", mesh->vertices.idVertices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->vertices.idVertices);
 
 			ImGui::Text("Num Indices: "); 
 			ImGui::SameLine(); 
-			ImGui::Text("%d", mesh->indices.numIndices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.numIndices);
 			ImGui::SameLine();
 			ImGui::Text("Id Indices: "); 
 			ImGui::SameLine(); 
-			ImGui::Text("%d", mesh->indices.idIndices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.idIndices);
 
 			ImGui::Text("Num Normals: ");
 			ImGui::SameLine();
-			ImGui::Text("%d", mesh->normals.numNormals);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->normals.numNormals);
 			ImGui::SameLine();
 			ImGui::Text("Id Normals: ");
 			ImGui::SameLine();
-			ImGui::Text("%d", mesh->normals.idNormals);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->normals.idNormals);
 
 			ImGui::Text("Num UV: ");
 			ImGui::SameLine();
-			ImGui::Text("%d", mesh->vertices.numVertices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->vertices.numVertices);
 			ImGui::SameLine();
 			ImGui::Text("Id UV: ");
 			ImGui::SameLine();
-			ImGui::Text("%d", mesh->uv.idUV);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->uv.idUV);
 
 			ImGui::Separator();
 
@@ -171,8 +171,8 @@ void UIInspector::Material()
 		if (ImGui::CollapsingHeader("Material"))
 		{
 			ImGui::Text("Material");
-			ImGui::Text("Name: %s", material->imInfo.name.c_str());
-			ImGui::Text("Color");
+			ImGui::Text("Name: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%s", material->imInfo.name.c_str());
+
 			color = mesh->color;
 			if (ImGui::DragFloat3("Color", &color, 0.01f, 0.f, 1.f))
 			{
