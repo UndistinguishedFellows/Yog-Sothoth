@@ -39,6 +39,7 @@ void UIOutliner::Draw()
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 	flags |= ImGuiTreeNodeFlags_OpenOnArrow;
 
+
 	if (ImGui::TreeNodeEx(App->objManager->root->name.c_str(), flags))
 	{
 		if (root)
@@ -74,6 +75,10 @@ void UIOutliner::TreeNodes(GameObject* node)
 		else
 			nodeFlags |= ImGuiTreeNodeFlags_Leaf;
 
+		if (node->selected)
+		{
+			nodeFlags |= ImGuiTreeNodeFlags_Selected;
+		}
 		if (ImGui::TreeNodeEx(node->name.c_str(), nodeFlags))
 		{
 			if (ImGui::IsItemClicked())
@@ -84,6 +89,7 @@ void UIOutliner::TreeNodes(GameObject* node)
 				}
 				App->objManager->SetFocusGO(node);
 				node->selected = true;
+
 			}
 			for (uint i = 0; i < node->children.size(); ++i)
 			{
