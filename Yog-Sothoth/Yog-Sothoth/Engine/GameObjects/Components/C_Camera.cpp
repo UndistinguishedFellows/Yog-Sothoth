@@ -7,16 +7,12 @@
 C_Camera::C_Camera(GameObject* parent) : Component(parent)
 {
 	frustum.type = PerspectiveFrustum;
-	//camera.pos = { -10.f, 10.f, 20.f };
 	frustum.up = { 0.f, 1.f, 0.f };
 	frustum.front = { 0.f, 0.f, -1.f };
 	frustum.horizontalFov = DegToRad(45);
 	frustum.verticalFov = DegToRad(45/ aspectRatio);
-//	camera.horizontalFov = 1.309f;
-//	camera.verticalFov = 0.82f;
 	frustum.nearPlaneDistance = 1.f;
-	frustum.farPlaneDistance = 100.f;
-	//LookAt(float3(0, 0, 0));
+	frustum.farPlaneDistance = 1000.f;
 }
 
 C_Camera::~C_Camera()
@@ -149,66 +145,30 @@ void C_Camera::Orbit(float dt)
 		float3 orbitPoint;
 		if (App->objManager->GetFocusGO() == nullptr)
 		{
-			orbitPoint = frustum.front * orbitDistance;
+			orbitPoint = customOrbitPoint;
 		}
 		else
 		{
-			//App->objManager->UpdateBoundingBoxes();
 			orbitPoint = App->objManager->GetFocusGO()->aabb.CenterPoint();
 		}
-		yogConsole(CONSOLE_INFO, "(%f,%f,%f)", orbitPoint.x, orbitPoint.y, orbitPoint.z);
-		if (motX != 0)
-		{
-			float4x4 cam_transform = ownerParent->Transform->localTransform;
-			LookAt(orbitPoint);
-			//App->objManager->GetFocusGO()->aabb.CenterPoint();
-			float3 orbitVector = App->objManager->activeCamera->Camera->frustum.front.Neg();
-			//float4 orbitPoint4(orbitPoint.x, orbitPoint.y, orbitPoint.z, 1);
 
-			Quat rotY = Quat::RotateY(motX *dt);
-			float4x4 matrot = float4x4::identity;
-			matrot = matrot.Mul(cam_transform.FromQuat(rotY));
-			orbitVector = matrot.Float3x3Part().Transform(orbitVector);
+		LookAt(orbitPoint);
+		float dist = Distance(frustum.pos, orbitPoint);
+		float3 distf3 = frustum.front.Normalized() * dist;
 
-			float3 frustumPos = ownerParent->Camera->frustum.pos;
-			float dist = frustumPos.Distance(orbitPoint);
-			orbitVector = orbitVector * dist;
+		float3 pos = ownerParent->Transform->localTransform.TranslatePart();
+		ownerParent->Transform->localTransform.SetTranslatePart(pos + distf3);
+		frustum.pos = pos + distf3;
 
-			ownerParent->Transform->SetPosition(float3(orbitVector.x, orbitVector.y, orbitVector.z));
-			frustum.pos = orbitVector;
-			//frustum.front = orbitVector.Normalized().Neg();
-			frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
-			frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
+		LookAt(motX * dt, motY * dt);
 
-			LookAt(orbitPoint);
-		}
-		if (motY != 0)
-		{
-			float4x4 cam_transform = ownerParent->Transform->localTransform;
-			LookAt(orbitPoint);
-			//App->objManager->GetFocusGO()->aabb.CenterPoint();
-			float3 orbitVector = App->objManager->activeCamera->Camera->frustum.front.Neg();
-			//float3 orbitVector = frustum.pos - orbitPoint;
-			//float4 orbitPoint4(orbitPoint.x, orbitPoint.y, orbitPoint.z, 1);
-			//Quat::RotateAxisAngle(frustum.WorldRight(), dy);
-			Quat rotX = Quat::RotateAxisAngle(frustum.WorldRight(), motY*dt);
-			float4x4 matrot = float4x4::identity;
-			matrot = matrot.Mul(cam_transform.FromQuat(rotX));
-			orbitVector = matrot.Float3x3Part().Transform(orbitVector);
-
-			float3 frustumPos = ownerParent->Camera->frustum.pos;
-			float dist = frustumPos.Distance(orbitPoint);
-			orbitVector = orbitVector * dist;
-
-			ownerParent->Transform->SetPosition(float3(orbitVector.x, orbitVector.y, orbitVector.z));
-			frustum.pos = orbitVector;
-			//frustum.front = orbitVector.Normalized().Neg();
-			frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
-			frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
-
-			LookAt(orbitPoint);
-
-		}
+		distf3 = frustum.front.Normalized() * dist;
+		pos = ownerParent->Transform->localTransform.TranslatePart();
+		ownerParent->Transform->localTransform.SetTranslatePart(pos - distf3);
+		frustum.pos = pos - distf3;
+		
+		frustum.front = ownerParent->Transform->localTransform.WorldZ().Normalized();
+		frustum.up = ownerParent->Transform->localTransform.WorldY().Normalized();
 
 	}
 }
@@ -238,14 +198,10 @@ void C_Camera::FocusCamera(GameObject* focus)
 	}
 	if (focus != nullptr)
 	{
-		if (ownerParent->Mesh != nullptr && ownerParent->Transform != nullptr)
+		if (ownerParent->Transform != nullptr)
 		{
-			AABB focusAABB;
-			focusAABB.SetNegativeInfinity();
-			focusAABB.Enclose((float3*)ownerParent->Mesh->vertices.vertices, ownerParent->Mesh->vertices.numVertices);
-
-			float3 centerPoint = focusAABB.CenterPoint();
-			float3 size = focusAABB.Size();
+			float3 centerPoint = focus->aabb.CenterPoint();
+			float3 size = focus->aabb.Size();
 
 			float cameraDist_y = (size.y/2) / math::Tan(frustum.verticalFov/2);
 			float cameraDist_x = (size.x/2) / math::Tan(frustum.horizontalFov/2);
@@ -260,6 +216,7 @@ void C_Camera::FocusCamera(GameObject* focus)
 			}
 			//LookAt(centerPoint);
 			ownerParent->Transform->RefreshTransform();
+			LookAt(centerPoint);
 		}
 	}
 
@@ -290,6 +247,5 @@ void C_Camera::Zoom(float dt)
 		ownerParent->Transform->localTransform = float4x4::FromTRS(frust->pos, rot,sca );
 	}
 }
-
 
 

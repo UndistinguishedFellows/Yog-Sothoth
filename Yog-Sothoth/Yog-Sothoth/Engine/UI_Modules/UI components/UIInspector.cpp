@@ -218,6 +218,8 @@ void UIInspector::Camera()
 			{}
 			if (ImGui::DragFloat("Far plane distance##camera", &camera->frustum.farPlaneDistance, 0.01f, camera->frustum.nearPlaneDistance))
 			{}
+			if (ImGui::DragFloat3("Custom orbit point##camera", camera->customOrbitPoint.ptr(), 0.01f))
+			{}
 			ImGui::Text("Aspect Ratio: %f", camera->frustum.AspectRatio());
 		}
 

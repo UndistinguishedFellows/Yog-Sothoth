@@ -109,7 +109,7 @@ update_status M_ObjectManager::PreUpdate(float dt)
 //Todo: Game objects logic
 update_status M_ObjectManager::Update(float dt)
 {
-
+	UpdateBoundingBoxes();
 	float3 scale;
 	float3 position;
 	Quat rotation;
@@ -118,12 +118,12 @@ update_status M_ObjectManager::Update(float dt)
 	App->objManager->activeCamera->Camera->frustum.pos = position;
 	App->objManager->activeCamera->Camera->Move(dt);
 	App->objManager->activeCamera->Camera->Rotate(dt);
-	//App->objManager->activeCamera->Camera->FocusCamera();
-	//frustum->ownerParent->LookAt(float3(0, 0, 0));
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+		App->objManager->activeCamera->Camera->FocusCamera();
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 		App->objManager->activeCamera->Camera->LookAt(float3(0, 0, 0));
 	App->objManager->activeCamera->Camera->Zoom(dt);
-	//App->objManager->activeCamera->Camera->Orbit(dt);
+	App->objManager->activeCamera->Camera->Orbit(dt);
 
 	return UPDATE_CONTINUE;
 }

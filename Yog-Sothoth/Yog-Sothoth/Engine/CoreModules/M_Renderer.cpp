@@ -154,9 +154,9 @@ update_status M_Renderer::PostUpdate(float dt)
 			Color color = App->objManager->focus->Mesh->color;
 			App->objManager->focus->Mesh->color.Set(0.f, 1.f, 0.f, 1.f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			glLineWidth(3.f);
+			//glLineWidth(1.f);
 			App->objManager->Draw(App->objManager->focus, *wireframeShader);
-			glLineWidth(1.f);
+			//glLineWidth(1.f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			App->objManager->focus->Mesh->color = color;
 		}

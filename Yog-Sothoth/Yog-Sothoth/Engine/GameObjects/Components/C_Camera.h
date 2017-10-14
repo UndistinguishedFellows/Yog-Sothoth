@@ -26,5 +26,5 @@ public:
 
 	float editorCamera = false;
 
-	float orbitDistance = 5.f;
+	float3 customOrbitPoint = float3(0,0,0);
 };

@@ -155,16 +155,16 @@ AABB GameObject::UpdateBoundingBoxes()
 	{
 		mesh->UpdateBoundingBoxes();
 		aabbVector.push_back(mesh->GetAABB());
-		for (auto child : children)
-		{
-			aabbVector.push_back(child->UpdateBoundingBoxes());
-		}
 
-		for (std::vector<AABB>::iterator iterator = aabbVector.begin(); iterator != aabbVector.end(); iterator++)
-		{
-			aabb.Enclose((*iterator));
-		}
+	}
+	for (auto child : children)
+	{
+		aabbVector.push_back(child->UpdateBoundingBoxes());
+	}
 
+	for (std::vector<AABB>::iterator iterator = aabbVector.begin(); iterator != aabbVector.end(); iterator++)
+	{
+		aabb.Enclose((*iterator));
 	}
 
 	return aabb;
@@ -307,7 +307,7 @@ void GameObject::DrawAABB(Shader shader, C_Camera* camera)
 	shader.setMat4("projection", &App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed());
 	shader.setMat4("model", &model.Transposed());
 	shader.setVec4("objectColor", &float4(1.f, 0.f, 0.5f, 1.0f));
-	glLineWidth(20.0f);
+	glLineWidth(2.0f);
 	//glPointSize(10.0f);
 	//glDrawElements(GL_POINTS, primi.pCube.indices.numIndices, GL_UNSIGNED_INT, 0);
 	glDrawElements(GL_TRIANGLES, App->objManager->primitives->pCube.indices.numIndices, GL_UNSIGNED_INT, 0);
