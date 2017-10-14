@@ -360,11 +360,13 @@ void UIConfiguration::Draw()
 		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%.3f Mb", App->renderer->gpuInfo.videoMemReserved);
 	}
 
-	ImGui::End();
 	if (ImGui::CollapsingHeader("Input"))
 	{
 		ImGui::Text("Mouse Position: (%d, %d, %d)", App->input->GetMouseX(), App->input->GetMouseY(), App->input->GetMouseZ());
 		ImGui::Text("Mouse Motion: (%d, %d)", App->input->GetMouseXMotion(), App->input->GetMouseYMotion());
 	}
+
+	ImGui::End();
+
 
 }

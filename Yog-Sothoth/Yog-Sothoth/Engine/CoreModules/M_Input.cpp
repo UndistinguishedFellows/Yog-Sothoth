@@ -70,8 +70,8 @@ update_status M_Input::PreUpdate(float dt)
 
 	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
-	mouse_x /= 1024; //FIX: Put dinamig assignment #resolution
-	mouse_y /= 720;
+	mouse_x; //FIX: Put dinamig assignment #scale
+	mouse_y;
 	mouse_z = 0;
 
 	for(int i = 0; i < 5; ++i)
