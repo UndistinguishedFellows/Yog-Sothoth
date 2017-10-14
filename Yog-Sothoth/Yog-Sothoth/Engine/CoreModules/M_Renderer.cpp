@@ -163,9 +163,10 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	//Draw normals of a mesh
 	App->objManager->DrawNormals(App->objManager->root, *basicShader);
+	bool cull = cullFace;
 	SetCullFace(false);
 	App->objManager->DrawAABB(App->objManager->dragAndDropVisualizer, *basicShader);
-	SetCullFace(true);
+	SetCullFace(cull);
 
 	//Draw floor grid and world axis
 	if (grid)
