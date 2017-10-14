@@ -14,7 +14,6 @@
     <ClCompile Include="imGUI\imgui_demo.cpp" />
     <ClCompile Include="imGUI\imgui_draw.cpp" />
     <ClCompile Include="imGUI\imgui_impl_sdl_gl3.cpp" />
-    <ClCompile Include="Engine\CoreModules\M_Camera3D.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Renderer.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Window.cpp" />
     <ClCompile Include="Engine\UI_Modules\M_UIManager.cpp" />
@@ -90,7 +89,6 @@
     <ClInclude Include="imGUI\stb_textedit.h" />
     <ClInclude Include="imGUI\stb_truetype.h" />
     <ClInclude Include="Engine\CoreModules\BaseClass\Module.h" />
-    <ClInclude Include="Engine\CoreModules\M_Camera3D.h" />
     <ClInclude Include="Engine\CoreModules\M_Renderer.h" />
     <ClInclude Include="Engine\CoreModules\M_Window.h" />
     <ClInclude Include="Engine\UI_Modules\M_UIManager.h" />

@@ -250,7 +250,6 @@
     <ClCompile Include="Globals.h" />
     <ClCompile Include="Engine\CoreModules\M_Renderer.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Window.cpp" />
-    <ClCompile Include="Engine\CoreModules\M_Camera3D.cpp" />
     <ClCompile Include="Engine\UI_Modules\M_UIManager.cpp" />
     <ClCompile Include="MathGeoLib\Math\float2.cpp" />
     <ClCompile Include="MathGeoLib\Math\float3.cpp" />
@@ -340,7 +339,6 @@
     <ClInclude Include="Engine\CoreModules\BaseClass\Module.h" />
     <ClInclude Include="Engine\CoreModules\M_Renderer.h" />
     <ClInclude Include="Engine\CoreModules\M_Window.h" />
-    <ClInclude Include="Engine\CoreModules\M_Camera3D.h" />
     <ClInclude Include="Engine\UI_Modules\M_UIManager.h" />
     <ClInclude Include="MathGeoLib\Math\CoordinateAxisConvention.h" />
     <ClInclude Include="MathGeoLib\Math\FixedPoint.h" />

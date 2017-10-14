@@ -2,7 +2,6 @@
 #include "../../Application.h"
 #include "M_Renderer.h"
 #include "M_Window.h"
-#include "M_Camera3D.h"
 #include "../../OpenGL.h"
 #include "../../Tools/Static/JsonSerializer.h"
 #include "../UI_Modules/M_UIManager.h"
