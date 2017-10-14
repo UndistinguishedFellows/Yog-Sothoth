@@ -200,21 +200,33 @@ void C_Camera::FocusCamera(GameObject* focus)
 	{
 		if (ownerParent->Transform != nullptr)
 		{
+			App->objManager->UpdateBoundingBoxes(focus);
 			float3 centerPoint = focus->aabb.CenterPoint();
 			float3 size = focus->aabb.Size();
+			float radius = (focus->aabb.maxPoint - focus->aabb.CenterPoint()).Length();
 
-			float cameraDist_y = (size.y/2) / math::Tan(frustum.verticalFov/2);
-			float cameraDist_x = (size.x/2) / math::Tan(frustum.horizontalFov/2);
 
-			if (cameraDist_y > cameraDist_x)
-			{
-				ownerParent->Transform->SetPosition(float3(0, centerPoint.y, cameraDist_y));
-			}
-			else
-			{
-				ownerParent->Transform->SetPosition(float3(0, centerPoint.y, cameraDist_x));
-			}
-			//LookAt(centerPoint);
+			float cameraDist = (radius) / math::Tan(frustum.verticalFov/2);
+			//float cameraDist_x = (radius) / math::Tan(frustum.horizontalFov/2);
+
+			LookAt(centerPoint);
+			float3 displacementVector = frustum.front.Neg() * cameraDist;
+			displacementVector += centerPoint;
+			//ownerParent->Transform->localTransform.SetTranslatePart(displacementVector);
+			ownerParent->Transform->SetPosition(displacementVector);
+
+
+//			if (cameraDist_y > cameraDist_x)
+//			{
+//				ownerParent->Transform->SetPosition(float3(0, centerPoint.y, cameraDist_y));
+//			}
+//			else
+//			{
+//				ownerParent->Transform->SetPosition(float3(0, centerPoint.y, cameraDist_x));
+//			}
+
+
+			
 			ownerParent->Transform->RefreshTransform();
 			LookAt(centerPoint);
 		}

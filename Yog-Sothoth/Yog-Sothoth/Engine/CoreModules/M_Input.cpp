@@ -136,7 +136,8 @@ update_status M_Input::PreUpdate(float dt)
 					yogConsole(CONSOLE_INFO, "Loading fbx");
 					App->fs->save(finalPath.c_str(), buffer, length);
 					App->objManager->LoadFBXFromDragAndDrop(finalPath.c_str(), oldPath.parent_path().string().c_str());
-					
+					App->objManager->UpdateBoundingBoxes();
+					App->objManager->activeCamera->Camera->FocusCamera(App->objManager->dragAndDropVisualizer);
 				}
 				else if (oldPath.extension().generic_string() == ".png")
 				{
