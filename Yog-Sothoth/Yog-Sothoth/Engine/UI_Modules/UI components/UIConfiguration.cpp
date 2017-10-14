@@ -361,5 +361,10 @@ void UIConfiguration::Draw()
 	}
 
 	ImGui::End();
+	if (ImGui::CollapsingHeader("Input"))
+	{
+		ImGui::Text("Mouse Position: (%d, %d, %d)", App->input->GetMouseX(), App->input->GetMouseY(), App->input->GetMouseZ());
+		ImGui::Text("Mouse Motion: (%d, %d)", App->input->GetMouseXMotion(), App->input->GetMouseYMotion());
+	}
 
 }
