@@ -109,6 +109,9 @@ bool M_Renderer::Start()
 	basicShader = new Shader("data/shaders/camera.vs", "data/shaders/basicFragment.fs");	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
 	lampShader = new Shader("data/shaders/1.lamp.vs", "data/shaders/1.lamp.fs");
 	wireframeShader = new Shader("data/shaders/wireframe.vs", "data/shaders/wireframe.fs");
+	normalShader = new Shader("data/shaders/normalDisplay.vs", 
+							  "data/shaders/normalDisplay.fs", 
+							  "data/shaders/normalDisplay.gs");
 	
 	createCheckersTexture();
 	
@@ -162,7 +165,7 @@ update_status M_Renderer::PostUpdate(float dt)
 	}
 
 	//Draw normals of a mesh
-	App->objManager->DrawNormals(App->objManager->root, *basicShader);
+	App->objManager->DrawNormals(App->objManager->root, *normalShader);
 	bool cull = cullFace;
 	SetCullFace(false);
 	App->objManager->DrawAABB(App->objManager->dragAndDropVisualizer, *basicShader);

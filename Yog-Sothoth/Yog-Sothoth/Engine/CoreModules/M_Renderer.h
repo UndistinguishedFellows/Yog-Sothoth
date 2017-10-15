@@ -94,6 +94,7 @@ public:
 	Shader* basicShader = nullptr;
 	Shader* lampShader = nullptr;			//Shader of a light emmiter
 	Shader* wireframeShader = nullptr;	//Shader for a wireframe display
+	Shader* normalShader = nullptr;	//Shader for a normals display
 
 	//Implied in refactor
 	//C_Camera* frustum;
