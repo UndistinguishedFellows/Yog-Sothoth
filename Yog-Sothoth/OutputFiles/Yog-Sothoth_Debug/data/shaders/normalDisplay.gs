@@ -1,25 +1,64 @@
-#version 330 core
-layout (triangles) in;
-layout (line_strip, max_vertices = 6) out;
+#version 150
+layout(triangles) in;
+layout(line_strip, max_vertices=8) out;
 
-in VS_OUT {
-    vec3 normal;
-} gs_in[];
+uniform float normal_length;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
-const float MAGNITUDE = 0.4;
-
-void GenerateLine(int index)
+in Vertex
 {
-    gl_Position = gl_in[index].gl_Position;
-    EmitVertex();
-    gl_Position = gl_in[index].gl_Position + vec4(gs_in[index].normal, 0.0) * MAGNITUDE;
-    EmitVertex();
-    EndPrimitive();
-}
+  vec4 normal;
+  vec4 color;
+} vertex[];
+
+out vec4 vertex_color;
 
 void main()
 {
-    GenerateLine(0); // first vertex normal
-    GenerateLine(1); // second vertex normal
-    GenerateLine(2); // third vertex normal
-}  
+  int i;
+  
+  //------ 3 lines for the 3 vertex normals
+  //
+  for(i=0; i<gl_in.length(); i++)
+  {
+    vec3 P = gl_in[i].gl_Position.xyz;
+    vec3 N = vertex[i].normal.xyz;
+    
+    gl_Position = projection * view * model * vec4(P, 1.0);
+    vertex_color = vertex[i].color;
+    EmitVertex();
+    
+    gl_Position = projection * view * model * vec4(P + N * normal_length, 1.0);
+    vertex_color = vertex[i].color;
+    EmitVertex();
+    
+    EndPrimitive();
+  }
+  
+
+  //------ One line for the face normal
+  //
+  vec3 P0 = gl_in[0].gl_Position.xyz;
+  vec3 P1 = gl_in[1].gl_Position.xyz;
+  vec3 P2 = gl_in[2].gl_Position.xyz;
+  
+  vec3 V0 = P0 - P1;
+  vec3 V1 = P2 - P1;
+  
+  vec3 N = cross(V1, V0);
+  N = normalize(N);
+  
+  // Center of the triangle
+  vec3 P = (P0+P1+P2) / 3.0;
+  
+  gl_Position = projection * view * model * vec4(P, 1.0);
+  vertex_color = vec4(1.0, 0.0, 0.0, 1);
+  EmitVertex();
+  
+  gl_Position = projection * view * model * vec4(P + N * normal_length, 1.0);
+  vertex_color = vec4(1.0, 0.0, 0.0, 1);
+  EmitVertex();
+  EndPrimitive();
+}

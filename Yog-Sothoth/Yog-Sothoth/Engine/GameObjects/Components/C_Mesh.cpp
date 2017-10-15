@@ -228,23 +228,31 @@ void C_Mesh::DrawNormals(Shader shader, C_Camera* camera) const
 		shader.setMat4("model", &float4x4::identity);
 	else
 		shader.setMat4("model", &trans->globalTransform.Transposed());
-	shader.setVec4("objectColor", 1.f, 1.f, 0.f, 1.f);
+	shader.setFloat("normal_length", 0.3);
+
+	//shader.setVec4("objectColor", 1.f, 1.f, 0.f, 1.f);
 
 	glLineWidth(2.0f);
-	glBegin(GL_LINES);
-	for (uint i = 0; i < vertices.numVertices; ++i)
-	{
-		float3 vertice(&vertices.vertices[i * 3]);
-		float3 normal(&normals.normals[i * 3]);
-		float3 e_normal(vertice + (normal*0.4f));
+//	glBegin(GL_LINES);
+//	for (uint i = 0; i < vertices.numVertices; ++i)
+//	{
+//		float3 vertice(&vertices.vertices[i * 3]);
+//		float3 normal(&normals.normals[i * 3]);
+//		float3 e_normal(vertice + (normal*0.4f));
+//		glColor3f(normal.x,normal.x,normal.x);
+//		glVertex3f(vertice.x, vertice.y, vertice.z);
+//		glVertex3f(e_normal.x, e_normal.y, e_normal.z);
+//	}
+//	glEnd();
 
-		glVertex3f(vertice.x, vertice.y, vertice.z);
-		glVertex3f(e_normal.x, e_normal.y, e_normal.z);
-	}
-	glEnd();
-	glLineWidth(1.0f);
+	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+							//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.idIndices);
+
+	glDrawElements(GL_TRIANGLES, indices.numIndices, GL_UNSIGNED_INT, 0);
+
 	glUseProgram(0);
-
+	glLineWidth(1.0f);
 }
 
 void C_Mesh::DrawSelected(Shader shader, C_Camera* camera) const
