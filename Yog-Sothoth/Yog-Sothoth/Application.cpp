@@ -18,13 +18,14 @@ Application::Application()
 	renderer = new M_Renderer();
 	uiManager = new M_UIManager();
 	input = new M_Input();	
-	
+	resourceManager = new M_ResourceManager();
 	objManager = new M_ObjectManager();
 
 	addModule(fs);
 	addModule(window);	
 	addModule(input);
 	addModule(uiManager);
+	addModule(resourceManager);
 	addModule(objManager);
 	
 	//LAST ONE

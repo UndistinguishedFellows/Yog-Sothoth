@@ -96,6 +96,7 @@ public:
 	Shader* wireframeShader = nullptr;	//Shader for a wireframe display
 	Shader* normalShader = nullptr;	//Shader for a normals display
 
+
 	//Implied in refactor
 	//C_Camera* frustum;
 

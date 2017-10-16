@@ -11,6 +11,7 @@
 #include "Tools/SimpleYogLog.h"
 #include "Engine/GameObjects/M_ObjectManager.h"
 #include "Tools/YogClock.h"
+#include "Engine/CoreModules/M_ResourceManager.h"
 
 class Module;
 class M_FileSystem;
@@ -52,7 +53,7 @@ public:
 	M_UIManager* uiManager = nullptr;
 	M_Input* input = nullptr;
 	M_FileSystem* fs = nullptr;
-
+	M_ResourceManager* resourceManager = nullptr;
 	M_ObjectManager* objManager = nullptr;
 
 	std::string organization;

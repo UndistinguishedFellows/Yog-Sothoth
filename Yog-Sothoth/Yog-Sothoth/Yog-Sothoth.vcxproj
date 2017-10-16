@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FDDBE41D-EF09-4103-A2D2-B981141D6E84}</ProjectGuid>
     <RootNamespace>YogSothoth</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -204,6 +204,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Engine\CoreModules\M_FileSystem.cpp" />
     <ClCompile Include="Engine\CoreModules\M_Input.cpp" />
+    <ClCompile Include="Engine\CoreModules\M_ResourceManager.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Camera.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Light.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Engine\ConsoleCommands\ConsoleCommands.h" />
     <ClInclude Include="Engine\CoreModules\M_FileSystem.h" />
     <ClInclude Include="Engine\CoreModules\M_Input.h" />
+    <ClInclude Include="Engine\CoreModules\M_ResourceManager.h" />
     <ClInclude Include="Engine\GameObjects\Components\BaseClass\Component.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Camera.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Light.h" />
