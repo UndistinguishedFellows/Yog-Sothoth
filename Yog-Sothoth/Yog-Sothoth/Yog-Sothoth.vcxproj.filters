@@ -78,6 +78,8 @@
     <ClCompile Include="Tools\TextureImporter.cpp" />
     <ClCompile Include="Tools\Primitives.cpp" />
     <ClCompile Include="Engine\CoreModules\M_ResourceManager.cpp" />
+    <ClCompile Include="im3d\im3d.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -187,6 +189,10 @@
     <ClInclude Include="Tools\TextureImporter.h" />
     <ClInclude Include="Tools\Primitives.h" />
     <ClInclude Include="Engine\CoreModules\M_ResourceManager.h" />
+    <ClInclude Include="im3d\im3d.h" />
+    <ClInclude Include="im3d\im3d_config.h" />
+    <ClInclude Include="im3d\im3d_math.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

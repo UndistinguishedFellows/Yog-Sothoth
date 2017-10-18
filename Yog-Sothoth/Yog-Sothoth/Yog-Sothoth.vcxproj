@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FDDBE41D-EF09-4103-A2D2-B981141D6E84}</ProjectGuid>
     <RootNamespace>YogSothoth</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -210,6 +210,7 @@
     <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Mesh.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIConfiguration.cpp" />
@@ -218,6 +219,7 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
+    <ClCompile Include="im3d\im3d.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Capsule.cpp" />
@@ -285,6 +287,7 @@
     <ClInclude Include="Engine\GameObjects\Components\C_Material.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Mesh.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\BaseClass\UIComponent.h" />
@@ -294,6 +297,9 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
+    <ClInclude Include="im3d\im3d.h" />
+    <ClInclude Include="im3d\im3d_config.h" />
+    <ClInclude Include="im3d\im3d_math.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB2D.h" />

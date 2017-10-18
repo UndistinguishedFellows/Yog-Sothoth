@@ -38,6 +38,7 @@ bool M_UIManager::Init()
 	configuration = new UIConfiguration();
 	menus = new UIWindowMenus();
 	inspector = new UIInspector();
+	gizmos = new UIGizmos();
 	return ret;
 }
 
@@ -87,7 +88,7 @@ update_status M_UIManager::PostUpdate(float dt)
 		configuration->Draw();
 	}
 	menus->Draw();
-
+	gizmos->Draw();
 	
 	return UPDATE_CONTINUE;
 }
