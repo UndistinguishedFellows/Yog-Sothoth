@@ -22,6 +22,8 @@ public:
 
 	//Main Camera
 	GameObject* camera = nullptr;
+	//Secondary Camera
+	GameObject* camera2 = nullptr;
 	//Active camera
 	GameObject* activeCamera = nullptr;
 
