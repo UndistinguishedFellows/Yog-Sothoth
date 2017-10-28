@@ -5,6 +5,7 @@
 #include "../../Tools/Containers/Color.h"
 #include <glew.h>
 #include "../../Tools/Primitives.h"
+#include "../GameObjects/GameObject.h"
 
 
 #define CHECKERS_WIDTH 256
@@ -100,5 +101,5 @@ public:
 	//Implied in refactor
 	//C_Camera* frustum;
 
-	
+	std::vector<GameObject*> drawVector;
 };

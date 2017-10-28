@@ -142,26 +142,97 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	float4x4 view = App->objManager->camera->Camera->frustum.ViewMatrix();
 
-	if (fbxViewer)
-	{
-		App->objManager->Draw(App->objManager->dragAndDropVisualizer, *lightShader);
-	}
-	else
-	{
-		App->objManager->Draw(App->objManager->root, *lightShader);
+	int textureBuffer = 0;
+	int prevTextureBuffer = 0;
 
-		//draw Wireframe when selected
-		if (App->objManager->focus != nullptr && App->objManager->focus->Mesh != nullptr)
+	drawVector = App->objManager->activeCamera->Camera->GetElementsToDraw();
+
+	for (auto game_object : drawVector)
+	{
+		if (game_object->Mesh != nullptr)
 		{
-			Color color = App->objManager->focus->Mesh->color;
-			App->objManager->focus->Mesh->color.Set(0.f, 1.f, 0.f, 1.f);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			//glLineWidth(1.f);
-			App->objManager->Draw(App->objManager->focus, *wireframeShader);
-			//glLineWidth(1.f);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			App->objManager->focus->Mesh->color = color;
+			if (game_object->Mesh->wireframe)
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+			float4x4 view = App->objManager->activeCamera->Camera->frustum.ViewMatrix();
+			//Shader* activeshader = game_object->shader;
+			Shader* activeshader = lightShader;
+
+			activeshader->Use();
+			activeshader->setInt("tex", 0);
+			if (game_object->Mesh->associatedMaterial != nullptr)
+			{
+				if (game_object->Mesh->associatedMaterial->texture != 0 || game_object->Mesh->associatedMaterial->checkers)
+				{
+					activeshader->setInt("hasTex", 1);
+				}
+				else
+					activeshader->setInt("hasTex", 0);
+			}
+			else
+			{
+				activeshader->setInt("hasTex", 0);
+			}
+
+			glBindVertexArray(game_object->Mesh->VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+													   //glDrawArrays(GL_TRIANGLES, 0, 6);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, game_object->Mesh->indices.idIndices);
+
+			activeshader->setMat4("projection", &App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed());
+			activeshader->setMat4("view", &view.Transposed());
+			if (App->renderer->fbxViewer)
+			{
+				activeshader->setMat4("model", &float4x4::identity);
+			}
+			else
+			{
+				activeshader->setMat4("model", &game_object->Transform->globalTransform.Transposed());
+			}
+			Color color = game_object->Mesh->color;
+			activeshader->setVec3("objectColor", color.r, color.g, color.b);
+			activeshader->setVec3("lightColor", 0.50f, 0.50f, 0.50f);
+			activeshader->setVec3("lightPos", &App->objManager->testLight->Transform->GetPosition());
+			activeshader->setVec3("viewPos", &App->objManager->activeCamera->Camera->frustum.pos);
+
+			glActiveTexture(GL_TEXTURE0);
+			if (game_object->Mesh->associatedMaterial->checkers)
+			{
+				textureBuffer = App->renderer->checkTexture;
+			}
+			else
+			{
+				textureBuffer = game_object->Mesh->associatedMaterial->texture;
+			}
+
+			if (textureBuffer != prevTextureBuffer)
+			{
+				glBindTexture(GL_TEXTURE_2D, textureBuffer);
+				prevTextureBuffer = textureBuffer;
+			}
+
+			glDrawElements(GL_TRIANGLES, game_object->Mesh->indices.numIndices, GL_UNSIGNED_INT, 0);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindVertexArray(0);
+			glUseProgram(0);
+
+			if (wireframe)
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//draw Wireframe when selected
+	if (App->objManager->focus != nullptr && App->objManager->focus->Mesh != nullptr)
+	{
+		Color color = App->objManager->focus->Mesh->color;
+		App->objManager->focus->Mesh->color.Set(0.f, 1.f, 0.f, 1.f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glLineWidth(1.f);
+		App->objManager->Draw(App->objManager->focus, *wireframeShader);
+		//glLineWidth(1.f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		App->objManager->focus->Mesh->color = color;
 	}
 
 	//Draw normals of a mesh

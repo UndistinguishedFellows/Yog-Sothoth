@@ -16,6 +16,7 @@ public:
 	void LookAt(const float3 spot);
 	void FocusCamera(GameObject* focus = nullptr);
 	void Zoom(float dt);
+	std::vector<GameObject*> GetElementsToDraw();
 
 	Frustum frustum;
 
@@ -24,7 +25,8 @@ public:
 	float zoomSpeed = 500.f;
 	float aspectRatio = 1.77f;
 
-	float editorCamera = false;
+	bool editorCamera = false;
+	bool cameraCulling = false;
 
 	float3 customOrbitPoint = float3(0,0,0);
 };

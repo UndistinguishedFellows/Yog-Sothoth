@@ -16,6 +16,7 @@ GameObject::GameObject(GameObject* parent)
 {
 	this->parent = parent;
 	parent->children.push_back(this);
+	shader = App->resourceManager->shaders["objectShader"];
 }
 
 GameObject::~GameObject()
@@ -231,6 +232,16 @@ Component* GameObject::FindComponent(ComponentType type)
 		}
 	}
 	return nullptr;
+}
+void GameObject::SendToDraw()
+{
+	App->renderer->drawVector.push_back(this);
+}
+
+void GameObject::RemoveFromDraw()
+{
+	std::vector<GameObject*>::iterator it = std::find(App->renderer->drawVector.begin(), App->renderer->drawVector.end(), this);
+	App->renderer->drawVector.erase(it);
 }
 
 void GameObject::Draw(Shader shader, C_Camera* camera)

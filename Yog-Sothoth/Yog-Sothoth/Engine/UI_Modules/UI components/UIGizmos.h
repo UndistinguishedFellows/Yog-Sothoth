@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "../../../im3d/im3d.h"
 #include "BaseClass/UIComponent.h"
 
 class UIGizmos : public UIComponent
