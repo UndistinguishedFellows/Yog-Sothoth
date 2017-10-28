@@ -51,7 +51,15 @@ bool M_ObjectManager::Start()
 	camera->CreateComponent(C_CAMERA);
 	camera->CreateComponent(C_TRANSFORM);	
 	camera->SetPos(float3(0, 5.f, 10.f));
-	camera->Transform->SetRotation(0, 180, 0);	
+	camera->Transform->SetRotation(0, 180, 0);
+
+	camera2 = new GameObject();
+	camera2->name = "camera2";
+	root->AddChild(camera2);
+	camera2->CreateComponent(C_CAMERA);
+	camera2->CreateComponent(C_TRANSFORM);
+	camera2->SetPos(float3(0.f, 0.f, 00.f));
+	camera2->Transform->SetRotation(0, 180, 0);
 
 	testLight = new GameObject();
 	testLight->name = "testLight";

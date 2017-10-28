@@ -140,7 +140,7 @@ update_status M_Renderer::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float4x4 view = App->objManager->camera->Camera->frustum.ViewMatrix();
+	float4x4 view = App->objManager->activeCamera->Camera->frustum.ViewMatrix();
 
 	if (fbxViewer)
 	{

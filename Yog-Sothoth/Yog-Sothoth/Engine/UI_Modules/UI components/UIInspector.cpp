@@ -205,6 +205,19 @@ void UIInspector::Camera()
 		if (ImGui::CollapsingHeader("Camera##inspector"))
 		{
 			ImGui::Text("Camera");
+
+			if (App->objManager->GetFocusGO() == App->objManager->activeCamera)
+			{
+				ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Active camera");
+			}
+			else
+			{
+				if (ImGui::Button("Set active##camera"))
+				{
+					App->objManager->activeCamera = App->objManager->GetFocusGO();
+				}
+			}
+
 			if (ImGui::DragFloat3("Position##camera", camera->frustum.pos.ptr(), 0.01f))
 			{}
 			if (ImGui::DragFloat3("UP##camera", camera->frustum.up.ptr(), 0.01f))
