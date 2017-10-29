@@ -78,6 +78,6 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
-	
+	std::vector<GameObject*> insideFrustum(Frustum frustum, GameObject* initialNode);
 };
 

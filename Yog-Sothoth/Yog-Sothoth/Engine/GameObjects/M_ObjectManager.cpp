@@ -89,15 +89,6 @@ bool M_ObjectManager::Start()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-
-
-
-
-
-
-
-
-
 	return true;
 }
 //Todo: Here game objects will be deleted when needed
@@ -471,4 +462,34 @@ void M_ObjectManager::LoadConfig()
 
 void M_ObjectManager::SaveConfig()
 {
+}
+
+std::vector<GameObject*> M_ObjectManager::insideFrustum(Frustum frustum, GameObject* initialNode)
+{
+	std::vector<GameObject*> objectsInside;
+
+	std::stack<GameObject*> stack;
+	stack.push(initialNode);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+
+		//Frustum checks
+		if (frustum.Contains(top->aabb))
+		{
+			objectsInside.push_back(top);
+			yogConsole(CONSOLE_INFO, "GameObject: %s", top->name.data());
+		}
+		else {
+			yogConsole(CONSOLE_ERROR, "GameObject: %s", top->name.data());
+		}
+		
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+
+	return objectsInside;
 }
