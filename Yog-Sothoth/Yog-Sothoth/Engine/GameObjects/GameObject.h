@@ -41,6 +41,8 @@ public:
 	bool selected = false;
 	bool drawAABB = false;
 
+	Shader* shader = nullptr;
+
 private:
 	//For now there will be only one attribute of each
 	C_Mesh*			mesh		= nullptr;
@@ -99,6 +101,8 @@ protected:
 
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type);
+	void SendToDraw();
+	void RemoveFromDraw();
 	void Draw(Shader shader, C_Camera* camera);
 	void DrawNormals(Shader shader, C_Camera* camera);
 	void DrawLight(Shader shader, C_Camera* camera);

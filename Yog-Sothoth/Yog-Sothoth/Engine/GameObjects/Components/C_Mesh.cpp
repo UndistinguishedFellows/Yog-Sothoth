@@ -154,7 +154,7 @@ void C_Mesh::Load(const aiMesh* mesh)
 }
 
 void C_Mesh::Draw(Shader shader, C_Camera* camera) const
-{
+{	
 	if (wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	float4x4 view = camera->frustum.ViewMatrix();

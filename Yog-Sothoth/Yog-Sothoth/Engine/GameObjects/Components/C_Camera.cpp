@@ -260,4 +260,30 @@ void C_Camera::Zoom(float dt)
 	}
 }
 
+std::vector<GameObject*> C_Camera::GetElementsToDraw()
+{
+	std::vector<GameObject*> ret;
+	if (cameraCulling)
+	{
+	}
+	else
+	{
+		//TODO: this needs to be refactored
+		std::stack<GameObject*> stack;		
+		stack.push(App->objManager->root);
+		while (!stack.empty())
+		{
+			GameObject* top = stack.top();
+			ret.push_back(top);
+			stack.pop();
+			for (int it = 0; it != top->children.size(); ++it)
+			{
+				stack.push(top->children[it]);
+			}
+		}
+	}
+
+	return ret;
+}
+
 
