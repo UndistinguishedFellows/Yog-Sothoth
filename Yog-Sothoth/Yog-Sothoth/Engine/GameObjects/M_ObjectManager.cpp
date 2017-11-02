@@ -125,6 +125,8 @@ update_status M_ObjectManager::Update(float dt)
 			App->objManager->activeCamera->Camera->LookAt(float3(0, 0, 0));
 		App->objManager->activeCamera->Camera->Zoom(dt);
 		App->objManager->activeCamera->Camera->Orbit(dt);
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+			MousePick();
 
 	}
 
@@ -192,7 +194,6 @@ GameObject* M_ObjectManager::FindGameObject(std::string name)
 
 void M_ObjectManager::UpdateBoundingBoxes(GameObject* go)
 {
-	GameObject* ret = nullptr;
 	std::stack<GameObject*> stack;
 	if (go == nullptr)
 		go = root;
@@ -210,6 +211,104 @@ void M_ObjectManager::UpdateBoundingBoxes(GameObject* go)
 			stack.push(top->children[it]);
 		}
 	}
+
+}
+
+void M_ObjectManager::MousePick()
+{
+	float2 windowPoint;
+	Frustum frustum = activeCamera->Camera->frustum;
+	windowPoint.x = ((float)App->input->GetMouseX() / (float)App->window->getWidth()) * 2.0 - 1.0;
+	windowPoint.y = ((float)App->input->GetMouseY() / (float)App->window->getHeigth()) * 2.0 - 1.0;
+	
+	LineSegment picking = frustum.UnProjectLineSegment(windowPoint.x, windowPoint.y);
+
+	std::vector<GameObject*> toCheck;
+	//Iterate all AABB
+	std::stack<GameObject*> stack;
+	stack.push(root);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+		if (top->GetAABB().IsFinite())
+			if (picking.Intersects(top->GetAABB()))
+				toCheck.push_back(top);
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+
+	//Sort GameObjects must be refactored to get a beter eficient aproach
+	bool change = false;
+	for (auto object : toCheck)
+	{
+		for (std::vector<GameObject*>::iterator it = toCheck.begin();
+			 it != toCheck.end(); ++it)
+		{
+			float dist1 = (*it)->Transform->GetPosition().Distance(frustum.pos);
+			if ((it+1) != toCheck.end())
+			{
+				float dist2 = (*(it + 1))->Transform->GetPosition().Distance(frustum.pos);
+
+				if (dist1 > dist2)
+				{
+					std::swap((*it), (*(it+1)));
+					change = true;
+				}
+			}
+		}
+	}
+//	for (int i = 0; i < toCheck.size(); ++i)
+//	{
+//		for (int j = 0; j < toCheck.size() - i; j++)
+//		{
+//			float dist1 = toCheck[j]->Transform->GetPosition().Distance(frustum.pos);
+//			float dist2 = toCheck[j + 1]->Transform->GetPosition().Distance(frustum.pos);
+//
+//			if (dist1 > dist2)
+//			{
+//				std::swap(toCheck[j], toCheck[j + 1]);
+//				change = true;
+//			}
+//		}
+////		if (!change)
+////			break;
+//	}
+//
+	//Check Polyhedron
+	for (auto go : toCheck)
+	{
+		if (go->Mesh != nullptr)
+		{
+			Polyhedron mesh;
+			for (int i = 0; i < go->Mesh->vertices.numVertices*3; i+=3)
+			{
+				float3 vertice(go->Mesh->vertices.vertices[i],
+							   go->Mesh->vertices.vertices[i+1],
+							   go->Mesh->vertices.vertices[i+2]);
+				mesh.v.push_back(vertice);
+			}
+			for (int i = 0; i < go->Mesh->indices.numIndices; i += 3)
+			{
+				Polyhedron::Face face;
+				face.v.push_back(go->Mesh->indices.indices[i]);
+				face.v.push_back(go->Mesh->indices.indices[i+1]);
+				face.v.push_back(go->Mesh->indices.indices[i+2]);
+				mesh.f.push_back(face);
+			}
+			//Transform polyhedron to global space
+			mesh.Transform(go->Transform->GetGlobalTransform());
+			//Check if segment intersects with polyhedron
+			if (mesh.Intersects(picking))
+			{
+				focus = go;
+				break;
+			}
+		}
+	}
+
 
 }
 
