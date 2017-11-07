@@ -79,6 +79,9 @@
     <ClCompile Include="Tools\Primitives.cpp" />
     <ClCompile Include="Engine\CoreModules\M_ResourceManager.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
+    <ClCompile Include="Tools\MeshImporter.cpp" />
+    <ClCompile Include="Engine\Resources\R_Mesh.cpp" />
+    <ClCompile Include="Tools\Static\ImportFBX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -189,6 +192,9 @@
     <ClInclude Include="Tools\Primitives.h" />
     <ClInclude Include="Engine\CoreModules\M_ResourceManager.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
+    <ClInclude Include="Tools\MeshImporter.h" />
+    <ClInclude Include="Engine\Resources\R_Mesh.h" />
+    <ClInclude Include="Tools\Static\ImportFBX.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

@@ -210,6 +210,7 @@
     <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Mesh.cpp" />
+    <ClCompile Include="Engine\Resources\R_Mesh.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
@@ -238,8 +239,10 @@
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="Test\YogTest.cpp" />
     <ClCompile Include="Tools\GPUDetect\DeviceId.cpp" />
+    <ClCompile Include="Tools\MeshImporter.cpp" />
     <ClCompile Include="Tools\mmgr\mmgr.cpp" />
     <ClCompile Include="Tools\Primitives.cpp" />
+    <ClCompile Include="Tools\Static\ImportFBX.cpp" />
     <ClCompile Include="Tools\TextureImporter.cpp" />
     <ClCompile Include="Tools\YogClock.cpp" />
     <ClCompile Include="Tools\Containers\Shader.cpp" />
@@ -286,6 +289,7 @@
     <ClInclude Include="Engine\GameObjects\Components\C_Material.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Mesh.h" />
+    <ClInclude Include="Engine\Resources\R_Mesh.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />
@@ -327,9 +331,11 @@
     <ClInclude Include="Test\YogTest.h" />
     <ClInclude Include="Tools\GPUDetect\DeviceId.h" />
     <ClInclude Include="Tools\GPUDetect\dxgi1_4.h" />
+    <ClInclude Include="Tools\MeshImporter.h" />
     <ClInclude Include="Tools\mmgr\mmgr.h" />
     <ClInclude Include="Tools\mmgr\nommgr.h" />
     <ClInclude Include="Tools\Primitives.h" />
+    <ClInclude Include="Tools\Static\ImportFBX.h" />
     <ClInclude Include="Tools\TextureImporter.h" />
     <ClInclude Include="Tools\YogClock.h" />
     <ClInclude Include="Tools\Containers\Shader.h" />
