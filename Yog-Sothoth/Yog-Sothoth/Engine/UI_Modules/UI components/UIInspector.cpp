@@ -115,8 +115,6 @@ void UIInspector::Mesh()
 	if (mesh != nullptr)
 		if (ImGui::CollapsingHeader("Mesh"))
 		{
-			ImGui::Text("Mesh");
-
 			ImGui::Text("Triangle count: "); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.numIndices/3);
 
@@ -170,7 +168,6 @@ void UIInspector::Material()
 	if (material != nullptr && mesh != nullptr)
 		if (ImGui::CollapsingHeader("Material"))
 		{
-			ImGui::Text("Material");
 			ImGui::Text("Name: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%s", material->imInfo.name.c_str());
 
 			color = mesh->color;
@@ -204,8 +201,6 @@ void UIInspector::Camera()
 	if (camera != nullptr)
 		if (ImGui::CollapsingHeader("Camera##inspector"))
 		{
-			ImGui::Text("Camera");
-
 			if (App->objManager->GetFocusGO() == App->objManager->activeCamera)
 			{
 				ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Active camera");
@@ -217,6 +212,18 @@ void UIInspector::Camera()
 					App->objManager->activeCamera = App->objManager->GetFocusGO();
 				}
 			}
+			if (App->objManager->GetFocusGO() == App->objManager->cullingCamera)
+			{
+				ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.0f, 1.0f), "Culling Camera");
+			}
+			else
+			{
+				if (ImGui::Button("Culling Camera##camera"))
+				{
+					App->objManager->cullingCamera = App->objManager->GetFocusGO();
+				}
+			}
+
 
 			if (ImGui::DragFloat3("Position##camera", camera->frustum.pos.ptr(), 0.01f))
 			{}

@@ -70,6 +70,7 @@ bool M_ObjectManager::Start()
 	testLight->Transform->SetPosition(float3(0.f, 20.0f, 5.0f));
 	
 	activeCamera = camera;
+	cullingCamera = camera;
 
 	primitives = new Primitives::Primitives();
 
@@ -108,7 +109,7 @@ update_status M_ObjectManager::PreUpdate(float dt)
 //Todo: Game objects logic
 update_status M_ObjectManager::Update(float dt)
 {
-	UpdateBoundingBoxes();
+	//UpdateBoundingBoxes();
 	float3 scale;
 	float3 position;
 	Quat rotation;
@@ -428,7 +429,6 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 	{
 		for (uint i = 0; i < node->mNumChildren; ++i)
 			LoadScene(scene, node->mChildren[i], parent, _oldPath);
-
 	}
 	else
 	{
@@ -506,13 +506,9 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 						}
 						RELEASE_ARRAY(buffer);
 					}
-					
-
 				}
 				mesh->associatedMaterial = material;
 			}
-
-
 		}
 
 		for (uint i = 0; i < node->mNumChildren; ++i)
@@ -568,26 +564,32 @@ void M_ObjectManager::SaveConfig()
 {
 }
 
-std::vector<GameObject*> M_ObjectManager::insideFrustum(Frustum frustum, GameObject* initialNode)
+std::vector<GameObject*> M_ObjectManager::GetElementsToDraw(GameObject* camera, GameObject* initialNode)
 {
-	std::vector<GameObject*> objectsInside;
+	std::vector<GameObject*> objectsToDraw;
 
 	std::stack<GameObject*> stack;
 	stack.push(initialNode);
+
 	while (!stack.empty())
 	{
 		GameObject* top = stack.top();
-
-		//Frustum checks
-		if (frustum.Contains(top->aabb))
-		{
-			objectsInside.push_back(top);
-			yogConsole(CONSOLE_INFO, "GameObject: %s", top->name.data());
-		}
-		else {
-			yogConsole(CONSOLE_ERROR, "GameObject: %s", top->name.data());
-		}
 		
+		//Frustum checks
+		if (top->aabb.IsFinite())
+		{
+			if (camera->Camera->frustum.Intersects(top->aabb))
+			{
+				objectsToDraw.push_back(top);
+				//yogConsole(CONSOLE_INFO, "GameObject: %s", top->name.data());
+			}
+			else
+			{
+				//yogConsole(CONSOLE_ERROR, "GameObject: %s", top->name.data());
+			}
+
+		}
+
 		stack.pop();
 		for (int it = 0; it != top->children.size(); ++it)
 		{
@@ -595,5 +597,5 @@ std::vector<GameObject*> M_ObjectManager::insideFrustum(Frustum frustum, GameObj
 		}
 	}
 
-	return objectsInside;
+	return objectsToDraw;
 }

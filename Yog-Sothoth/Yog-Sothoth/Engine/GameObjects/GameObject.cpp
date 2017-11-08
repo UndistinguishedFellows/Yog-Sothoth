@@ -294,7 +294,7 @@ void GameObject::DrawLight(Shader shader, C_Camera* camera)
 
 void GameObject::DrawAABB(Shader shader, C_Camera* camera)
 {
-	UpdateBoundingBoxes();
+	//UpdateBoundingBoxes();
 	float4x4 view = camera->frustum.ViewMatrix();
 	float3 size = aabb.Size();
 //	OBB obb = aabb;	
@@ -332,7 +332,7 @@ void GameObject::DrawAABB(Shader shader, C_Camera* camera)
 
 AABB GameObject::GetAABB()
 {
-	UpdateBoundingBoxes();
+	//UpdateBoundingBoxes();
 	return aabb;
 }
 

@@ -145,7 +145,7 @@ update_status M_Renderer::PostUpdate(float dt)
 	int textureBuffer = 0;
 	int prevTextureBuffer = 0;
 
-	drawVector = App->objManager->activeCamera->Camera->GetElementsToDraw();
+	drawVector = App->objManager->GetElementsToDraw(App->objManager->cullingCamera, App->objManager->root);// App->objManager->cullingCamera->Camera->GetElementsToDraw();
 
 	for (auto game_object : drawVector)
 	{
