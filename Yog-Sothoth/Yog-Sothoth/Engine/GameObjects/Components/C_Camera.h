@@ -17,6 +17,7 @@ public:
 	void FocusCamera(GameObject* focus = nullptr);
 	void Zoom(float dt);
 	std::vector<GameObject*> GetElementsToDraw();
+	void DrawDebug();
 
 	Frustum frustum;
 

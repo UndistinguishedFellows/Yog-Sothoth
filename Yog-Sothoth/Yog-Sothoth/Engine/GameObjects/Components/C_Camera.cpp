@@ -286,4 +286,31 @@ std::vector<GameObject*> C_Camera::GetElementsToDraw()
 	return ret;
 }
 
+void C_Camera::DrawDebug()
+{
+//	float4x4 view = App->objManager->activeCamera->Camera->frustum.ViewMatrix();
+//	glPushMatrix();
+//	glMultMatrixf(App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed().ptr());
+//	glPushMatrix();
+//	glMultMatrixf(view.Transposed().ptr());
+//	P_Line line;
+//	line.origin = frustum.pos;
+//	float3 vertices[8];
+//	frustum.GetCornerPoints(vertices);
+//	//line.destination = vertices[0];
+//	line.Render();
+//	line.destination = vertices[1];
+//	line.Render();
+//	//line.destination = vertices[2];
+//	line.Render();
+//	line.destination = vertices[3];
+//	line.Render();
+//	line.destination = vertices[5];
+//	line.Render();
+//	line.destination = vertices[7];
+//	line.Render();
+//	glPopMatrix();
+//	glPopMatrix();
+}
+
 

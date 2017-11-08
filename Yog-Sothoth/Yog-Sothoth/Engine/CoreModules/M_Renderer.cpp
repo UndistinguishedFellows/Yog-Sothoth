@@ -149,6 +149,10 @@ update_status M_Renderer::PostUpdate(float dt)
 
 	for (auto game_object : drawVector)
 	{
+		if (game_object->Camera != nullptr)
+		{
+			game_object->Camera->DrawDebug();
+		}
 		if (game_object->Mesh != nullptr)
 		{
 			if (game_object->Mesh->wireframe)
@@ -253,7 +257,10 @@ update_status M_Renderer::PostUpdate(float dt)
 		floor.color = { 0.1f, 0.1f, 0.1f , 1.f };
 		floor.axis = true;
 		floor.Render();
-
+//		for (auto primitive : primitives)
+//		{
+//			primitive->Render();
+//		}
 		glPopMatrix();
 		glPopMatrix();
 

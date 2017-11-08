@@ -6,6 +6,7 @@
 #include <glew.h>
 #include "../../Tools/Primitives.h"
 #include "../GameObjects/GameObject.h"
+#include "../../Tools/Primitive.h"
 
 
 #define CHECKERS_WIDTH 256
@@ -102,4 +103,9 @@ public:
 	//C_Camera* frustum;
 
 	std::vector<GameObject*> drawVector;
+
+
+	//tmp
+
+	std::vector<Primitive*> primitives;
 };
