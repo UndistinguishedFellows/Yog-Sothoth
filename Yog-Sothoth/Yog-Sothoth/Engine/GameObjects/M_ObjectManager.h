@@ -26,6 +26,7 @@ public:
 	GameObject* camera2 = nullptr;
 	//Active camera
 	GameObject* activeCamera = nullptr;
+	GameObject* cullingCamera = nullptr;
 
 	std::vector<GameObject*> lights;
 	std::vector<GameObject*> cameras;
@@ -79,6 +80,6 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
-	std::vector<GameObject*> insideFrustum(Frustum frustum, GameObject* initialNode);
+	std::vector<GameObject*> GetElementsToDraw(GameObject* camera, GameObject* initialNode);
 };
 
