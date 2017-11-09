@@ -6,6 +6,8 @@ class R_Mesh : public IJsonSerializable
 public:
 	UID uid;
 
+	unsigned int type = 1;
+
 	Indices indices;
 	Vertices vertices;
 	Normals normals;
