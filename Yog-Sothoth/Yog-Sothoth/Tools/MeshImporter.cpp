@@ -55,7 +55,7 @@ bool MeshImporter::Import(const aiScene* scene)
 				++tmp;
 			}
 		}
-		mesh->MakeMeshFile();
+		mesh->SaveMeshFile();
 
 		std::string output;
 		std::string meshName;

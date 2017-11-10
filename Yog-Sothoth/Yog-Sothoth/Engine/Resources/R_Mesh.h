@@ -13,13 +13,11 @@ public:
 	Normals normals;
 	UV uv;
 
-
-
 	R_Mesh();
 	~R_Mesh();
 
-	void MakeMeshFile();
+	void SaveMeshFile();
+	void LoadMeshFile(const char* fileName);
 	void Serialize(Json::Value& root) override;
 	void Deserialize(Json::Value& root) override;
-
 };
