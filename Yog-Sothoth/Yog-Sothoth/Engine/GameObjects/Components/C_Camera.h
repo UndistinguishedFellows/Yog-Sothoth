@@ -3,6 +3,13 @@
 #include "BaseClass/Component.h"
 #include "../../MathGeoLib/MathGeoLib.h"
 
+enum FrustumIntersection
+{
+	FRUSTUM_IN,
+	FRUSTUM_OUT,
+	FRUSTUM_INTERSECT,
+};
+
 class C_Camera : public Component
 {
 public:
@@ -16,7 +23,7 @@ public:
 	void LookAt(const float3 spot);
 	void FocusCamera(GameObject* focus = nullptr);
 	void Zoom(float dt);
-	std::vector<GameObject*> GetElementsToDraw();
+	FrustumIntersection Intersects(const AABB &aabb) const;
 	void DrawDebug();
 
 	Frustum frustum;

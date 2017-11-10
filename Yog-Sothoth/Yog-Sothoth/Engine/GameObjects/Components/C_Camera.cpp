@@ -260,30 +260,41 @@ void C_Camera::Zoom(float dt)
 	}
 }
 
-std::vector<GameObject*> C_Camera::GetElementsToDraw()
+FrustumIntersection C_Camera::Intersects(const AABB &aabb) const
 {
-	std::vector<GameObject*> ret;
-	if (cameraCulling)
+	float3 vCorner[8];
+	int iTotalIn = 0;
+	aabb.GetCornerPoints(vCorner); // get the corners of the box into the vCorner array
+								 // test all 8 corners against the 6 sides
+								 // if all points are behind 1 specific plane, we are out
+								 // if we are in with all points, then we are fully in
+	Plane m_plane[6];
+	frustum.GetPlanes(m_plane);
+	
+	for (int p = 0; p < 6; ++p)
 	{
-	}
-	else
-	{
-		//TODO: this needs to be refactored
-		std::stack<GameObject*> stack;		
-		stack.push(App->objManager->root);
-		while (!stack.empty())
+		int iInCount = 8;
+		int iPtIn = 1;
+		for (int i = 0; i < 8; ++i)
 		{
-			GameObject* top = stack.top();
-			ret.push_back(top);
-			stack.pop();
-			for (int it = 0; it != top->children.size(); ++it)
+			// test this point against the planes
+			if (m_plane[1].IsOnPositiveSide(vCorner[i]) == true)
 			{
-				stack.push(top->children[it]);
+				iPtIn = 0;
+				--iInCount;
 			}
 		}
+		// were all the points outside of plane p?
+		if(iInCount == 0)
+			return(FRUSTUM_OUT);
+		// check if they were all on the right side of the plane
+		iTotalIn += iPtIn;
 	}
-
-	return ret;
+	// so if iTotalIn is 6, then all are inside the view
+	if (iTotalIn == 6)
+		return(FRUSTUM_IN);
+	// we must be partly in then otherwise
+	return(FRUSTUM_INTERSECT);
 }
 
 void C_Camera::DrawDebug()
