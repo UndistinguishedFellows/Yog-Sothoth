@@ -7,6 +7,7 @@
 #include "../GameObjects/Components/C_Material.h"
 
 #include <experimental/filesystem>
+#include "../../Tools/Static/ImportFBX.h"
 
 namespace fs = std::experimental::filesystem;
 
@@ -117,43 +118,38 @@ update_status M_Input::PreUpdate(float dt)
 			App->quit = true;
 			break;
 			case SDL_DROPFILE:
-			{      // In case if dropped file
+			{      
+				// In case if dropped file
 				dropped_filedir = e.drop.file;
 				std::experimental::filesystem::path oldPath(dropped_filedir);
-				std::string finalPath("data/assets/");
-				finalPath.append(oldPath.filename().string());
-				std::ifstream infile(dropped_filedir, std::ifstream::binary);
-				//size
-				infile.seekg(0, infile.end);
-				int length = infile.tellg();
-				infile.seekg(0, infile.beg);
-
-				char * buffer = new char[length];
-				infile.read(buffer, length);
-				infile.close();
 				if (oldPath.extension().generic_string() == ".fbx")
 				{
-					yogConsole(CONSOLE_INFO, "Loading fbx");
-					App->fs->save(finalPath.c_str(), buffer, length);
-					App->objManager->LoadFBXFromDragAndDrop(finalPath.c_str(), oldPath.parent_path().string().c_str());
-					App->objManager->UpdateBoundingBoxes();
-					App->objManager->activeCamera->Camera->FocusCamera(App->objManager->dragAndDropVisualizer);
+					ImportFBX importer;
+					importer.importPath = "data/assets/";
+					yogConsole(CONSOLE_INFO, "Importing .fbx");
+					importer.Import(oldPath);
+
+//					App->fs->save(finalPath.c_str(), buffer, length);
+//					App->objManager->LoadFBXFromDragAndDrop(finalPath.c_str(), oldPath.parent_path().string().c_str());
+//					App->objManager->UpdateBoundingBoxes();
+//					App->objManager->activeCamera->Camera->FocusCamera(App->objManager->dragAndDropVisualizer);
 				}
 				else if (oldPath.extension().generic_string() == ".png")
 				{
-					yogConsole(CONSOLE_INFO, "Loading png");
-					App->fs->save(finalPath.c_str(), buffer, length);
-					if (App->objManager->dragAndDropVisualizer != nullptr)
-					{
-						for (auto child : App->objManager->dragAndDropVisualizer->children)
-						{
-							child->Material->LoadTexture(finalPath.c_str());
-							child->Material->imInfo.name = oldPath.filename().string();
-						}
-					}
+					yogConsole(CONSOLE_INFO, "Loading .png");
+
+//					App->fs->save(finalPath.c_str(), buffer, length);
+//					if (App->objManager->dragAndDropVisualizer != nullptr)
+//					{
+//						for (auto child : App->objManager->dragAndDropVisualizer->children)
+//						{
+//							child->Material->LoadTexture(finalPath.c_str());
+//							child->Material->imInfo.name = oldPath.filename().string();
+//						}
+//					}
 				}
 				// release dynamically-allocated memory
-				RELEASE_ARRAY(buffer);
+				//RELEASE_ARRAY(buffer);
 
 				
 				// Shows directory of dropped file
