@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "../../../MathGeoLib/Math/float3.h"
+#include "../../Globals.h"
+#include "../../../MathGeoLib/MathGeoLib.h"
 #include "BaseClass/Component.h"
 #include "../../CoreModules/M_Window.h"
 #include "../../../Tools/Containers/Color.h"

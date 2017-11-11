@@ -210,6 +210,7 @@
     <ClCompile Include="Engine\GameObjects\Components\C_Material.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Transform.cpp" />
     <ClCompile Include="Engine\GameObjects\Components\C_Mesh.cpp" />
+    <ClCompile Include="Engine\Resources\R_Material.cpp" />
     <ClCompile Include="Engine\Resources\R_Mesh.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="Engine\GameObjects\Components\C_Material.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Mesh.h" />
+    <ClInclude Include="Engine\Resources\R_Material.h" />
     <ClInclude Include="Engine\Resources\R_Mesh.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
