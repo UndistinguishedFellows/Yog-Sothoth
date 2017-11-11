@@ -80,6 +80,6 @@ public:
 	void LoadConfig() override;
 	void SaveConfig() override;
 
-	std::vector<GameObject*> GetElementsToDraw(GameObject* camera, GameObject* initialNode);
+	static std::vector<GameObject*> GetElementsToDraw(GameObject* camera, GameObject* initialNode);
 };
 

@@ -13,7 +13,7 @@
 
 namespace fs = std::experimental::filesystem;
 
-M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), deletionGameObject(nullptr)
+M_ObjectManager::M_ObjectManager(bool enabled): Module(enabled), testLight(nullptr), primitives(nullptr), deletionGameObject(nullptr)
 {
 	name = "objManager";
 }
@@ -247,8 +247,7 @@ void M_ObjectManager::MousePick()
 	}
 
 	//Sort GameObjects must be refactored to get a beter eficient aproach
-	bool change = false;
-	for (auto object : toCheck)
+	for (int i = 0; i < toCheck.size(); ++i)
 	{
 		for (std::vector<GameObject*>::iterator it = toCheck.begin();
 			 it != toCheck.end(); ++it)
@@ -261,7 +260,6 @@ void M_ObjectManager::MousePick()
 				if (dist1 > dist2)
 				{
 					std::swap((*it), (*(it+1)));
-					change = true;
 				}
 			}
 		}
@@ -329,7 +327,7 @@ GameObject* M_ObjectManager::LoadFBX(const char * path)
 
 	char* buffer;
 	uint fileSize = App->fs->Load(path, &buffer);
-	const aiScene* scene = nullptr;
+	const aiScene* scene;
 
 	if (buffer && fileSize > 0)
 	{
@@ -581,13 +579,7 @@ std::vector<GameObject*> M_ObjectManager::GetElementsToDraw(GameObject* camera, 
 			if (camera->Camera->frustum.Intersects(top->aabb))
 			{
 				objectsToDraw.push_back(top);
-				//yogConsole(CONSOLE_INFO, "GameObject: %s", top->name.data());
 			}
-			else
-			{
-				//yogConsole(CONSOLE_ERROR, "GameObject: %s", top->name.data());
-			}
-
 		}
 
 		stack.pop();
