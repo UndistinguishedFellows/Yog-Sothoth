@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "../../Tools/Primitive.h"
 #include "../../Application.h"
+#include "../../Tools/Static/JsonSerializer.h"
 
 GameObject::GameObject()
 {
@@ -336,6 +337,14 @@ AABB GameObject::GetAABB()
 	return aabb;
 }
 
+void GameObject::Serialize(Json::Value& root)
+{
+}
+
+void GameObject::Deserialize(Json::Value& root)
+{
+}
+
 std::vector<GameObject*> GameObject::GetChildren()
 {
 	return children;
@@ -403,3 +412,20 @@ void GameObject::Draw_AABB()
 
 }
 */
+void GameObject::Save()
+{
+	std::string output;
+	GameObject* ret = nullptr;
+	std::stack<GameObject*> stack;
+	stack.push(this);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+		JsonSerializer::Serialize(top, output, "config.json");
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+}

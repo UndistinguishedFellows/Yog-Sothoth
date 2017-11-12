@@ -1,9 +1,10 @@
 ﻿#include "ImportFBX.h"
-#include "../MeshImporter.h"
+#include "MeshImporter.h"
 #include "../../Application.h"
 #include "../../../Assimp/Assimp/include/cimport.h"
 #include "../../../Assimp/Assimp/include/postprocess.h"
 #include "../../Engine/GameObjects/Components/C_Transform.h"
+#include "../../Engine/GameObjects/Components/C_Mesh.h"
 
 namespace fs = std::experimental::filesystem;
 
@@ -27,8 +28,10 @@ bool ImportFBX::Import(fs::path path)
 	out << buffer;
 	out.close();
 
-
+	//Load the FBX
 	Load();
+	//Save the resources and prefab
+	Save();
 
 
 	RELEASE_ARRAY(buffer);
@@ -54,19 +57,43 @@ void ImportFBX::Load()
 		if (scene, scene->HasMeshes())
 		{
 			yogConsole(CONSOLE_INFO, "FBX path: %s.", importPath);
+			LoadMeshes(scene);
 			LoadScene(scene, scene->mRootNode);
 		}
 	}
 	else
 	{
-		yogConsole(CONSOLE_ERROR, "Error loading FBX, path: %s.", importPath);
+		yogConsole(CONSOLE_ERROR, "Error loading FBX, path: %s.", importPath.c_str());
 	}
 
 	aiReleaseImport(scene);
 }
 
+void ImportFBX::Save()
+{
+	for (auto mesh : meshes)
+	{
+		mesh->SaveMeshFile();
+	}
+
+	//root->Save();
+}
+
+void ImportFBX::LoadMeshes(const aiScene* scene)
+{
+	for (size_t i = 0; i < scene->mNumMeshes; i++)
+	{
+		R_Mesh* mesh = new R_Mesh();
+		mesh->Load(scene->mMeshes[i]);
+		meshes.push_back(mesh);
+	}	
+}
+
 void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 {
+	root = new GameObject();
+	root->Transform = new C_Transform(root);
+	root->Transform->localTransform.SetIdentity();
 	std::stack<const aiNode*> nodes;
 	aiVector3D ai_translation;
 	aiVector3D ai_scaling;
@@ -87,11 +114,12 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 
 		if (treeMap.find(top->mParent) != treeMap.end())
 		{
-			gameObject->parent = treeMap[top->mParent];
+			GameObject* parent = treeMap[top->mParent];
+			parent->AddChild(gameObject);
 		}
 		else
 		{
-			gameObject->parent = nullptr;
+			root->AddChild(gameObject);
 		}
 
 		gameObject->name = top->mName.C_Str();
@@ -108,16 +136,42 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 		transform->position = position;
 		transform->localTransform = matrix;
 
-		C_Transform* parentTransform = gameObject->parent->Transform;
-		transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
+		gameObject->Transform = transform;
 
-		
+		if (gameObject->parent != nullptr)
+		{
+			C_Transform* parentTransform = gameObject->parent->Transform;
+			transform->globalTransform = parentTransform->globalTransform * transform->localTransform;
+		}
 
+		//Each mesh in a separate gameObject
+		if (top->mNumMeshes > 1)
+		{
+			for (uint i = 0; i < node->mNumMeshes; i++)
+			{
+				GameObject* goMesh = new GameObject();
+				std::string meshName = gameObject->name;
+				meshName.append("_Mesh_%d", i);
+				//const aiMesh* ai_mesh = scene->mMeshes[top->mMeshes[i]];
 
+				C_Mesh* mesh = new C_Mesh(goMesh);
 
+				mesh->rMesh = meshes[top->mMeshes[i]];
+								
+				gameObject->AddChild(goMesh);
+			}
+		}
+		else if (top->mNumMeshes == 1)
+		{
+			const aiMesh* ai_mesh = scene->mMeshes[top->mMeshes[0]];
+
+			C_Mesh* mesh = new C_Mesh(gameObject);
+
+			mesh->rMesh = meshes[top->mMeshes[0]];
+		}
 
 		nodes.pop();
-		for (int it = 0; it < top->mNumMeshes; ++it)
+		for (int it = 0; it < top->mNumChildren; ++it)
 		{
 			nodes.push(top->mChildren[it]);
 		}

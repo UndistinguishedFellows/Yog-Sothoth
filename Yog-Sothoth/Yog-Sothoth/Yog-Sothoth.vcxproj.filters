@@ -81,7 +81,7 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
     <ClCompile Include="Tools\MeshImporter.cpp" />
     <ClCompile Include="Engine\Resources\R_Mesh.cpp" />
-    <ClCompile Include="Tools\Static\ImportFBX.cpp" />
+    <ClCompile Include="Tools\ImportFBX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -194,7 +194,7 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
     <ClInclude Include="Tools\MeshImporter.h" />
     <ClInclude Include="Engine\Resources\R_Mesh.h" />
-    <ClInclude Include="Tools\Static\ImportFBX.h" />
+    <ClInclude Include="Tools\ImportFBX.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

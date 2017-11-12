@@ -19,9 +19,10 @@ class C_Light;
 class C_Material;
 class M_GameObjectManager;
 
-class GameObject
+class GameObject : public IJsonSerializable
 {
 	friend class M_ObjectManager;
+	friend class ImportFBX;
 public:
 	GameObjectType type = GO_STANDARD;
 	std::vector<GameObject*> children;
@@ -108,6 +109,12 @@ protected:
 	void DrawLight(Shader shader, C_Camera* camera);
 	void DrawAABB(Shader shader, C_Camera* camera);
 	AABB GetAABB();
+
+	void Serialize(Json::Value& root) override;
+	void Deserialize(Json::Value& root) override;
+
+	void Save();
+	void Load();
 
 
 public:

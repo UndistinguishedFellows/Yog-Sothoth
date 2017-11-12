@@ -287,19 +287,19 @@ void M_ObjectManager::MousePick()
 		if (go->Mesh != nullptr)
 		{
 			Polyhedron mesh;
-			for (int i = 0; i < go->Mesh->vertices.numVertices*3; i+=3)
+			for (int i = 0; i < go->Mesh->rMesh->vertices.numVertices*3; i+=3)
 			{
-				float3 vertice(go->Mesh->vertices.vertices[i],
-							   go->Mesh->vertices.vertices[i+1],
-							   go->Mesh->vertices.vertices[i+2]);
+				float3 vertice(go->Mesh->rMesh->vertices.vertices[i],
+							   go->Mesh->rMesh->vertices.vertices[i+1],
+							   go->Mesh->rMesh->vertices.vertices[i+2]);
 				mesh.v.push_back(vertice);
 			}
-			for (int i = 0; i < go->Mesh->indices.numIndices; i += 3)
+			for (int i = 0; i < go->Mesh->rMesh->indices.numIndices; i += 3)
 			{
 				Polyhedron::Face face;
-				face.v.push_back(go->Mesh->indices.indices[i]);
-				face.v.push_back(go->Mesh->indices.indices[i+1]);
-				face.v.push_back(go->Mesh->indices.indices[i+2]);
+				face.v.push_back(go->Mesh->rMesh->indices.indices[i]);
+				face.v.push_back(go->Mesh->rMesh->indices.indices[i+1]);
+				face.v.push_back(go->Mesh->rMesh->indices.indices[i+2]);
 				mesh.f.push_back(face);
 			}
 			//Transform polyhedron to global space
