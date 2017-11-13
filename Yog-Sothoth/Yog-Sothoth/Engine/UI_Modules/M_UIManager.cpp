@@ -39,6 +39,7 @@ bool M_UIManager::Init()
 	menus = new UIWindowMenus();
 	inspector = new UIInspector();
 	gizmos = new UIGizmos();
+	timeControllers = new UITimeControllers();
 	return ret;
 }
 
@@ -89,6 +90,7 @@ update_status M_UIManager::PostUpdate(float dt)
 	}
 	menus->Draw();
 	gizmos->Draw();
+	timeControllers->Draw();
 	
 	return UPDATE_CONTINUE;
 }

@@ -39,6 +39,15 @@ enum update_status
 	UPDATE_ERROR
 };
 
+enum game_status
+{
+	PLAY = 1,
+	PAUSE,
+	STOP,
+	TO_PLAY,
+	TO_STOP
+};
+
 typedef unsigned int uint;
 typedef unsigned __int32 uint32;
 typedef unsigned __int64 uint64;

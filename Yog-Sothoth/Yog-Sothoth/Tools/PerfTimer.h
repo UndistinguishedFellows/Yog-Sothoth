@@ -11,6 +11,7 @@ public:
 
 	void Start();
 	void Stop();
+	void Reset();
 
 	double ReadMs()const;
 	uint64 ReadTicks()const;

@@ -23,7 +23,7 @@ YogClock::~YogClock()
 *		- Add one frame to counter.
 *		- If app state is PLAY do the same with the game timer.
 */
-void YogClock::OnPrepareUpdate()
+void YogClock::OnPrepareUpdate(game_status gameStatus)
 {
 	//1. Add time
 	timeSinceAppStart += realDt;
@@ -34,6 +34,16 @@ void YogClock::OnPrepareUpdate()
 	msTimer->Start();
 	//3. Add a frame
 	++realFrameCount;
+
+	if (gameStatus == game_status::PLAY)
+	{
+		gameTimeSinceLevelLoaded += gameDt;
+
+		gameDt = ((float)(msGameTimer->ReadMs() / 1000.0f)) * scale;
+		msGameTimer->Start();
+
+		++gameFrameCount;
+	}
 }
 
 /**
@@ -74,8 +84,10 @@ void YogClock::UnPause()
 void YogClock::Stop()
 {
 	msGameTimer->Stop();
+	msGameTimer->Reset();
 	gameFrameCount = 0;
 	gameDt = 0.0f;
+	gameTimeSinceLevelLoaded = 0.0f;
 }
 
 void YogClock::Play()

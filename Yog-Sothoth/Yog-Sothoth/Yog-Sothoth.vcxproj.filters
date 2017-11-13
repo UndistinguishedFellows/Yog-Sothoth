@@ -83,6 +83,7 @@
     <ClCompile Include="Engine\Resources\R_Mesh.cpp" />
     <ClCompile Include="Tools\Static\ImportFBX.cpp" />
     <ClCompile Include="Engine\Resources\R_Material.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UITimeControllers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Engine\Resources\R_Mesh.h" />
     <ClInclude Include="Tools\Static\ImportFBX.h" />
     <ClInclude Include="Engine\Resources\R_Material.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UITimeControllers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
