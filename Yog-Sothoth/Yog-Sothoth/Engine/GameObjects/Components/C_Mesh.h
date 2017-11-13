@@ -6,34 +6,11 @@
 #include "../../../Tools/Containers/Shader.h"
 #include "C_Camera.h"
 #include "C_Material.h"
+#include "../../Resources/R_Mesh.h"
 
 class GameObject;
 struct aiMesh;
 
-struct Indices
-{
-	uint idIndices = 0;
-	uint numIndices = 0;
-	uint* indices = nullptr;
-};
-struct Vertices
-{
-	uint idVertices = 0;
-	uint numVertices = 0;
-	float* vertices = nullptr;
-};
-struct Normals
-{
-	uint idNormals = 0;
-	uint numNormals = 0;
-	float* normals = nullptr;
-};
-struct UV
-{
-	uint idUV = 0;
-	uint numUV = 0;
-	float* uv = nullptr;
-};
 struct BoundingBox
 {
 	OBB obb;
@@ -48,11 +25,7 @@ class C_Mesh : public Component
 {
 public:
 	//Shader shader;
-	uint VAO;
-	Indices indices;
-	Vertices vertices;
-	Normals normals;
-	UV uv;
+	R_Mesh* rMesh;
 	BoundingBox boundingBox;
 	Color color = Color(1.0f,1.0f,1.0f,1.0f);
 	bool drawNormals = false;

@@ -244,7 +244,7 @@
     <ClCompile Include="Tools\MeshImporter.cpp" />
     <ClCompile Include="Tools\mmgr\mmgr.cpp" />
     <ClCompile Include="Tools\Primitives.cpp" />
-    <ClCompile Include="Tools\Static\ImportFBX.cpp" />
+    <ClCompile Include="Tools\ImportFBX.cpp" />
     <ClCompile Include="Tools\TextureImporter.cpp" />
     <ClCompile Include="Tools\YogClock.cpp" />
     <ClCompile Include="Tools\Containers\Shader.cpp" />
@@ -339,7 +339,7 @@
     <ClInclude Include="Tools\mmgr\mmgr.h" />
     <ClInclude Include="Tools\mmgr\nommgr.h" />
     <ClInclude Include="Tools\Primitives.h" />
-    <ClInclude Include="Tools\Static\ImportFBX.h" />
+    <ClInclude Include="Tools\ImportFBX.h" />
     <ClInclude Include="Tools\TextureImporter.h" />
     <ClInclude Include="Tools\YogClock.h" />
     <ClInclude Include="Tools\Containers\Shader.h" />

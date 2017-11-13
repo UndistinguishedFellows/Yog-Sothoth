@@ -116,39 +116,39 @@ void UIInspector::Mesh()
 		if (ImGui::CollapsingHeader("Mesh"))
 		{
 			ImGui::Text("Triangle count: "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.numIndices/3);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.numIndices/3);
 
 			ImGui::Text("Num Vertices: "); 
 			ImGui::SameLine(); 
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->vertices.numVertices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->vertices.numVertices);
 			ImGui::SameLine();
 			ImGui::Text("Id Vertices: "); 
 			ImGui::SameLine(); 
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->vertices.idVertices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->vertices.idVertices);
 
 			ImGui::Text("Num Indices: "); 
 			ImGui::SameLine(); 
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.numIndices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.numIndices);
 			ImGui::SameLine();
 			ImGui::Text("Id Indices: "); 
 			ImGui::SameLine(); 
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->indices.idIndices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.idIndices);
 
 			ImGui::Text("Num Normals: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->normals.numNormals);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->normals.numNormals);
 			ImGui::SameLine();
 			ImGui::Text("Id Normals: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->normals.idNormals);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->normals.idNormals);
 
 			ImGui::Text("Num UV: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->vertices.numVertices);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->vertices.numVertices);
 			ImGui::SameLine();
 			ImGui::Text("Id UV: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->uv.idUV);
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->uv.idUV);
 
 			ImGui::Separator();
 

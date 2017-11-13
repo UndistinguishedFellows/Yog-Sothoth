@@ -7,7 +7,7 @@
 #include "../GameObjects/Components/C_Material.h"
 
 #include <experimental/filesystem>
-#include "../../Tools/Static/ImportFBX.h"
+#include "../../Tools/ImportFBX.h"
 
 namespace fs = std::experimental::filesystem;
 

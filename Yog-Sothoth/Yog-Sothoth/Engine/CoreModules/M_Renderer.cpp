@@ -178,9 +178,9 @@ update_status M_Renderer::PostUpdate(float dt)
 				activeshader->setInt("hasTex", 0);
 			}
 
-			glBindVertexArray(game_object->Mesh->VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+			glBindVertexArray(game_object->Mesh->rMesh->VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 													   //glDrawArrays(GL_TRIANGLES, 0, 6);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, game_object->Mesh->indices.idIndices);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, game_object->Mesh->rMesh->indices.idIndices);
 
 			activeshader->setMat4("projection", &App->objManager->activeCamera->Camera->frustum.ProjectionMatrix().Transposed());
 			activeshader->setMat4("view", &view.Transposed());
@@ -214,7 +214,7 @@ update_status M_Renderer::PostUpdate(float dt)
 				prevTextureBuffer = textureBuffer;
 			}
 
-			glDrawElements(GL_TRIANGLES, game_object->Mesh->indices.numIndices, GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, game_object->Mesh->rMesh->indices.numIndices, GL_UNSIGNED_INT, 0);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);

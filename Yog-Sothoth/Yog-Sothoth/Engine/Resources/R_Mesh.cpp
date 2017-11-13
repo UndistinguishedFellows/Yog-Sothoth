@@ -1,5 +1,9 @@
 ﻿#include "R_Mesh.h"
 #include <fstream>
+#include "../../../Assimp/Assimp/include/vector3.h"
+#include "../../../Assimp/Assimp/include/scene.h"
+#include <glew.h>
+#include "../../MathGeoLib/Algorithm/Random/LCG.h"
 
 //##########################################################
 //	Binary Mesh File order:
@@ -20,7 +24,44 @@ R_Mesh::R_Mesh()
 
 R_Mesh::~R_Mesh()
 {
-	RELEASE(indices.indices);
+	if (vertices.vertices != nullptr)
+	{
+		RELEASE(vertices.vertices);
+	}
+	if (indices.indices != nullptr)
+	{
+		RELEASE(indices.indices);
+	}
+	if (normals.normals != nullptr)
+	{
+		RELEASE(normals.normals);
+	}
+	if (uv.uv != nullptr)
+	{
+		RELEASE(uv.uv);
+	}
+
+	// Delete Buffers and restore de ID's
+	if (vertices.idVertices != 0)
+	{
+		glDeleteBuffers(1, &vertices.idVertices);
+		vertices.idVertices = 0;
+	}
+	if (indices.idIndices != 0)
+	{
+		glDeleteBuffers(1, &indices.idIndices);
+		indices.idIndices = 0;
+	}
+	if (normals.idNormals != 0)
+	{
+		glDeleteBuffers(1, &normals.idNormals);
+		normals.idNormals = 0;
+	}
+	if (uv.idUV != 0)
+	{
+		glDeleteBuffers(1, &uv.idUV);
+		uv.idUV = 0;
+	}
 }
 
 void R_Mesh::SaveMeshFile()
@@ -28,7 +69,8 @@ void R_Mesh::SaveMeshFile()
 	LCG lcg;
 	uid = lcg.Int();
 
-	std::string filename = std::to_string(uid);
+	std::string filename = "data/library/";
+	filename.append(std::to_string(uid));
 	filename.append(".mesh");
 
 	unsigned int header[5] = {type, indices.numIndices, vertices.numVertices, normals.numNormals, uv.numUV};
@@ -97,6 +139,52 @@ void R_Mesh::LoadMeshFile(const char* filename)
 
 	bytes = sizeof(float) * uv.numUV * 2;
 	memcpy(uv.uv, cursor, bytes);
+}
+
+void R_Mesh::Load(const aiMesh* aiMesh)
+{
+	vertices.numVertices = aiMesh->mNumVertices;
+	vertices.vertices = new float[vertices.numVertices * 3];
+
+	memcpy(vertices.vertices, aiMesh->mVertices, sizeof(float)*  vertices.numVertices * 3);
+	//Normals
+	if (aiMesh->HasNormals())
+	{
+		normals.numNormals = aiMesh->mNumVertices;
+		normals.normals = new float[normals.numNormals * 3];
+
+		memcpy(normals.normals, aiMesh->mNormals, sizeof(float) * normals.numNormals * 3);
+	}
+
+	if (aiMesh->HasFaces())
+	{
+		yogConsole(CONSOLE_INFO, "New mesh with %d vertices", vertices.numVertices);
+
+		indices.numIndices = aiMesh->mNumFaces * 3;
+		indices.indices = new uint[indices.numIndices]; // Asume all are triangles
+		for (uint j = 0; j < aiMesh->mNumFaces; j++)
+		{
+			if (aiMesh->mFaces[j].mNumIndices != 3)
+			{
+				yogConsole(CONSOLE_WARNING, "geometry face with != 3 indices!");
+			}
+			else
+			{
+				memcpy(&indices.indices[j * 3], aiMesh->mFaces[j].mIndices, sizeof(uint) * 3);
+			}
+		}
+	}
+	if (aiMesh->HasTextureCoords(0))
+	{
+		uv.uv = new float[vertices.numVertices * 2];
+		aiVector3D* tmp = aiMesh->mTextureCoords[0];
+		for (uint i = 0; i < vertices.numVertices * 2; i += 2)
+		{
+			uv.uv[i] = tmp->x;
+			uv.uv[i + 1] = tmp->y;
+			++tmp;
+		}
+	}
 }
 
 //Metadata UUID.meta
