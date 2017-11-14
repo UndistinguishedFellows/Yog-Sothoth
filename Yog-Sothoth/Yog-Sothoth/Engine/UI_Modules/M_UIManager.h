@@ -9,6 +9,7 @@
 #include "UI components/UIWindowMenus.h"
 #include "UI components/UIInspector.h"
 #include "UI components/UIGizmos.h"
+#include "UI components/UITimeControllers.h"
 
 class M_UIManager : public Module
 {
@@ -21,6 +22,7 @@ public:
 	UIWindowMenus* menus = nullptr;
 	UIInspector* inspector = nullptr;
 	UIGizmos *gizmos = nullptr;
+	UITimeControllers *timeControllers = nullptr;
 
 	bool outlinerSelected = false;
 	bool isUsingMouse;

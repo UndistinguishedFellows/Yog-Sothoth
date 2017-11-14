@@ -11,7 +11,7 @@ public:
 	YogClock();
 	virtual ~YogClock();
 
-	void OnPrepareUpdate();
+	void OnPrepareUpdate(game_status gameStatus);
 	void OnFinishUpdate();
 
 	void OnSceneLoaded();

@@ -30,8 +30,6 @@ Application::Application()
 	
 	//LAST ONE
 	addModule(renderer);
-	appTimer.Play();
-	
 }
 Application::~Application()
 {
@@ -65,16 +63,24 @@ bool Application::Init()
 	}
 
 	loadHardwareInfo();
+
+	gameStatus = game_status::STOP;
+	appTimer.Stop();
+
 	return ret;
 }
+
 void Application::PrepareUpdate()
 {
-	appTimer.OnPrepareUpdate();
+	updateGameStatus();
+	appTimer.OnPrepareUpdate(gameStatus);
 }
+
 void Application::FinishUpdate()
 {
 	appTimer.OnFinishUpdate();
 }
+
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
@@ -221,4 +227,10 @@ void Application::loadHardwareInfo()
 	hardwareInfo.SSE3 = SDL_HasSSE3();
 	hardwareInfo.SSE41 = SDL_HasSSE41();
 	hardwareInfo.SSE42 = SDL_HasSSE42();
+}
+
+void Application::updateGameStatus()
+{
+	if (gameStatus == game_status::TO_PLAY) gameStatus = game_status::PLAY;
+	if (gameStatus == game_status::TO_STOP) gameStatus = game_status::STOP;
 }

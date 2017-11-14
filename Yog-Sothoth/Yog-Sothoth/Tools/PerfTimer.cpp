@@ -26,6 +26,12 @@ void PerfTimer::Stop()
 	stopedAt = SDL_GetPerformanceCounter();
 }
 
+void PerfTimer::Reset()
+{
+	startedAt = 0;
+	stopedAt = 0;
+}
+
 double PerfTimer::ReadMs() const
 {
 	if (running)
