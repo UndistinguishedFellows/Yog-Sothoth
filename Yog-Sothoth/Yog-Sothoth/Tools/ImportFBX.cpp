@@ -19,13 +19,7 @@ bool ImportFBX::Import(fs::path path)
 	infile.seekg(0, std::ios::end);
 	length = infile.tellg();
 	infile.seekg(0, infile.beg);
-//	std::streampos fsize = 0;
-//	fsize = infile.tellg();
-//	infile.seekg(0, std::ios::end);
-//	fsize = infile.tellg() - fsize;
-
 	buffer = new char[length+1];
-	//infile.read(buffer, length);
 	std::string line;
 	int head = 0;
 	while (std::getline(infile, line))
@@ -93,7 +87,8 @@ void ImportFBX::Save()
 	{
 		mesh->SaveMeshFile();
 	}
-	std::string name = oldPath.stem().string();
+	std::string name = ("data/assets/");
+	name.append(oldPath.stem().string());
 	root->children[0]->name.assign(name);
 	name.append(".prefab");	
 	root->children[0]->Save(name);
@@ -179,7 +174,7 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 				C_Mesh* mesh = new C_Mesh(goMesh);
 
 				mesh->rMesh = meshes[top->mMeshes[i]];
-								
+				goMesh->Mesh = mesh;
 				gameObject->AddChild(goMesh);
 			}
 		}
@@ -190,6 +185,8 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 			C_Mesh* mesh = new C_Mesh(gameObject);
 
 			mesh->rMesh = meshes[top->mMeshes[0]];
+
+			gameObject->Mesh = mesh;
 		}
 
 		nodes.pop();

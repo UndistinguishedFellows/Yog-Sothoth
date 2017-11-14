@@ -236,6 +236,9 @@ AABB C_Mesh::GetAABB()
 
 void C_Mesh::Serialize(Json::Value& root)
 {
+	root["type"] = type;
+	root["resource_uuid"] = rMesh->uid;
+	
 }
 
 void C_Mesh::Deserialize(Json::Value& root)

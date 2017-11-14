@@ -364,7 +364,7 @@ void GameObject::Serialize(Json::Value& root)
 		{
 			Json::Value jComp;
 			(*it)->Serialize(jComp);
-			gameObject["components"] = jComp;
+			gameObject["components"].append(jComp);
 		}
 
 		stack.pop();
@@ -372,7 +372,6 @@ void GameObject::Serialize(Json::Value& root)
 		{
 			stack.push(top->children[it]);
 		}
-		yogConsole(CONSOLE_MESSAGE, "%s", gameObject.toStyledString().c_str());
 		root.append(gameObject);
 		
 	}
