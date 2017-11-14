@@ -63,6 +63,10 @@ bool Application::Init()
 	}
 
 	loadHardwareInfo();
+
+	gameStatus = game_status::STOP;
+	appTimer.Stop();
+
 	return ret;
 }
 

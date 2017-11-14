@@ -67,7 +67,7 @@ public:
 	//Virtuoso::GameConsole console;
 
 	YogClock appTimer;
-	game_status gameStatus = game_status::STOP;
+	game_status gameStatus;
 	HardwareInfo hardwareInfo;
 
 	float MaxFPS;

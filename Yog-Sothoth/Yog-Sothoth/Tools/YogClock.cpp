@@ -34,7 +34,7 @@ void YogClock::OnPrepareUpdate(game_status gameStatus)
 	msTimer->Start();
 	//3. Add a frame
 	++realFrameCount;
-
+	
 	if (gameStatus == game_status::PLAY)
 	{
 		gameTimeSinceLevelLoaded += gameDt;
