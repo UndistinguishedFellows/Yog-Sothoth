@@ -12,27 +12,60 @@ bool ImportFBX::Import(fs::path path)
 {
 	oldPath = path;
 	importPath.append(path.filename().string());
-	
-	//Copies the file to assets folder
-	infile.open(path.generic_string(), std::ifstream::binary);
-	//size
+
+	//-----------------------------------------------------------------------------------------------------
+	clock_t start, end;
+	start = clock();
+
+	infile.open(path.generic_string(), std::ios::binary);
+	out.open(importPath, std::ios::binary);
+
+	// file size
 	infile.seekg(0, std::ios::end);
 	length = infile.tellg();
 	infile.seekg(0, infile.beg);
-	buffer = new char[length+1];
-	std::string line;
-	int head = 0;
-	while (std::getline(infile, line))
-	{
-		memcpy(&buffer[head], line.c_str(), line.size());
-		head += line.size();
-	}
-	buffer[head] = '\0';
-	infile.close();
 
-	out.open(importPath);
-	out << buffer;
+	// allocate memory for buffer
+	buffer = new char[length];
+
+	// copy file    
+	infile.read(buffer, length);
+	out.write(buffer, length);
+
+	// clean up
+	
+	infile.close();
 	out.close();
+
+	end = clock();
+
+	std::cout << "CLOCKS_PER_SEC " << CLOCKS_PER_SEC << "\n";
+	std::cout << "CPU-TIME START " << start << "\n";
+	std::cout << "CPU-TIME END " << end << "\n";
+	std::cout << "CPU-TIME END - START " << end - start << "\n";
+	std::cout << "TIME(SEC) " << static_cast<double>(end - start) / CLOCKS_PER_SEC << "\n";
+	//-----------------------------------------------------------------------------------------------------
+	
+	//Copies the file to assets folder
+//	infile.open(path.generic_string(), std::ifstream::binary);
+	//size
+//	infile.seekg(0, std::ios::end);
+//	length = infile.tellg();
+//	infile.seekg(0, infile.beg);
+//	buffer = new char[length+1];
+//	std::string line;
+//	int head = 0;
+//	while (std::getline(infile, line))
+//	{
+//		memcpy(&buffer[head], line.c_str(), line.size());
+//		head += line.size();
+//	}
+//	buffer[head] = '\0';
+//	infile.close();
+//
+//	out.open(importPath, std::ofstream::binary);
+//	out << buffer;
+//	out.close();
 
 	//Load the FBX
 	if (Load())

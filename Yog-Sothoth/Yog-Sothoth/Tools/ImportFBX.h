@@ -25,7 +25,7 @@ private:
 	fs::path oldPath;
 	std::ifstream infile;
 	std::ofstream out;
-	int length;
+	std::ifstream::pos_type length;
 	char * buffer;
 	GameObject* root;
 	std::vector<R_Mesh*> meshes;
