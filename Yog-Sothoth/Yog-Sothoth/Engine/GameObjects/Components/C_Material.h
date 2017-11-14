@@ -5,10 +5,12 @@
 #include "../../CoreModules/M_Window.h"
 #include "../../../Tools/Containers/Color.h"
 #include "../../../Tools/TextureImporter.h"
+#include "../../Resources/R_Material.h"
 
 class C_Material : public Component
 {
 public:
+
 	bool checkers = false;
 
 	float3 ambient;
@@ -21,6 +23,8 @@ public:
 	uint texture;
 
 	ImageInfo imInfo;
+
+	R_Material* rMaterial;
 
 	C_Material(GameObject* parent,
 			   const float3& ambient = float3(1.f, 1.f, 1.f),

@@ -238,7 +238,13 @@ void C_Mesh::Serialize(Json::Value& root)
 {
 	root["type"] = type;
 	root["resource_uuid"] = rMesh->uid;
-	
+	root["color"].append(color.r);
+	root["color"].append(color.g);
+	root["color"].append(color.b);
+	root["color"].append(color.a);
+	root["draw_normals"] = drawNormals;
+	root["wireframe"] = wireframe;
+	root["associated_material_uuid"] = associatedMaterial->rMaterial->uuid;
 }
 
 void C_Mesh::Deserialize(Json::Value& root)
