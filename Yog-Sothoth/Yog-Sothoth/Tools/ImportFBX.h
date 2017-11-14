@@ -15,7 +15,7 @@ class ImportFBX
 public:
 	bool Import(fs::path path);
 
-	void Load();
+	bool Load();
 	void Save();
 	void LoadMeshes(const aiScene* scene);
 	void LoadScene(const aiScene * scene, const aiNode * node);

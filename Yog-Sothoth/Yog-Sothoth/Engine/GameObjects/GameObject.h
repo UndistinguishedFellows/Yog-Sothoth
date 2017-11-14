@@ -4,6 +4,7 @@
 #include <rpc.h>
 #include <list>
 #include "../../MathGeoLib/Geometry/AABB.h"
+#include "../../Globals.h"
 
 enum GameObjectType
 {
@@ -30,11 +31,8 @@ public:
 
 	std::vector<Component*> components;
 
-	// Todo: for now i dont know if this is really necessary, maybe I just dont need to know relationships
-	std::vector<GameObject**> relationship; 
-
 	std::string name = "NO_NAME";
-	UUID uuid;
+	UUID32 uuid;
 
 	AABB aabb;
 
@@ -113,7 +111,7 @@ protected:
 	void Serialize(Json::Value& root) override;
 	void Deserialize(Json::Value& root) override;
 
-	void Save();
+	void Save(std::string fileName);
 	void Load();
 
 

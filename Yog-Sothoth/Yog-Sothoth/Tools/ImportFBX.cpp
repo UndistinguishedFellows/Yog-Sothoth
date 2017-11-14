@@ -12,16 +12,28 @@ bool ImportFBX::Import(fs::path path)
 {
 	oldPath = path;
 	importPath.append(path.filename().string());
-
+	
 	//Copies the file to assets folder
 	infile.open(path.generic_string(), std::ifstream::binary);
 	//size
-	infile.seekg(0, infile.end);
+	infile.seekg(0, std::ios::end);
 	length = infile.tellg();
 	infile.seekg(0, infile.beg);
+//	std::streampos fsize = 0;
+//	fsize = infile.tellg();
+//	infile.seekg(0, std::ios::end);
+//	fsize = infile.tellg() - fsize;
 
-	buffer = new char[length];
-	infile.read(buffer, length);
+	buffer = new char[length+1];
+	//infile.read(buffer, length);
+	std::string line;
+	int head = 0;
+	while (std::getline(infile, line))
+	{
+		memcpy(&buffer[head], line.c_str(), line.size());
+		head += line.size();
+	}
+	buffer[head] = '\0';
 	infile.close();
 
 	out.open(importPath);
@@ -29,17 +41,21 @@ bool ImportFBX::Import(fs::path path)
 	out.close();
 
 	//Load the FBX
-	Load();
+	if (Load())
+	{
+		Save();
+	}
 	//Save the resources and prefab
-	Save();
+	
 
 
 	RELEASE_ARRAY(buffer);
 	return true;
 }
 
-void ImportFBX::Load()
+bool ImportFBX::Load()
 {
+	bool ret = false;
 	yogConsole(CONSOLE_INFO, "Loading scene...");
 	const aiScene* scene = nullptr;
 
@@ -59,6 +75,7 @@ void ImportFBX::Load()
 			yogConsole(CONSOLE_INFO, "FBX path: %s.", importPath);
 			LoadMeshes(scene);
 			LoadScene(scene, scene->mRootNode);
+			ret = true;
 		}
 	}
 	else
@@ -67,6 +84,7 @@ void ImportFBX::Load()
 	}
 
 	aiReleaseImport(scene);
+	return ret;
 }
 
 void ImportFBX::Save()
@@ -75,8 +93,10 @@ void ImportFBX::Save()
 	{
 		mesh->SaveMeshFile();
 	}
-
-	//root->Save();
+	std::string name = oldPath.stem().string();
+	root->children[0]->name.assign(name);
+	name.append(".prefab");	
+	root->children[0]->Save(name);
 }
 
 void ImportFBX::LoadMeshes(const aiScene* scene)
@@ -94,6 +114,8 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 	root = new GameObject();
 	root->Transform = new C_Transform(root);
 	root->Transform->localTransform.SetIdentity();
+	root->name = "Root";
+
 	std::stack<const aiNode*> nodes;
 	aiVector3D ai_translation;
 	aiVector3D ai_scaling;

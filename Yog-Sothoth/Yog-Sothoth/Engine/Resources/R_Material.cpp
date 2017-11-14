@@ -12,9 +12,9 @@ R_Material::~R_Material()
 void R_Material::SaveMaterialFile()
 {
 	LCG lcg;
-	uid = lcg.Int();
+	uuid = lcg.Int();
 
-	std::string filename = std::to_string(uid);
+	std::string filename = std::to_string(uuid);
 	filename.append(".dds"); 
 }
 

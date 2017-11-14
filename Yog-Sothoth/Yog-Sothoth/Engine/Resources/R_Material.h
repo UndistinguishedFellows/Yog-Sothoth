@@ -4,7 +4,7 @@
 class R_Material : public IJsonSerializable
 {
 public:
-	UID uid;
+	UUID32 uuid;
 
 	unsigned int type = 2;
 

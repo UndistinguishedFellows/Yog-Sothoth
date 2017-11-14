@@ -339,6 +339,45 @@ AABB GameObject::GetAABB()
 
 void GameObject::Serialize(Json::Value& root)
 {
+	std::stack<GameObject*> stack;
+	stack.push(this);
+
+	while(!stack.empty())
+	{
+		GameObject* top = stack.top();
+
+		LCG random;
+		do	top->uuid = random.Int(); while (top->uuid == 0);
+		
+		Json::Value gameObject;
+		gameObject["type"] = top->type;
+		gameObject["name"] = top->name;
+		if (top->parent != nullptr && top != this)
+			gameObject["parent_uuid"] = top->parent->uuid;
+		else
+			gameObject["parent_uuid"] = 0;
+		
+		gameObject["uuid"] = top->uuid;
+		gameObject["active"] = top->active;
+
+		for (std::vector<Component*>::iterator it = top->components.begin(); it != top->components.end(); ++it)
+		{
+			Json::Value jComp;
+			(*it)->Serialize(jComp);
+			gameObject["components"] = jComp;
+		}
+
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+		yogConsole(CONSOLE_MESSAGE, "%s", gameObject.toStyledString().c_str());
+		root.append(gameObject);
+		
+	}
+
+	
 }
 
 void GameObject::Deserialize(Json::Value& root)
@@ -358,74 +397,9 @@ void GameObject::MoveChild(GameObject* child, GameObject* origin, GameObject* de
 		destiny->AddChild(child);
 	}
 }
-/*
-void GameObject::Draw_AABB()
-{
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glDisable(GL_CULL_FACE);
-	glLineWidth(1.f);
-	glColor4f(0.f, 1.f, 0.f, 1.f);
 
-	float3 vertices[8];
-	aabb.GetCornerPoints(vertices);
-
-	//glColor4f(color.r, color.g, color.b, color.a);
-
-	glBegin(GL_QUADS);
-
-	glVertex3fv((GLfloat*)&vertices[1]);
-	glVertex3fv((GLfloat*)&vertices[5]);
-	glVertex3fv((GLfloat*)&vertices[7]);
-	glVertex3fv((GLfloat*)&vertices[3]);
-
-	glVertex3fv((GLfloat*)&vertices[4]);
-	glVertex3fv((GLfloat*)&vertices[0]);
-	glVertex3fv((GLfloat*)&vertices[2]);
-	glVertex3fv((GLfloat*)&vertices[6]);
-
-	glVertex3fv((GLfloat*)&vertices[5]);
-	glVertex3fv((GLfloat*)&vertices[4]);
-	glVertex3fv((GLfloat*)&vertices[6]);
-	glVertex3fv((GLfloat*)&vertices[7]);
-
-	glVertex3fv((GLfloat*)&vertices[0]);
-	glVertex3fv((GLfloat*)&vertices[1]);
-	glVertex3fv((GLfloat*)&vertices[3]);
-	glVertex3fv((GLfloat*)&vertices[2]);
-
-	glVertex3fv((GLfloat*)&vertices[3]);
-	glVertex3fv((GLfloat*)&vertices[7]);
-	glVertex3fv((GLfloat*)&vertices[6]);
-	glVertex3fv((GLfloat*)&vertices[2]);
-
-	glVertex3fv((GLfloat*)&vertices[0]);
-	glVertex3fv((GLfloat*)&vertices[4]);
-	glVertex3fv((GLfloat*)&vertices[5]);
-	glVertex3fv((GLfloat*)&vertices[1]);
-
-	glEnd();
-
-	glEnable(GL_CULL_FACE);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glEnable(GL_LIGHTING);
-	//glLineWidth(1.f);
-
-}
-*/
-void GameObject::Save()
+void GameObject::Save(std::string fileName)
 {
 	std::string output;
-	GameObject* ret = nullptr;
-	std::stack<GameObject*> stack;
-	stack.push(this);
-	while (!stack.empty())
-	{
-		GameObject* top = stack.top();
-		JsonSerializer::Serialize(top, output, "config.json");
-		stack.pop();
-		for (int it = 0; it != top->children.size(); ++it)
-		{
-			stack.push(top->children[it]);
-		}
-	}
+	JsonSerializer::Serialize(this, output, fileName);
 }
