@@ -43,5 +43,7 @@ public:
 	//Debug Things...
 	void SetGlobalTransform(float3 pos, Quat rot, float3 scale);
 
+	void Serialize(Json::Value& root) override;
+	void Deserialize(Json::Value& root) override;
 };
 

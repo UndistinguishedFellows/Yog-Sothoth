@@ -212,3 +212,33 @@ float3 C_Transform::GetPosition() const
 void C_Transform::UpdateBoundingBoxes()
 {
 }
+
+void C_Transform::Serialize(Json::Value& root)
+{
+	float3 position;
+	float3 scale;
+	Quat rotation;
+	float3 eulerRotation;
+
+	localTransform.Decompose(position, rotation, scale);
+	eulerRotation = rotation.ToEulerXYZ();
+	eulerRotation.x = RadToDeg(eulerRotation.x);
+	eulerRotation.y = RadToDeg(eulerRotation.y);
+	eulerRotation.z = RadToDeg(eulerRotation.z);
+
+	root["position"].append(position.x);
+	root["position"].append(position.y);
+	root["position"].append(position.z);
+
+	root["rotation"].append(eulerRotation.x);
+	root["rotation"].append(eulerRotation.y);
+	root["rotation"].append(eulerRotation.z);
+
+	root["scale"].append(position.x);
+	root["scale"].append(position.y);
+	root["scale"].append(position.z);
+}
+
+void C_Transform::Deserialize(Json::Value& root)
+{
+}

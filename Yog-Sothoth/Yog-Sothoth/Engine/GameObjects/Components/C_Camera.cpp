@@ -324,4 +324,21 @@ void C_Camera::DrawDebug()
 //	glPopMatrix();
 }
 
+void C_Camera::Serialize(Json::Value& root)
+{
+	root["frustum"].append(frustum.horizontalFov);
+	root["frustum"].append(frustum.verticalFov);
+	root["frustum"].append(frustum.nearPlaneDistance);
+	root["frustum"].append(frustum.farPlaneDistance);
 
+	root["movement_speed"] = movSpeed;
+	root["rotation_speed"] = rotSpeed;
+	root["zoom_speed"] = zoomSpeed;
+	root["aspect_ratio"] = aspectRatio;
+	root["editor_camera"] = editorCamera;
+	root["camera_culling"] = cameraCulling;
+}
+
+void C_Camera::Deserialize(Json::Value& root)
+{
+}

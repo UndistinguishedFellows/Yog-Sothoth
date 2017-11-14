@@ -26,6 +26,9 @@ public:
 	FrustumIntersection Intersects(const AABB &aabb) const;
 	void DrawDebug();
 
+	void Serialize(Json::Value& root);
+	void Deserialize(Json::Value& root);
+
 	Frustum frustum;
 
 	float movSpeed = 5.f;
