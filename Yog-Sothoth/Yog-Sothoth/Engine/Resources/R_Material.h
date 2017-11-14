@@ -1,12 +1,13 @@
 #pragma once
-#include "../GameObjects/Components/C_Material.h"
+#include "../../Globals.h"
+#include "../../Tools/Interfaces/IJsonSerializable.h"
 
 class R_Material : public IJsonSerializable
 {
 public:
 	UUID32 uuid;
 
-	unsigned int type = 2;
+	unsigned int type;
 
 	R_Material();
 	~R_Material();

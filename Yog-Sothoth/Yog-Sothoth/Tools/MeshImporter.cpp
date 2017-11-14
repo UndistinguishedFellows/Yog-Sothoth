@@ -59,7 +59,7 @@ bool MeshImporter::Import(const aiScene* scene)
 
 		std::string output;
 		std::string meshName;
-		meshName.append(std::to_string(mesh->uid));
+		meshName.append(std::to_string(mesh->uuid));
 		meshName.append(".meta");
 		JsonSerializer::Serialize(mesh, output, meshName);
 	}

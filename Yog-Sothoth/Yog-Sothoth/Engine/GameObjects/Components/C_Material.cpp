@@ -17,7 +17,7 @@ uint C_Material::LoadTexture(const char* path)
 }
 void C_Material::Serialize(Json::Value& root)
 {
-	root["resource_uuid"] = rMaterial->uuid;
+	//root["resource_uuid"] = rMaterial->uuid;
 	root["checkers"] = checkers;
 
 	root["ambient"].append(ambient.x);

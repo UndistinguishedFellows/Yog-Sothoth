@@ -67,10 +67,10 @@ R_Mesh::~R_Mesh()
 void R_Mesh::SaveMeshFile()
 {
 	LCG lcg;
-	uid = lcg.Int();
+	uuid = lcg.Int();
 
 	std::string filename = "data/library/";
-	filename.append(std::to_string(uid));
+	filename.append(std::to_string(uuid));
 	filename.append(".mesh");
 
 	unsigned int header[5] = {type, indices.numIndices, vertices.numVertices, normals.numNormals, uv.numUV};

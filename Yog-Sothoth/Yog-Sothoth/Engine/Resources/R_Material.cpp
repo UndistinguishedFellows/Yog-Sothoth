@@ -1,7 +1,8 @@
 #include "R_Material.h"
 #include <fstream>
+#include "../../MathGeoLib/Algorithm/Random/LCG.h"
 
-R_Material::R_Material()
+R_Material::R_Material() : type(2)
 {
 }
 

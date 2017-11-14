@@ -25,7 +25,7 @@ class C_Mesh : public Component
 {
 public:
 	//Shader shader;
-	R_Mesh* rMesh;
+	R_Mesh* rMesh = nullptr;
 	BoundingBox boundingBox;
 	Color color = Color(1.0f,1.0f,1.0f,1.0f);
 	bool drawNormals = false;

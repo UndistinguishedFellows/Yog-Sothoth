@@ -32,7 +32,7 @@ struct UV
 class R_Mesh : public IJsonSerializable
 {
 public:
-	UUID32 uid;
+	UUID32 uuid;
 	unsigned int type = 1;
 
 	uint VAO;

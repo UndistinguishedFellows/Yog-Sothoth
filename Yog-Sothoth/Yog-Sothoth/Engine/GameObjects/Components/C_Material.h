@@ -24,7 +24,7 @@ public:
 
 	ImageInfo imInfo;
 
-	R_Material* rMaterial;
+	R_Material* rMaterial = nullptr;
 
 	C_Material(GameObject* parent,
 			   const float3& ambient = float3(1.f, 1.f, 1.f),
