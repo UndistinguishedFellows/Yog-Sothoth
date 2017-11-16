@@ -401,25 +401,35 @@ void GameObject::Deserialize(Json::Value& root)
 				default:
 					break;
 				case C_CAMERA:
+				{
 					C_Camera* camera = (C_Camera*)go->CreateComponent(C_CAMERA);
 					camera->Deserialize(j_comp[j]);
 					break;
+				}
 				case C_TRANSFORM:
+				{
 					C_Transform* transform = (C_Transform*)go->CreateComponent(C_TRANSFORM);
 					transform->Deserialize(j_comp[j]);
 					break;
+				}
 				case C_MESH:
+				{
 					C_Mesh* mesh = (C_Mesh*)go->CreateComponent(C_MESH);
 					mesh->Deserialize(j_comp[j]);
 					break;
+				}
 				case C_MATERIAL:
+				{
 					C_Material* material = (C_Material*)go->CreateComponent(C_MATERIAL);
 					material->Deserialize(j_comp[j]);
 					break;
+				}
 				case C_LIGHT:
+				{
 					C_Light* light = (C_Light*)go->CreateComponent(C_LIGHT);
 					light->Deserialize(j_comp[j]);
 					break;
+				}
 			}
 		}
 
