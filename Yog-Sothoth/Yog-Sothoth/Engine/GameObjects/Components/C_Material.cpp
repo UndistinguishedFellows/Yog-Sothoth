@@ -34,6 +34,8 @@ void C_Material::Serialize(Json::Value& root)
 	root["color"].append(color.g);
 	root["color"].append(color.b);
 	root["color"].append(color.a);
+
+	root["type"] = type;
 }
 
 void C_Material::Deserialize(Json::Value& root)

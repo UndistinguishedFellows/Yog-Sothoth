@@ -49,4 +49,6 @@ public:
 	void Load(const aiMesh* aiMesh);
 	void Serialize(Json::Value& root) override;
 	void Deserialize(Json::Value& root) override;
+	void AddMeta(std::string prefab);
+	void RemoveMeta(std::string prefab);
 };

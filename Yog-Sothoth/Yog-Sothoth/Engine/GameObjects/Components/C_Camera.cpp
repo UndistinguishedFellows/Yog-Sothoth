@@ -337,6 +337,8 @@ void C_Camera::Serialize(Json::Value& root)
 	root["aspect_ratio"] = aspectRatio;
 	root["editor_camera"] = editorCamera;
 	root["camera_culling"] = cameraCulling;
+
+	root["type"] = type;
 }
 
 void C_Camera::Deserialize(Json::Value& root)

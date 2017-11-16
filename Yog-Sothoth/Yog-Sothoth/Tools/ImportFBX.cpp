@@ -5,6 +5,7 @@
 #include "../../../Assimp/Assimp/include/postprocess.h"
 #include "../../Engine/GameObjects/Components/C_Transform.h"
 #include "../../Engine/GameObjects/Components/C_Mesh.h"
+#include "Static/JsonSerializer.h"
 
 namespace fs = std::experimental::filesystem;
 
@@ -18,7 +19,7 @@ bool ImportFBX::Import(fs::path path)
 	start = clock();
 
 	infile.open(path.generic_string(), std::ios::binary);
-	out.open(importPath, std::ios::binary);
+	
 
 	// file size
 	infile.seekg(0, std::ios::end);
@@ -30,6 +31,7 @@ bool ImportFBX::Import(fs::path path)
 
 	// copy file    
 	infile.read(buffer, length);
+	out.open(importPath, std::ios::binary);
 	out.write(buffer, length);
 
 	// clean up
@@ -71,6 +73,14 @@ bool ImportFBX::Import(fs::path path)
 	if (Load())
 	{
 		Save();
+		//TEMP
+		std::string name = ("data/assets/");
+		name.append(oldPath.stem().string());
+		name.append(".prefab");
+		GameObject* go = new GameObject(App->objManager->root);
+		go->name = "testingGO";
+		JsonSerializer::DeserializeFormPath(go, name);
+		//TEMP
 	}
 	//Save the resources and prefab
 	
@@ -119,12 +129,23 @@ void ImportFBX::Save()
 	for (auto mesh : meshes)
 	{
 		mesh->SaveMeshFile();
+		mesh->AddMeta(importPath.filename().string());
 	}
 	std::string name = ("data/assets/");
 	name.append(oldPath.stem().string());
-	root->children[0]->name.assign(name);
+	root->children[0]->name.assign(oldPath.stem().string());
 	name.append(".prefab");	
 	root->children[0]->Save(name);
+	
+	name = ("data/assets/");
+	name.append(oldPath.stem().string());
+	name.append(".meta");
+	std::ofstream meta(name);
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meta << "{ \"mesh\" : " << meshes[i]->uuid << "}" << std::endl;
+	}
+	meta.close();
 }
 
 void ImportFBX::LoadMeshes(const aiScene* scene)

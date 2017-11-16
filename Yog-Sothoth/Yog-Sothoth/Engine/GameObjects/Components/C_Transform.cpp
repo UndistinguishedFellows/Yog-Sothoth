@@ -237,6 +237,8 @@ void C_Transform::Serialize(Json::Value& root)
 	root["scale"].append(position.x);
 	root["scale"].append(position.y);
 	root["scale"].append(position.z);
+
+	root["type"] = type;
 }
 
 void C_Transform::Deserialize(Json::Value& root)

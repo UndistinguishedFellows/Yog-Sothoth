@@ -372,7 +372,7 @@ void GameObject::Serialize(Json::Value& root)
 		{
 			stack.push(top->children[it]);
 		}
-		root.append(gameObject);
+		root["gameObjects"].append(gameObject);
 		
 	}
 
@@ -381,6 +381,49 @@ void GameObject::Serialize(Json::Value& root)
 
 void GameObject::Deserialize(Json::Value& root)
 {
+	Json::Value j_go = root.get("gameObjects", 0);
+	std::vector<GameObject*> unOrderedGO;
+	for (int i = 0; i != j_go.size(); i++)
+	{
+		GameObject* go = new GameObject();
+		go->name = j_go[i].get("name", "no_name").asString();
+		go->active = j_go[i].get("active", false).asBool();
+		go->parent_uuid = j_go[i].get("parent_uuid", 0).asInt64();
+		go->type = (GameObjectType)j_go[i].get("type", 0).asInt();
+		go->uuid = j_go[i].get("uuid", 0).asInt64();
+
+		Json::Value j_comp = root.get("components", 0);
+		for (int j = 0; j != j_comp.size(); j++)
+		{
+			switch (j_comp[j].get("type", 0).asInt())
+			{
+				case 0:
+				default:
+					break;
+				case C_CAMERA:
+					C_Camera* camera = (C_Camera*)go->CreateComponent(C_CAMERA);
+					camera->Deserialize(j_comp[j]);
+					break;
+				case C_TRANSFORM:
+					C_Transform* transform = (C_Transform*)go->CreateComponent(C_TRANSFORM);
+					transform->Deserialize(j_comp[j]);
+					break;
+				case C_MESH:
+					C_Mesh* mesh = (C_Mesh*)go->CreateComponent(C_MESH);
+					mesh->Deserialize(j_comp[j]);
+					break;
+				case C_MATERIAL:
+					C_Material* material = (C_Material*)go->CreateComponent(C_MATERIAL);
+					material->Deserialize(j_comp[j]);
+					break;
+				case C_LIGHT:
+					C_Light* light = (C_Light*)go->CreateComponent(C_LIGHT);
+					light->Deserialize(j_comp[j]);
+					break;
+			}
+		}
+
+	}
 }
 
 std::vector<GameObject*> GameObject::GetChildren()

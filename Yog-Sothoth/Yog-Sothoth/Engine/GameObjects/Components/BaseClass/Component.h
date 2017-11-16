@@ -3,12 +3,12 @@
 class GameObject;
 enum ComponentType
 {
+	C_UNKNOWN,
 	C_CAMERA,
 	C_TRANSFORM,
 	C_MESH,
 	C_MATERIAL,
-	C_LIGHT,
-	C_UNKNOWN
+	C_LIGHT	
 };
 
 class Component : public IJsonSerializable

@@ -199,3 +199,17 @@ void R_Mesh::Serialize(Json::Value& root)
 void R_Mesh::Deserialize(Json::Value& root)
 {
 }
+
+void R_Mesh::AddMeta(std::string prefab)
+{
+	std::ofstream outfile;
+	std::string name = "data/library/";
+	name.append(std::to_string(uuid));
+	name.append(".meta");
+	outfile.open(name, std::ios_base::app);
+	outfile << "{ \"prefab\" : \"" << prefab << "\"}" << std::endl;
+}
+
+void R_Mesh::RemoveMeta(std::string prefab)
+{
+}

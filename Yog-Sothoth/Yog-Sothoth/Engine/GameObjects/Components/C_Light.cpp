@@ -17,6 +17,8 @@ void C_Light::Serialize(Json::Value& root)
 	root["specular"].append(ambient.x);
 	root["specular"].append(ambient.y);
 	root["specular"].append(ambient.z);
+
+	root["type"] = type;
 }
 
 void C_Light::Deserialize(Json::Value& root)

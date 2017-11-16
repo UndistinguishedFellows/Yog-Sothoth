@@ -33,6 +33,7 @@ public:
 
 	std::string name = "NO_NAME";
 	UUID32 uuid;
+	UUID32 parent_uuid;
 
 	AABB aabb;
 
