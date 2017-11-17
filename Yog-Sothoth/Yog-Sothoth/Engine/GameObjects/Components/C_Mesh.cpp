@@ -253,4 +253,15 @@ void C_Mesh::Serialize(Json::Value& root)
 
 void C_Mesh::Deserialize(Json::Value& root)
 {
+	type = (ComponentType)root.get("type", 0).asInt();
+	rMesh->uuid = root.get("resource_uuid", 0).asInt64();
+	drawNormals = root.get("draw_normals", false).asBool();
+	wireframe = root.get("wireframe", false).asBool();
+	associatedMaterial->rMaterial->uuid = root.get("associated_material_uuid", 0).asInt64();
+	Json::Value col = root["color"];
+	Json::Value::iterator it = col.begin();
+	color.r = (*it++).asFloat();
+	color.g = (*it++).asFloat();
+	color.g = (*it++).asFloat();
+	color.a = (*it).asFloat();
 }
