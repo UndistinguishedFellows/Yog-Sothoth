@@ -10,6 +10,7 @@ class M_ResourceManager : public Module, IJsonSerializable
 public:
 	std::map<std::string, Shader*> shaders;
 	std::map<UUID32, Resource*> resources;
+	std::map<UUID32, Resource*> resourcesToDelete;
 
 	M_ResourceManager(bool enable = true);
 	~M_ResourceManager();
@@ -22,7 +23,7 @@ public:
 	bool CleanUp() override;
 
 	Resource* LoadResource(UUID32 uuid, rType type);
-	void UnloadResource(UUID32 uuid);
+	Resource* UnloadResource(UUID32 uuid);
 
 	virtual void Serialize(Json::Value& root);
 	virtual void Deserialize(Json::Value& root);

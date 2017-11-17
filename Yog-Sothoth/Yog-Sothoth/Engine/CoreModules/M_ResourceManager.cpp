@@ -24,6 +24,14 @@ bool M_ResourceManager::Start()
 
 update_status M_ResourceManager::PreUpdate(float dt)
 {
+	for (std::map<UUID32, Resource*>::iterator it = resourcesToDelete.begin(); 
+		 it != resourcesToDelete.end(); ++it)
+	{
+		resources.erase((*it).first);
+		Resource* res = (*it).second;
+		resourcesToDelete.erase(it);
+		RELEASE(res);
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -126,5 +134,26 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 		}
 
 	}
+	if (ret != nullptr)
+	{
+		ret->used++;
+	}
+}
+
+Resource* M_ResourceManager::UnloadResource(UUID32 uuid)
+{
+	Resource* ret = nullptr;
+	std::map<UUID32, Resource*>::iterator it = resources.find(uuid);
+	if (it != resources.end())
+	{
+		ret = (*it).second;
+		
+		if (--ret->used == 0)
+		{
+			resourcesToDelete.insert((*it));
+		}
+	}
+
+
 	return ret;
 }
