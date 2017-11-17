@@ -45,13 +45,13 @@ bool JsonSerializer::DeserializeFormPath(IJsonSerializable * pObj, std::string p
 	in.seekg(0, std::ios::end);
 	int length = in.tellg();
 	in.seekg(0, in.beg);
-	// allocate memory for buffer
-	buffer = new char[length];
-	in.read(buffer, length);
-	in.close();
-
 	if (length > 0)
 	{
+		// allocate memory for buffer
+		buffer = new char[length];
+		in.read(buffer, length);
+		in.close();
+
 		std::string input(buffer);		
 		Json::Value deserializeRoot;
 		Json::Reader reader;
@@ -60,7 +60,8 @@ bool JsonSerializer::DeserializeFormPath(IJsonSerializable * pObj, std::string p
 			return false;
 
 		pObj->Deserialize(deserializeRoot);
+		RELEASE_ARRAY(buffer);
 	}
-	RELEASE_ARRAY(buffer);
+	
 	return true;
 }
