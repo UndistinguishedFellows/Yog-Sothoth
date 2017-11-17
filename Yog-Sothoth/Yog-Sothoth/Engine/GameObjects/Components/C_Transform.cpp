@@ -255,12 +255,12 @@ void C_Transform::Deserialize(Json::Value& root)
 		*(pos.ptr() + i) = jpos[i].asFloat();
 
 	//Scale
-	Json::Value jscale = jgo.get("scale", 0);
+	Json::Value jscale = root.get("scale", 0);
 	for (int i = 0; i != jscale.size(); i++)
 		*(scale.ptr() + i) = jscale[i].asFloat();
 
 	//Rotation
-	Json::Value jeulerRot = jgo.get("rotation", 0);
+	Json::Value jeulerRot = root.get("rotation", 0);
 	for (int i = 0; i != jeulerRot.size(); i++)
 		*(eulerRot.ptr() + i) = jeulerRot[i].asFloat();
 
