@@ -255,7 +255,17 @@ void C_Mesh::Serialize(Json::Value& root)
 void C_Mesh::Deserialize(Json::Value& root)
 {
 	type = (ComponentType)root.get("type", 0).asInt();
-	//rMesh->uuid = root.get("resource_uuid", 0).asInt64();
+	UUID32 resUuid32 = root.get("resource_uuid", 0).asInt64();
+	if (resUuid32 != 0)
+	{
+		R_Mesh* res = (R_Mesh*)App->resourceManager->LoadResource(resUuid32, R_MESH);
+		if(res != nullptr)
+		{
+			rMesh = res;
+			rMesh->uuid = resUuid32;
+		}		
+	}
+	
 	drawNormals = root.get("draw_normals", false).asBool();
 	wireframe = root.get("wireframe", false).asBool();
 	//associatedMaterial->rMaterial->uuid = root.get("associated_material_uuid", 0).asInt64();

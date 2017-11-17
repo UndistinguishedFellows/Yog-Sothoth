@@ -2,7 +2,7 @@
 #include <fstream>
 #include "../../MathGeoLib/Algorithm/Random/LCG.h"
 
-R_Material::R_Material() : type(2)
+R_Material::R_Material() : Resource(R_MATERIAL)
 {
 }
 

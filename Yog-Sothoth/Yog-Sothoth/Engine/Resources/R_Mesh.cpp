@@ -18,7 +18,7 @@
 //		- Float* UVs
 //##########################################################
 
-R_Mesh::R_Mesh()
+R_Mesh::R_Mesh() : Resource(R_MESH)
 {
 }
 
@@ -119,7 +119,7 @@ void R_Mesh::LoadMeshFile(const char* filename)
 	memcpy(header, cursor, bytes);
 	cursor += bytes;
 
-	type = header[0];
+	type = (rType)header[0];
 	indices.numIndices = header[1];
 	vertices.numVertices = header[2];
 	normals.numNormals = header[3];

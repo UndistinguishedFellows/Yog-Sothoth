@@ -1,5 +1,6 @@
 ﻿#include "M_ResourceManager.h"
 #include "../../Tools/Static/JsonSerializer.h"
+#include "../Resources/R_Mesh.h"
 
 M_ResourceManager::M_ResourceManager(bool enable) : Module(enable)
 {
@@ -12,7 +13,6 @@ M_ResourceManager::~M_ResourceManager()
 
 bool M_ResourceManager::Init()
 {
-
 	return true;
 }
 
@@ -85,4 +85,45 @@ void M_ResourceManager::SaveConfig()
 	std::string output;
 	JsonSerializer::Serialize(this, output, "data/shaders/shadersConfig.json");
 	SDL_Log("%s", output);
+}
+
+Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
+{
+	Resource* ret = nullptr;
+	std::map<UUID32, Resource*>::iterator it = resources.find(uuid);
+	if (it == resources.end())
+	{
+		switch (type)
+		{
+		case R_MESH: 
+		{
+			R_Mesh* res = new R_Mesh();
+			std::string name = "data/library/";
+			name.append(std::to_string(uuid));
+			res->LoadMeshFile(name.c_str());
+			ret = res;
+			break;
+		}
+		case R_MATERIAL: 
+			break;
+		case R_UNKNOWN:
+		default: 
+			break;
+		}
+	}
+	else
+	{
+		switch (type)
+		{
+			case R_MESH:
+				ret = (*it).second;
+				break;
+			case R_MATERIAL:
+				break;
+			case R_UNKNOWN:
+			default:
+				break;
+		}
+
+	}
 }

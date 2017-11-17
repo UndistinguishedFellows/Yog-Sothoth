@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../../Globals.h"
 #include "../../Tools/Interfaces/IJsonSerializable.h"
+#include "Resource.h"
 
 struct aiMesh;
 
@@ -29,11 +30,10 @@ struct UV
 	float* uv = nullptr;
 };
 
-class R_Mesh : public IJsonSerializable
+class R_Mesh : public Resource, public IJsonSerializable
 {
 public:
 	UUID32 uuid;
-	unsigned int type = 1;
 
 	uint VAO;
 	Indices indices;

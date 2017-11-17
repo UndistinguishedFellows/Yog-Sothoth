@@ -199,6 +199,7 @@
     <ClInclude Include="Tools\ImportFBX.h" />
     <ClInclude Include="Engine\Resources\R_Material.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITimeControllers.h" />
+    <ClInclude Include="Engine\Resources\Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
