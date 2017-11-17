@@ -126,4 +126,5 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 		}
 
 	}
+	return ret;
 }
