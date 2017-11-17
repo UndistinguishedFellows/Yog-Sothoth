@@ -392,7 +392,7 @@ void GameObject::Deserialize(Json::Value& root)
 		go->type = (GameObjectType)j_go[i].get("type", 0).asInt();
 		go->uuid = j_go[i].get("uuid", 0).asInt64();
 
-		Json::Value j_comp = root.get("components", 0);
+		Json::Value j_comp = j_go[i]["components"];
 		for (int j = 0; j != j_comp.size(); j++)
 		{
 			switch (j_comp[j].get("type", 0).asInt())
@@ -432,7 +432,24 @@ void GameObject::Deserialize(Json::Value& root)
 				}
 			}
 		}
-
+		unOrderedGO.push_back(go);
+	}
+	for (auto go : unOrderedGO)
+	{
+		if (go->parent_uuid == 0)
+		{
+			this->AddChild(go);
+		}
+		else
+		{
+			for (auto s : unOrderedGO)
+			{
+				if (s->uuid == go->parent_uuid)
+				{
+					s->AddChild(go);
+				}
+			}
+		}
 	}
 }
 
