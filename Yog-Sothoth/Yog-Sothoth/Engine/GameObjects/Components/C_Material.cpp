@@ -24,9 +24,9 @@ void C_Material::Serialize(Json::Value& root)
 	root["ambient"].append(ambient.y);
 	root["ambient"].append(ambient.z);
 
-	root["diffuse"].append(ambient.x);
-	root["diffuse"].append(ambient.y);
-	root["diffuse"].append(ambient.z);
+	root["diffuse"].append(diffuse.x);
+	root["diffuse"].append(diffuse.y);
+	root["diffuse"].append(diffuse.z);
 
 	root["shininess"] = shininess;
 
@@ -40,4 +40,27 @@ void C_Material::Serialize(Json::Value& root)
 
 void C_Material::Deserialize(Json::Value& root)
 {
+	type = (ComponentType)root.get("type", 0).asInt();
+	checkers = root.get("chechers", false).asBool();
+
+	shininess = root.get("shininess", 0.5).asFloat();
+
+	Json::Value col = root["color"];
+	Json::Value::iterator it = col.begin();
+	color.r = (*it++).asFloat();
+	color.g = (*it++).asFloat();
+	color.g = (*it++).asFloat();
+	color.a = (*it).asFloat();
+
+	col = root["ambient"];
+	it = col.begin();
+	ambient.x = (*it++).asFloat();
+	ambient.y = (*it++).asFloat();
+	ambient.z = (*it++).asFloat();
+
+	col = root["diffuse"];
+	it = col.begin();
+	diffuse.x = (*it++).asFloat();
+	diffuse.y = (*it++).asFloat();
+	diffuse.z = (*it++).asFloat();
 }
