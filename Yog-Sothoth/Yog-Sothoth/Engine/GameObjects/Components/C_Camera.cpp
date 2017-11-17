@@ -294,7 +294,8 @@ FrustumIntersection C_Camera::Intersects(const AABB &aabb) const
 	if (iTotalIn == 6)
 		return(FRUSTUM_IN);
 	// we must be partly in then otherwise
-	return(FRUSTUM_INTERSECT);
+	return(FRUSTUM_INTERSECT);
+
 }
 
 void C_Camera::DrawDebug()
@@ -326,10 +327,10 @@ void C_Camera::DrawDebug()
 
 void C_Camera::Serialize(Json::Value& root)
 {
-	root["frustum"].append(frustum.horizontalFov);
-	root["frustum"].append(frustum.verticalFov);
-	root["frustum"].append(frustum.nearPlaneDistance);
-	root["frustum"].append(frustum.farPlaneDistance);
+	root["horizontal_fov"].append(frustum.horizontalFov);
+	root["vertical_fov"].append(frustum.verticalFov);
+	root["near_plane"].append(frustum.nearPlaneDistance);
+	root["far_plane"].append(frustum.farPlaneDistance);
 
 	root["movement_speed"] = movSpeed;
 	root["rotation_speed"] = rotSpeed;
@@ -343,4 +344,17 @@ void C_Camera::Serialize(Json::Value& root)
 
 void C_Camera::Deserialize(Json::Value& root)
 {
+	frustum.horizontalFov = root["horizontal_fov"].asFloat();
+	frustum.verticalFov = root["vertical_fov"].asFloat();
+	frustum.nearPlaneDistance = root["near_plane"].asFloat();
+	frustum.farPlaneDistance = root["far_plane"].asFloat();
+
+	movSpeed = root["movement_speed"].asFloat();
+	rotSpeed = root["rotation_speed"].asFloat();
+	zoomSpeed = root["zoom_speed"].asFloat();
+	aspectRatio = root["aspect_ratio"].asFloat();
+	editorCamera = root["editor_camera"].asBool();
+	cameraCulling = root["camera_culling"].asBool();
+
+	type = (ComponentType)root.get("type", 0).asInt();
 }
