@@ -51,4 +51,6 @@ public:
 	void Deserialize(Json::Value& root) override;
 	void AddMeta(std::string prefab);
 	void RemoveMeta(std::string prefab);
+
+	void GenBuffers();
 };

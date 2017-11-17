@@ -138,6 +138,8 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 	{
 		ret->used++;
 	}
+
+	return ret;
 }
 
 Resource* M_ResourceManager::UnloadResource(UUID32 uuid)
