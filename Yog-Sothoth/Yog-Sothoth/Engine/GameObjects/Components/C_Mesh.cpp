@@ -16,6 +16,7 @@ C_Mesh::C_Mesh(GameObject* parent) : Component(parent)
 C_Mesh::~C_Mesh()
 {
 	//Delete arrays
+	App->resourceManager->UnloadResource(rMesh->uuid);
 }
 
 void C_Mesh::Load(const aiMesh* mesh)
@@ -62,50 +63,6 @@ void C_Mesh::Load(const aiMesh* mesh)
 			++tmp;
 		}
 	}
-
-	//Generating GL Buffers
-	glGenVertexArrays(1, &rMesh->VAO);
-	glGenBuffers(1, (GLuint*) &(rMesh->vertices.idVertices));
-	glGenBuffers(1, (GLuint*) &(rMesh->indices.idIndices));
-
-	glBindVertexArray(rMesh->VAO);
-
-	//vertices	
-	glBindBuffer(GL_ARRAY_BUFFER, rMesh->vertices.idVertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * rMesh->vertices.numVertices * 3, rMesh->vertices.vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	//indices	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rMesh->indices.idIndices);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * rMesh->indices.numIndices, rMesh->indices.indices, GL_STATIC_DRAW);
-	
-	//normals
-	if (rMesh->normals.normals != nullptr)
-	{
-		glGenBuffers(1, (GLuint*) &(rMesh->normals.idNormals));
-		glBindBuffer(GL_ARRAY_BUFFER, rMesh->normals.idNormals);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*rMesh->normals.numNormals * 3, rMesh->normals.normals, GL_STATIC_DRAW);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-	}
-	//UV
-	if (rMesh->uv.uv != nullptr)
-	{
-		glGenBuffers(1, (GLuint*) &(rMesh->uv.idUV));
-		glBindBuffer(GL_ARRAY_BUFFER, rMesh->uv.idUV);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * rMesh->vertices.numVertices * 2, rMesh->uv.uv, GL_STATIC_DRAW);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(2);
-	}
-		
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-
-
-
-
 }
 
 void C_Mesh::Draw(Shader shader, C_Camera* camera) const
