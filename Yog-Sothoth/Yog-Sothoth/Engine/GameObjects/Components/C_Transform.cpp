@@ -5,6 +5,7 @@
 
 C_Transform::C_Transform(GameObject* parent) : Component(parent)
 {
+	type = C_TRANSFORM;
 }
 
 

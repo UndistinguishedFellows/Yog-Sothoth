@@ -13,6 +13,7 @@ C_Camera::C_Camera(GameObject* parent) : Component(parent)
 	frustum.verticalFov = DegToRad(45/ aspectRatio);
 	frustum.nearPlaneDistance = 1.f;
 	frustum.farPlaneDistance = 1000.f;
+	type = C_CAMERA;
 }
 
 C_Camera::~C_Camera()

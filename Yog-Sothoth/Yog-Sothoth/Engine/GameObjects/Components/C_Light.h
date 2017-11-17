@@ -19,6 +19,7 @@ public:
 		  diffuse(diffuse),
 		  specular(specular)
 	{
+		type = C_LIGHT;
 	}
 	~C_Light();
 

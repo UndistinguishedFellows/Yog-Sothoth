@@ -37,6 +37,7 @@ public:
 		specular(specular),
 		shininess(shininess)
 	{
+		type = C_MATERIAL;
 	}
 
 	~C_Material() override;
