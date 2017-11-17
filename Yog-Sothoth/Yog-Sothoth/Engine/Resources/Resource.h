@@ -11,6 +11,7 @@ class Resource
 {
 public:
 	rType type;
+	uint used;
 
 	explicit Resource(rType type)
 		: type(type)
