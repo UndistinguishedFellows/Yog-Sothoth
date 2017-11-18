@@ -38,18 +38,20 @@ void UIOutliner::Draw()
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 	flags |= ImGuiTreeNodeFlags_OpenOnArrow;
+	flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 
-	if (ImGui::TreeNodeEx(App->objManager->root->name.c_str(), flags))
+	if (ImGui::TreeNodeEx("Scene", flags))
 	{
 		if (root)
 		{
-			std::vector<GameObject*> children = root->children;
+			TreeNodes(App->objManager->root);
+			/*std::vector<GameObject*> children = root->children;
 			for (std::vector<GameObject*>::iterator it = children.begin();
 				 it != children.end(); ++it)
 			{
 				TreeNodes((*it));
-			}
+			}*/
 		}
 
 		ImGui::TreePop();
@@ -71,6 +73,7 @@ void UIOutliner::TreeNodes(GameObject* node)
 		{
 			nodeFlags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
 			nodeFlags |= ImGuiTreeNodeFlags_OpenOnArrow;
+			nodeFlags |= ImGuiTreeNodeFlags_DefaultOpen;
 		}
 		else
 			nodeFlags |= ImGuiTreeNodeFlags_Leaf;
@@ -81,7 +84,7 @@ void UIOutliner::TreeNodes(GameObject* node)
 		}
 		if (ImGui::TreeNodeEx(node->name.c_str(), nodeFlags))
 		{
-			if (ImGui::IsItemClicked())
+			if (ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))
 			{
 				if (App->objManager->GetFocusGO() != nullptr)
 				{
@@ -90,6 +93,49 @@ void UIOutliner::TreeNodes(GameObject* node)
 				App->objManager->SetFocusGO(node);
 				node->selected = true;
 
+				if (ImGui::IsItemClicked(1))
+				{
+					ImGui::OpenPopup("toggle");
+				}
+
+			}
+			if (ImGui::BeginPopup("toggle"))
+			{
+				if (ImGui::BeginMenu("Add GameObject"))
+				{
+					//Prefab List
+					if(ImGui::MenuItem("Empty"))
+					{
+						App->objManager->CreateGameObject(App->objManager->GetFocusGO());
+					}
+					if (ImGui::BeginMenu("With Prefab"))
+					{
+						//Prefab List
+						ImGui::MenuItem("Prefab 1");
+						ImGui::MenuItem("Prefab 2");
+						ImGui::MenuItem("Prefab 3");
+						ImGui::MenuItem("Prefab 4");
+						ImGui::EndMenu();
+					}
+					ImGui::EndMenu();
+				}
+
+				if (ImGui::BeginMenu("Assign Prefab"))
+				{
+					//Prefab List
+					ImGui::MenuItem("Prefab 1");
+					ImGui::MenuItem("Prefab 2");
+					ImGui::MenuItem("Prefab 3");
+					ImGui::MenuItem("Prefab 4");
+					ImGui::EndMenu();
+				}
+				if (ImGui::MenuItem("Delete"))
+				{
+					GameObject* tmp = App->objManager->GetFocusGO();
+					App->objManager->SetFocusGO(nullptr);
+					App->objManager->DeleteGameObject(tmp);
+				}
+				ImGui::EndPopup();
 			}
 			for (uint i = 0; i < node->children.size(); ++i)
 			{
