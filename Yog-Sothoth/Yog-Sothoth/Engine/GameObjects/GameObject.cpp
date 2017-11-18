@@ -73,6 +73,7 @@ void GameObject::RemoveChildren()
 		{
 			RELEASE((*it));
 			it = children.erase(it);
+			int i = children.size();
 		}
 		else
 		{
