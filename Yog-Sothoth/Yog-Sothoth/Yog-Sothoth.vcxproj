@@ -243,6 +243,8 @@
     <ClCompile Include="Tools\GPUDetect\DeviceId.cpp" />
     <ClCompile Include="Tools\MeshImporter.cpp" />
     <ClCompile Include="Tools\mmgr\mmgr.cpp" />
+    <ClCompile Include="Tools\Octree.cpp" />
+    <ClCompile Include="Tools\OctreeNode.cpp" />
     <ClCompile Include="Tools\Primitives.cpp" />
     <ClCompile Include="Tools\ImportFBX.cpp" />
     <ClCompile Include="Tools\TextureImporter.cpp" />
@@ -338,6 +340,8 @@
     <ClInclude Include="Tools\MeshImporter.h" />
     <ClInclude Include="Tools\mmgr\mmgr.h" />
     <ClInclude Include="Tools\mmgr\nommgr.h" />
+    <ClInclude Include="Tools\Octree.h" />
+    <ClInclude Include="Tools\OctreeNode.h" />
     <ClInclude Include="Tools\Primitives.h" />
     <ClInclude Include="Tools\ImportFBX.h" />
     <ClInclude Include="Tools\TextureImporter.h" />
