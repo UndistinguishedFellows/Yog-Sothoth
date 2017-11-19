@@ -84,7 +84,12 @@
     <ClCompile Include="Tools\ImportFBX.cpp" />
     <ClCompile Include="Engine\Resources\R_Material.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITimeControllers.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Engine\UI_Modules\UI components\AssetsExplorer.cpp" />
+=======
+    <ClCompile Include="Tools\Octree.cpp" />
+    <ClCompile Include="Tools\OctreeNode.cpp" />
+>>>>>>> ac4064253b7885bf26f2d32deec57cec368f8715
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -200,8 +205,13 @@
     <ClInclude Include="Tools\ImportFBX.h" />
     <ClInclude Include="Engine\Resources\R_Material.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITimeControllers.h" />
+<<<<<<< HEAD
     <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\AssetsExplorer.h" />
+=======
+    <ClInclude Include="Tools\Octree.h" />
+    <ClInclude Include="Tools\OctreeNode.h" />
+>>>>>>> ac4064253b7885bf26f2d32deec57cec368f8715
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />

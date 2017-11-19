@@ -52,6 +52,11 @@ bool M_ObjectManager::Start()
 	camera->SetPos(float3(0, 5.f, 10.f));
 	camera->Transform->SetRotation(0, 180, 0);
 
+	GameObject* test = new GameObject();
+	test->CreateComponent(C_TRANSFORM);
+	test->name = "test";
+	camera->AddChild(test);
+
 	camera2 = new GameObject();
 	camera2->name = "camera2";
 	root->AddChild(camera2);
@@ -100,6 +105,10 @@ update_status M_ObjectManager::PreUpdate(float dt)
 	}
 	if (deletionGameObject->children.size() > 0)
 	{
+		for each (auto go in deletionGameObject->children)
+		{
+			go->parent->EraseChild(go);
+		}
 		deletionGameObject->RemoveChildren();
 	}	
 	return UPDATE_CONTINUE;
@@ -147,6 +156,7 @@ bool M_ObjectManager::CleanUp()
 GameObject* M_ObjectManager::CreateGameObject(GameObject* parent)
 {
 	GameObject* gm = new GameObject();
+	gm->CreateComponent(C_TRANSFORM);
 	if (parent != nullptr)
 	{
 		gm->parent = parent;
@@ -174,7 +184,8 @@ void M_ObjectManager::ConsoleCreateGameObject(std::string parentName, std::strin
 
 void M_ObjectManager::DeleteGameObject(GameObject* go)
 {
-	deletionGameObject->AddChild(go);
+	//deletionGameObject->AddChild(go);
+	deletionGameObject->children.push_back(go);
 }
 
 GameObject* M_ObjectManager::GetFocusGO()
