@@ -1,5 +1,8 @@
 ﻿#include "UIOutliner.h"
 #include "../../../Application.h"
+#include <filesystem>
+
+namespace fs = std::experimental::filesystem;
 
 UIOutliner::UIOutliner()
 {
@@ -106,32 +109,23 @@ void UIOutliner::TreeNodes(GameObject* node)
 
 				if (ImGui::BeginMenu("Add GameObject"))
 				{
-					//Prefab List
 					if(ImGui::MenuItem("Empty"))
 					{
 						App->objManager->CreateGameObject(App->objManager->GetFocusGO());
 					}
 					if (ImGui::BeginMenu("With Prefab"))
 					{
-						//Prefab List
-						ImGui::MenuItem("Prefab 1");
-						ImGui::MenuItem("Prefab 2");
-						ImGui::MenuItem("Prefab 3");
-						ImGui::MenuItem("Prefab 4");
+						ListPrefabs();
 						ImGui::EndMenu();
 					}
 					ImGui::EndMenu();
 				}
 
-				if (ImGui::BeginMenu("Assign Prefab"))
+				/*if (ImGui::BeginMenu("Assign Prefab"))
 				{
-					//Prefab List
-					ImGui::MenuItem("Prefab 1");
-					ImGui::MenuItem("Prefab 2");
-					ImGui::MenuItem("Prefab 3");
-					ImGui::MenuItem("Prefab 4");
+					ListPrefabs();
 					ImGui::EndMenu();
-				}
+				}*/
 
 				if (App->objManager->GetFocusGO() == App->objManager->root
 					|| App->objManager->GetFocusGO() == App->objManager->activeCamera
@@ -186,4 +180,29 @@ void UIOutliner::TreeNodes(GameObject* node)
 		}
 	}
 
+}
+
+void UIOutliner::ListPrefabs()
+{
+	std::string path("data/assets/");
+
+	for (auto p : fs::directory_iterator(path.c_str()))
+	{
+		fs::path file(p);
+		std::string name(file.stem().string());
+		std::string ext(file.extension().string());
+		std::string completePath("");
+
+		if (strcmp(ext.c_str(), ".prefab") == 0)
+		{
+			if(ImGui::MenuItem(name.c_str()))
+			{
+				completePath.append(path);
+				completePath.append(name);
+				completePath.append(ext);
+				App->objManager->LoadPrefab(completePath);
+				int i;
+			}
+		}
+	}
 }

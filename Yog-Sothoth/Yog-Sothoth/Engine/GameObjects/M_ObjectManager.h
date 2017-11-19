@@ -73,6 +73,7 @@ public:
 
 	void SaveScene(std::string fileName);
 	void LoadScenePrefab(std::string filename);
+	void LoadPrefab(std::string filename);
 
 	void Draw(GameObject* drawFrom, Shader shader) const;
 	void DrawNormals(GameObject* drawFrom, Shader shader) const;

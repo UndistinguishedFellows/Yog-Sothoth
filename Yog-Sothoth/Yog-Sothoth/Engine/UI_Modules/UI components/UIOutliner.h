@@ -12,6 +12,7 @@ public:
 
 	void Draw() override;
 	void TreeNodes(GameObject* node);
+	void ListPrefabs();
 
 	ImGuiWindowFlags outilnerWindowFlags = 0;
 

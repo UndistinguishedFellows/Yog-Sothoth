@@ -40,10 +40,10 @@ bool M_ObjectManager::Start()
 	root->serializable = false;
 	root->CreateComponent(C_TRANSFORM);
 
-	dragAndDropVisualizer = new GameObject();
-	dragAndDropVisualizer->name = "drag&drop";
-	root->AddChild(dragAndDropVisualizer);
-	dragAndDropVisualizer->CreateComponent(C_TRANSFORM);	
+//	dragAndDropVisualizer = new GameObject();
+//	dragAndDropVisualizer->name = "drag&drop";
+//	root->AddChild(dragAndDropVisualizer);
+//	dragAndDropVisualizer->CreateComponent(C_TRANSFORM);	
 
 	camera = new GameObject();
 	camera->name = "camera";
@@ -53,11 +53,6 @@ bool M_ObjectManager::Start()
 	camera->CreateComponent(C_TRANSFORM);	
 	camera->SetPos(float3(0, 5.f, 10.f));
 	camera->Transform->SetRotation(0, 180, 0);
-
-	GameObject* test = new GameObject();
-	test->CreateComponent(C_TRANSFORM);
-	test->name = "test";
-	camera->AddChild(test);
 
 	camera2 = new GameObject();
 	camera2->name = "camera2";
@@ -581,6 +576,11 @@ void M_ObjectManager::LoadScenePrefab(std::string filename)
 		}
 	}
 	root->Load(filename);
+}
+
+void M_ObjectManager::LoadPrefab(std::string filename)
+{
+	App->objManager->GetFocusGO()->Load(filename);
 }
 
 void M_ObjectManager::Draw(GameObject* drawFrom, Shader shader) const
