@@ -54,6 +54,8 @@ public:
 	static GameObject* CreateGameObject(GameObject* parent = nullptr); //Create an object and if a parent is set will add it into the parents list.
 	GameObject* CreateGameObject(std::string parentName, std::string childName) const;
 	void ConsoleCreateGameObject(std::string parentName, std::string childName) const;
+	void CreateComponent(GameObject* go, ComponentType type);
+	void DeleteComponent(GameObject* go, ComponentType type);
 	void DeleteGameObject(GameObject* go);
 	GameObject* GetFocusGO();
 	void SetFocusGO(GameObject* go);

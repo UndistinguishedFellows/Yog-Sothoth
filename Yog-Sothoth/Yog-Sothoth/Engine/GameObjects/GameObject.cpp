@@ -246,6 +246,15 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 	return ret;
 }
+void GameObject::DeleteComponent(ComponentType type)
+{
+	Component* cmp = FindComponent(type);
+	for (std::vector<Component*>::iterator it = components.begin();
+		 it != components.end(); ++it)
+		if (cmp == (C_Mesh*)(*it))
+			components.erase(it);
+	RELEASE(cmp);
+}
 
 Component* GameObject::FindComponent(ComponentType type)
 {

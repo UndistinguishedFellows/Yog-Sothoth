@@ -182,6 +182,16 @@ void M_ObjectManager::ConsoleCreateGameObject(std::string parentName, std::strin
 
 }
 
+void M_ObjectManager::CreateComponent(GameObject* go, ComponentType type)
+{
+	go->CreateComponent(type);
+}
+
+void M_ObjectManager::DeleteComponent(GameObject* go, ComponentType type)
+{
+	go->DeleteComponent(type);
+}
+
 void M_ObjectManager::DeleteGameObject(GameObject* go)
 {
 	//deletionGameObject->AddChild(go);

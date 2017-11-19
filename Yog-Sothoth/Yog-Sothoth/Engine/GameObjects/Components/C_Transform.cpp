@@ -136,7 +136,7 @@ void C_Transform::SetScale(float3 scale)
 	localTransform = float4x4::FromTRS(pos, rot, scale);
 	RefreshTransform();
 
-	ownerParent->Mesh->UpdateBoundingBoxes();
+	//ownerParent->Mesh->UpdateBoundingBoxes();
 
 }
 

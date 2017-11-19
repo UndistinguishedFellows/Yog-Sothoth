@@ -57,13 +57,13 @@ void UIInspector::Draw()
 		ImGui::Spacing();
 		ImGui::Spacing();
 
-		if (ImGui::Button("Add Component"))
-			ImGui::OpenPopup("AddComponent");
-		if (ImGui::BeginPopup("AddComponent"))
-		{
-			ShowAddComponentMenu();
-			ImGui::EndPopup();
-		}
+//		if (ImGui::Button("Add Component"))
+//			ImGui::OpenPopup("AddComponent");
+//		if (ImGui::BeginPopup("AddComponent"))
+//		{
+//			ShowAddComponentMenu();
+//			ImGui::EndPopup();
+//		}
 	}
 
 	ImGui::Spacing();
@@ -89,7 +89,7 @@ void UIInspector::ShowAddComponentMenu()
 		enabler = false;
 	if (ImGui::MenuItem("Mesh"))
 	{
-
+		App->objManager->CreateComponent(App->objManager->GetFocusGO(), C_MESH);
 	}
 	enabler = true;
 
@@ -97,7 +97,7 @@ void UIInspector::ShowAddComponentMenu()
 		enabler = false;
 	if (ImGui::MenuItem("Material"))
 	{
-		
+		App->objManager->CreateComponent(App->objManager->GetFocusGO(), C_MATERIAL);
 	}
 	enabler = true;
 
@@ -105,7 +105,7 @@ void UIInspector::ShowAddComponentMenu()
 		enabler = false;
 	if (ImGui::MenuItem("Camera", "", false, enabler))
 	{
-
+		App->objManager->CreateComponent(App->objManager->GetFocusGO(), C_CAMERA);
 	}
 	enabler = true;
 }
@@ -138,8 +138,8 @@ void UIInspector::Transform()
 
 			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.01f))
 			{
-				if (!App->renderer->fbxViewer)
-					transform->SetScale(scale);
+//				if (!App->renderer->fbxViewer)
+//					transform->SetScale(scale);
 			}
 
 
@@ -177,7 +177,7 @@ void UIInspector::Mesh()
 			{
 				ImGui::MenuItem("Meshes", NULL, false, false);
 				ImGui::Separator();
-
+				
 				//Meshes List
 				ImGui::MenuItem("Mesh 1");
 				ImGui::MenuItem("Mesh 2");
