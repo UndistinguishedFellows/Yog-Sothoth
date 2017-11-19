@@ -40,6 +40,8 @@ public:
 	bool active = true;
 	bool selected = false;
 	bool drawAABB = false;
+	bool isStatic = false;
+	bool serializable = true;
 
 	Shader* shader = nullptr;
 

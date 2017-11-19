@@ -370,25 +370,29 @@ void GameObject::Serialize(Json::Value& root)
 	{
 		GameObject* top = stack.top();
 
-		LCG random;
-		do	top->uuid = random.Int(); while (top->uuid == 0);
-		
-		Json::Value gameObject;
-		gameObject["type"] = top->type;
-		gameObject["name"] = top->name;
-		if (top->parent != nullptr && top != this)
-			gameObject["parent_uuid"] = top->parent->uuid;
-		else
-			gameObject["parent_uuid"] = 0;
-		
-		gameObject["uuid"] = top->uuid;
-		gameObject["active"] = top->active;
-
-		for (std::vector<Component*>::iterator it = top->components.begin(); it != top->components.end(); ++it)
+		if (top->serializable)
 		{
-			Json::Value jComp;
-			(*it)->Serialize(jComp);
-			gameObject["components"].append(jComp);
+			LCG random;
+			do	top->uuid = random.Int(); while (top->uuid == 0);
+
+			Json::Value gameObject;
+			gameObject["type"] = top->type;
+			gameObject["name"] = top->name;
+			if (top->parent != nullptr && top != this)
+				gameObject["parent_uuid"] = top->parent->uuid;
+			else
+				gameObject["parent_uuid"] = 0;
+
+			gameObject["uuid"] = top->uuid;
+			gameObject["active"] = top->active;
+
+			for (std::vector<Component*>::iterator it = top->components.begin(); it != top->components.end(); ++it)
+			{
+				Json::Value jComp;
+				(*it)->Serialize(jComp);
+				gameObject["components"].append(jComp);
+			}
+			root["gameObjects"].append(gameObject);
 		}
 
 		stack.pop();
@@ -396,8 +400,6 @@ void GameObject::Serialize(Json::Value& root)
 		{
 			stack.push(top->children[it]);
 		}
-		root["gameObjects"].append(gameObject);
-		
 	}
 
 	

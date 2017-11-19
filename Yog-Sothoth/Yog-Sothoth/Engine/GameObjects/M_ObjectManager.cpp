@@ -37,6 +37,7 @@ bool M_ObjectManager::Start()
 
 	root = new GameObject();
 	root->name = "/";
+	root->serializable = false;
 	root->CreateComponent(C_TRANSFORM);
 
 	dragAndDropVisualizer = new GameObject();
@@ -46,6 +47,7 @@ bool M_ObjectManager::Start()
 
 	camera = new GameObject();
 	camera->name = "camera";
+	camera->serializable = false;
 	root->AddChild(camera);
 	camera->CreateComponent(C_CAMERA);
 	camera->CreateComponent(C_TRANSFORM);	
@@ -59,6 +61,7 @@ bool M_ObjectManager::Start()
 
 	camera2 = new GameObject();
 	camera2->name = "camera2";
+	camera2->serializable = false;
 	root->AddChild(camera2);
 	camera2->CreateComponent(C_CAMERA);
 	camera2->CreateComponent(C_TRANSFORM);
@@ -67,6 +70,7 @@ bool M_ObjectManager::Start()
 
 	testLight = new GameObject();
 	testLight->name = "testLight";
+	testLight->serializable = false;
 	root->AddChild(testLight);
 	testLight->CreateComponent(C_LIGHT);
 	testLight->CreateComponent(C_TRANSFORM);
@@ -560,6 +564,23 @@ void M_ObjectManager::LoadScene(const aiScene * scene, const aiNode * node, Game
 			LoadScene(scene, node->mChildren[i], gameObject);
 	}
 
+}
+
+void M_ObjectManager::SaveScene(std::string fileName)
+{
+	root->Save(fileName);
+}
+
+void M_ObjectManager::LoadScenePrefab(std::string filename)
+{
+	for each (GameObject* child in root->children)
+	{
+		if (child->serializable)
+		{
+			DeleteGameObject(child);
+		}
+	}
+	root->Load(filename);
 }
 
 void M_ObjectManager::Draw(GameObject* drawFrom, Shader shader) const

@@ -71,6 +71,9 @@ public:
 	 */
 	void LoadScene(const aiScene * scene, const aiNode * node, GameObject * parent, const char* oldPath = nullptr);
 
+	void SaveScene(std::string fileName);
+	void LoadScenePrefab(std::string filename);
+
 	void Draw(GameObject* drawFrom, Shader shader) const;
 	void DrawNormals(GameObject* drawFrom, Shader shader) const;
 	void DrawAABB(GameObject* drawFrom, Shader shader) const;
