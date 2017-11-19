@@ -25,7 +25,8 @@ const float4x4 C_Transform::GetGlobalTransform() const
 
 void C_Transform::RefreshTransform()
 {
-	if (ownerParent != nullptr && ownerParent->parent->Transform != nullptr)
+
+	if (ownerParent != nullptr && ownerParent->parent != nullptr && ownerParent->parent->Transform != nullptr)
 	{
 		globalTransform = ownerParent->parent->Transform->globalTransform * localTransform;
 	}

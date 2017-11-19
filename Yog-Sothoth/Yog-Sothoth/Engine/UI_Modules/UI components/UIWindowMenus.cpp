@@ -38,12 +38,57 @@ void UIWindowMenus::Draw()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-//			ImGui::MenuItem("Save", NULL, &App->goManager->haveToSaveScene, true);
-//			ImGui::MenuItem("Load", NULL, &App->goManager->haveToLoadScene, true);
-			if (ImGui::MenuItem("Quit"))
+			ImColor color(66, 66, 66);
+			ImColor colorHover(92, 92, 92);
+			ImGui::PushStyleColor(ImGuiCol_Button, color);
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, colorHover);
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, colorHover);
+
+			if (ImGui::Button("Save scene"))
+			{
+				ImGui::OpenPopup("Save scene");
+			}
+
+			if (ImGui::Button("Load scene"))
+			{
+				App->objManager->LoadScenePrefab("data/assets/Scene1.prefab");
+			}
+
+			if (ImGui::Button("Quit"))
 			{
 				App->quit = true;
 			}
+
+			ImGui::PopStyleColor(3);
+
+			if (ImGui::BeginPopupModal("Save scene", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+			{
+				ImGui::Text("Assign a name to the scene to be saved:");
+				ImGui::Separator();
+
+				static char sceneName[128] = "Untitled";
+				if (ImGui::InputText("##Filename", sceneName, 128))
+				{}
+
+				if (ImGui::Button("Save", ImVec2(120, 0)))
+				{
+					std::string path = "data/assets/";
+					path.append(sceneName);
+					path.append(".prefab");
+
+					App->objManager->SaveScene(path);
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::SameLine();
+
+				if (ImGui::Button("Cancel", ImVec2(120, 0)))
+				{
+					ImGui::CloseCurrentPopup();
+				}
+
+				ImGui::EndPopup();
+			}
+
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))

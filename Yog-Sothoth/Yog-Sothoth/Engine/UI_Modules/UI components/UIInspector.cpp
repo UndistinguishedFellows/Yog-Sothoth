@@ -314,6 +314,8 @@ void UIInspector::Camera()
 			{
 				if (ImGui::Button("Set active##camera"))
 				{
+					App->objManager->activeCamera->serializable = true;
+					App->objManager->GetFocusGO()->serializable = false;
 					App->objManager->activeCamera = App->objManager->GetFocusGO();
 				}
 			}
@@ -325,10 +327,11 @@ void UIInspector::Camera()
 			{
 				if (ImGui::Button("Culling Camera##camera"))
 				{
+					App->objManager->cullingCamera->serializable = true;
+					App->objManager->GetFocusGO()->serializable = false;
 					App->objManager->cullingCamera = App->objManager->GetFocusGO();
 				}
 			}
-
 
 			if (ImGui::DragFloat3("Position##camera", camera->frustum.pos.ptr(), 0.01f))
 			{}
