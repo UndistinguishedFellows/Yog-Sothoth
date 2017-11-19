@@ -39,6 +39,14 @@ void UIInspector::Draw()
 		//ImGui::ColorEdit4("BGCOlor", (float*)&style.Colors[2], true);
 		if (ImGui::Checkbox("AABB##gameObject", &App->objManager->GetFocusGO()->drawAABB)){}
 
+		if (!App->objManager->GetFocusGO()->serializable)
+		{
+			ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Not serializable");
+			if (ImGui::IsItemHovered())
+			{
+				ImGui::SetTooltip("GameObject changes won't be saved");
+			}
+		}
 		Transform();
 		Mesh();
 		Material();
@@ -163,7 +171,7 @@ void UIInspector::Mesh()
 	{
 		if (ImGui::CollapsingHeader("Mesh", &closableMesh))
 		{
-			if (ImGui::Button("Set Mesh"))
+			/*if (ImGui::Button("Set Mesh"))
 				ImGui::OpenPopup("SetMesh");
 			if (ImGui::BeginPopup("SetMesh"))
 			{
@@ -179,7 +187,7 @@ void UIInspector::Mesh()
 				ImGui::EndPopup();
 			}
 			ImGui::Spacing();
-
+			*/
 			ImGui::Text("Triangle count: "); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.numIndices / 3);
 
@@ -242,7 +250,7 @@ void UIInspector::Material()
 	if (material != nullptr && mesh != nullptr && closableMaterial)
 	{
 		if (ImGui::CollapsingHeader("Material", &closableMaterial))
-		{
+		{/*
 			if (ImGui::Button("Set Material"))
 				ImGui::OpenPopup("SetMaterial");
 			if (ImGui::BeginPopup("SetMaterial"))
@@ -259,7 +267,7 @@ void UIInspector::Material()
 				ImGui::EndPopup();
 			}
 			ImGui::Spacing();
-
+			*/
 			ImGui::Text("Name: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%s", material->imInfo.name.c_str());
 
 			color = mesh->color;
