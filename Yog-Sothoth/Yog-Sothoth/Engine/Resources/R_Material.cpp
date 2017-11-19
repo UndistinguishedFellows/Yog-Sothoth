@@ -32,10 +32,17 @@ void R_Material::SaveMaterialFile(const char* path)
 	file.seekg(0, file.beg);
 
 	buffer = new char[length];
-	file.read(buffer, length);
+	//file.read(buffer, length);
+//	while (file.getline(buffer, length))
+//	{
+//		buffer;
+//	}
+	std::stringstream str_buffer;
+	str_buffer << file.rdbuf();
+	strcpy(buffer, str_buffer.str().c_str());
 	file.close();
 	//2-Load the image from buffer
-	if (ilLoadL(IL_TYPE_UNKNOWN, buffer, length))
+	if (ilLoadL(IL_TYPE_UNKNOWN, str_buffer.str().c_str(), length))
 	{
 		ilEnable(IL_FILE_OVERWRITE);
 
@@ -69,7 +76,11 @@ void R_Material::SaveMaterialFile(const char* path)
 		//8-Finally if the image was loaded destroy the image to avoid more memory leaks
 		ilDeleteImages(1, &image);
 	}
-
+	if (length > 0)
+	{
+		RELEASE_ARRAY(buffer);
+	}
+	
 
 }
 

@@ -106,6 +106,8 @@ void R_Mesh::SaveMeshFile()
 	file.write(data, size);	
 
 	file.close();
+	if (size > 0)
+		RELEASE_ARRAY(data)
 }
 
 void R_Mesh::LoadMeshFile(const char* filename)

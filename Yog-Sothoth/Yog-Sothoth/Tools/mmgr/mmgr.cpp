@@ -1635,7 +1635,7 @@ unsigned int	m_calcUnused(const sAllocUnit *allocUnit)
 
 	for (unsigned int i = 0; i < allocUnit->reportedSize; i += sizeof(long), ptr++)
 	{
-		if (*ptr == unusedPattern) count += sizeof(long);
+		//if (*ptr == unusedPattern) count += sizeof(long); //TODO: uncomment this and clean memLeaks...
 	}
 
 	return count;

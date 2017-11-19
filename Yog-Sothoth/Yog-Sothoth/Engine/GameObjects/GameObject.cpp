@@ -63,13 +63,15 @@ void GameObject::AddChild(GameObject* child)
 void GameObject::RemoveChild(GameObject* child)
 {
 	for (std::vector<GameObject*>::iterator it = children.begin(); 
-		 it != children.end(); ++it)
+		 it != children.end();)
 	{
 		if ((*it) == child)
 		{
 			RELEASE((*it));
-			children.erase(it);
+			it = children.erase(it);
 		}
+		else
+			it++;
 	}
 }
 void GameObject::EraseChild(GameObject* child)

@@ -108,6 +108,7 @@ update_status M_ObjectManager::PreUpdate(float dt)
 		for each (auto go in deletionGameObject->children)
 		{
 			go->parent->EraseChild(go);
+			//go->parent->RemoveChild(go);
 		}
 		deletionGameObject->RemoveChildren();
 	}	

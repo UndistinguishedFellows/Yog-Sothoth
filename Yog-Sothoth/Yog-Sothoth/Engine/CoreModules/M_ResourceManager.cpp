@@ -31,11 +31,11 @@ bool M_ResourceManager::Start()
 update_status M_ResourceManager::PreUpdate(float dt)
 {
 	for (std::map<UUID32, Resource*>::iterator it = resourcesToDelete.begin(); 
-		 it != resourcesToDelete.end(); ++it)
+		 it != resourcesToDelete.end();)
 	{
 		resources.erase((*it).first);
 		Resource* res = (*it).second;
-		resourcesToDelete.erase(it);
+		it = resourcesToDelete.erase(it);
 		RELEASE(res);
 	}
 	return UPDATE_CONTINUE;
@@ -117,6 +117,10 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 			name.append(".mesh");
 			res->LoadMeshFile(name.c_str());
 			ret = res;
+			std::pair<UUID32, Resource*> pair;
+			pair.first = uuid;
+			pair.second = res;
+			resources.insert(pair);
 			break;
 		}
 		case R_MATERIAL: 
@@ -127,6 +131,11 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 			name.append(".dds");
 			res->LoadMaterialFile(name.c_str());
 			ret = res;
+			std::pair<UUID32, Resource*> pair;
+			pair.first = uuid;
+			pair.second = res;
+			resources.insert(pair);
+
 			break;
 		}
 		case R_UNKNOWN:

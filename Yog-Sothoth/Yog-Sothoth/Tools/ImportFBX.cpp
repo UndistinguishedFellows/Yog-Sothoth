@@ -28,13 +28,12 @@ bool ImportFBX::Import(fs::path path)
 
 	// copy file    
 	infile.read(buffer, length);
+	infile.close();
+
 	out.open(importPath, std::ios::binary);
 	out.write(buffer, length);
-
-	// clean up
-	
-	infile.close();
 	out.close();
+	
 	//-----------------------------------------------------------------------------------------------------
 	std::string metName("data/assets/");
 	metName.append(importPath.stem().string());
@@ -182,21 +181,31 @@ void ImportFBX::LoadMaterials(const aiScene* scene)
 			olp.append(p_material.filename().string());
 			yogConsole(CONSOLE_INFO, "Texture path: %s", olp.c_str());
 
-			std::ifstream input(olp, std::ios::binary);
+			std::ifstream input(olp, std::ios::in | std::ios::binary);
 			// file size
 			input.seekg(0, std::ios::end);
-			int length = input.tellg();
+			int i_length = input.tellg();
 			input.seekg(0, input.beg);
-
 			// allocate memory for buffer
-			char* buffer = new char[length];
-
+			char* i_buffer = new char[i_length];
+			std::stringstream str_buffer;
+			str_buffer << input.rdbuf();
 			// copy file    
-			input.read(buffer, length);
+			//input.read(i_buffer, i_length);
+//			while (input.getline(i_buffer, i_length))
+//			{
+//				i_buffer;
+//			}
+			
 			input.close();
+
 			std::ofstream out(f_name, std::ios::binary);
-			out.write(buffer, length);
+			out.write(str_buffer.str().c_str(), i_length);
 			out.close();
+			if (i_length > 0)
+			{
+				RELEASE_ARRAY(i_buffer);
+			}			
 			//if (strcmp(f_name.c_str(), "data/assets/") != 0)
 			{
 				R_Material* material = new R_Material();

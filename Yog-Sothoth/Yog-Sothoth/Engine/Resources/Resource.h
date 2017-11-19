@@ -16,6 +16,7 @@ public:
 	explicit Resource(rType type)
 		: type(type)
 	{
+		used = 0;
 	}
 	virtual ~Resource()
 	{

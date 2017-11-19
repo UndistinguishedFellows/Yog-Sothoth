@@ -5,6 +5,7 @@
 
 C_Material::~C_Material()
 {
+	App->resourceManager->UnloadResource(rMaterial->uuid);
 }
 uint C_Material::LoadTexture(const char* path)
 {
