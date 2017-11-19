@@ -103,6 +103,7 @@ protected:
 	void RefreshTransform();
 
 	Component* CreateComponent(ComponentType type);
+	void DeleteComponent(ComponentType type);
 	Component* FindComponent(ComponentType type);
 	void SendToDraw();
 	void RemoveFromDraw();
