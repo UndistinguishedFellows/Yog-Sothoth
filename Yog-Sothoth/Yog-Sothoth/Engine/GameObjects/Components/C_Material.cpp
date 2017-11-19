@@ -1,6 +1,7 @@
 ﻿#include "C_Material.h"
 #include "../../../Tools/TextureImporter.h"
 #include <glew.h>
+#include "../../../Application.h"
 
 C_Material::~C_Material()
 {
@@ -8,16 +9,16 @@ C_Material::~C_Material()
 uint C_Material::LoadTexture(const char* path)
 {
 	TextureImporter importer;
-	if (texture != 0)
+	if (rMaterial->texture != 0)
 	{
-		glDeleteTextures(1, &texture);
+		glDeleteTextures(1, &rMaterial->texture);
 	}
-	texture = importer.LoadTextureBuffer(path, &imInfo);
-	return texture;
+	rMaterial->texture = importer.LoadTextureBuffer(path, &imInfo);
+	return rMaterial->texture;
 }
 void C_Material::Serialize(Json::Value& root)
 {
-	//root["resource_uuid"] = rMaterial->uuid;
+	root["resource_uuid"] = rMaterial->uuid;
 	root["checkers"] = checkers;
 
 	root["ambient"].append(ambient.x);
@@ -40,6 +41,16 @@ void C_Material::Serialize(Json::Value& root)
 
 void C_Material::Deserialize(Json::Value& root)
 {
+	UUID32 resUuid32 = root.get("resource_uuid", 0).asInt64();
+	if (resUuid32 != 0)
+	{
+		R_Material* res = (R_Material*)App->resourceManager->LoadResource(resUuid32, R_MATERIAL);
+		if (res != nullptr)
+		{
+			rMaterial = res;
+			rMaterial->uuid = resUuid32;
+		}
+	}
 	type = (ComponentType)root.get("type", 0).asInt();
 	checkers = root.get("chechers", false).asBool();
 

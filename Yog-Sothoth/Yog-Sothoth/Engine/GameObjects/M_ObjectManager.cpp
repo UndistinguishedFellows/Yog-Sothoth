@@ -32,7 +32,6 @@ bool M_ObjectManager::Init()
 
 bool M_ObjectManager::Start()
 {
-
 	deletionGameObject = new GameObject();
 	deletionGameObject->name = "deletionGameObject";
 
@@ -224,10 +223,10 @@ void M_ObjectManager::MousePick()
 	windowPoint.y = 1.0f - ((float)App->input->GetMouseY() * 2.0f) / (float)App->window->getHeigth();
 
 	LineSegment picking = frustum.UnProjectLineSegment(windowPoint.x, windowPoint.y);
-//	P_Line* line = new P_Line();
-//	line->origin = picking.a;
-//	line->destination = picking.b;
-//	App->renderer->primitives.push_back(line);
+	P_Line* line = new P_Line();
+	line->origin = picking.a;
+	line->destination = picking.b;
+	App->renderer->primitives.push_back(line);
 
 	std::vector<GameObject*> toCheck;
 	//Iterate all AABB

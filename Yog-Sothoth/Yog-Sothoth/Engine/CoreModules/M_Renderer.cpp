@@ -166,7 +166,7 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setInt("tex", 0);
 			if (game_object->Mesh->associatedMaterial != nullptr)
 			{
-				if (game_object->Mesh->associatedMaterial->texture != 0 || game_object->Mesh->associatedMaterial->checkers)
+				if (game_object->Mesh->associatedMaterial->rMaterial->texture != 0 || game_object->Mesh->associatedMaterial->checkers)
 				{
 					activeshader->setInt("hasTex", 1);
 				}
@@ -199,15 +199,19 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setVec3("viewPos", &App->objManager->activeCamera->Camera->frustum.pos);
 
 			glActiveTexture(GL_TEXTURE0);
-			if (game_object->Mesh->associatedMaterial->checkers)
+			if (game_object->Mesh->associatedMaterial != nullptr)
 			{
-				textureBuffer = App->renderer->checkTexture;
+				if (game_object->Mesh->associatedMaterial->checkers)
+				{
+					textureBuffer = App->renderer->checkTexture;
+				}
+				else
+				{
+					textureBuffer = game_object->Mesh->associatedMaterial->rMaterial->texture;
+				}
+				//activeshader->setInt("tex", textureBuffer);
 			}
-			else
-			{
-				textureBuffer = game_object->Mesh->associatedMaterial->texture;
-			}
-
+			//glBindTexture(GL_TEXTURE_2D, textureBuffer);
 			if (textureBuffer != prevTextureBuffer)
 			{
 				glBindTexture(GL_TEXTURE_2D, textureBuffer);
@@ -224,6 +228,7 @@ update_status M_Renderer::PostUpdate(float dt)
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 	}
+	//App->objManager->Draw(App->objManager->root, *lightShader);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//draw Wireframe when selected
@@ -243,7 +248,7 @@ update_status M_Renderer::PostUpdate(float dt)
 	App->objManager->DrawNormals(App->objManager->root, *normalShader);
 	bool cull = cullFace;
 	SetCullFace(false);
-	App->objManager->DrawAABB(App->objManager->dragAndDropVisualizer, *basicShader);
+	App->objManager->DrawAABB(App->objManager->root, *basicShader);
 	SetCullFace(cull);
 
 	//Draw floor grid and world axis
@@ -257,10 +262,10 @@ update_status M_Renderer::PostUpdate(float dt)
 		floor.color = { 0.1f, 0.1f, 0.1f , 1.f };
 		floor.axis = true;
 		floor.Render();
-//		for (auto primitive : primitives)
-//		{
-//			primitive->Render();
-//		}
+		for (auto primitive : primitives)
+		{
+			primitive->Render();
+		}
 		glPopMatrix();
 		glPopMatrix();
 

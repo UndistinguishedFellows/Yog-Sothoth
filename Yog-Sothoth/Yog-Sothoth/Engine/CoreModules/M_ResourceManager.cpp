@@ -1,6 +1,8 @@
 ﻿#include "M_ResourceManager.h"
 #include "../../Tools/Static/JsonSerializer.h"
 #include "../Resources/R_Mesh.h"
+#include "../Resources/R_Material.h"
+#include <ilut.h>
 
 M_ResourceManager::M_ResourceManager(bool enable) : Module(enable)
 {
@@ -13,6 +15,10 @@ M_ResourceManager::~M_ResourceManager()
 
 bool M_ResourceManager::Init()
 {
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
 	return true;
 }
 
@@ -108,12 +114,21 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 			R_Mesh* res = new R_Mesh();
 			std::string name = "data/library/";
 			name.append(std::to_string(uuid));
+			name.append(".mesh");
 			res->LoadMeshFile(name.c_str());
 			ret = res;
 			break;
 		}
 		case R_MATERIAL: 
+		{
+			R_Material* res = new R_Material();
+			std::string name = "data/library/";
+			name.append(std::to_string(uuid));
+			name.append(".dds");
+			res->LoadMaterialFile(name.c_str());
+			ret = res;
 			break;
+		}
 		case R_UNKNOWN:
 		default: 
 			break;
@@ -127,6 +142,7 @@ Resource* M_ResourceManager::LoadResource(UUID32 uuid, rType type)
 				ret = (*it).second;
 				break;
 			case R_MATERIAL:
+				ret = (*it).second;
 				break;
 			case R_UNKNOWN:
 			default:

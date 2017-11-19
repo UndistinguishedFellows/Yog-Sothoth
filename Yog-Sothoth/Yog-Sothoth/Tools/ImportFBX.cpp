@@ -15,9 +15,6 @@ bool ImportFBX::Import(fs::path path)
 	importPath.append(path.filename().string());
 
 	//-----------------------------------------------------------------------------------------------------
-	clock_t start, end;
-	start = clock();
-
 	infile.open(path.generic_string(), std::ios::binary);
 	
 
@@ -38,36 +35,33 @@ bool ImportFBX::Import(fs::path path)
 	
 	infile.close();
 	out.close();
-
-	end = clock();
-
-	std::cout << "CLOCKS_PER_SEC " << CLOCKS_PER_SEC << "\n";
-	std::cout << "CPU-TIME START " << start << "\n";
-	std::cout << "CPU-TIME END " << end << "\n";
-	std::cout << "CPU-TIME END - START " << end - start << "\n";
-	std::cout << "TIME(SEC) " << static_cast<double>(end - start) / CLOCKS_PER_SEC << "\n";
 	//-----------------------------------------------------------------------------------------------------
-	
-	//Copies the file to assets folder
-//	infile.open(path.generic_string(), std::ifstream::binary);
-	//size
-//	infile.seekg(0, std::ios::end);
-//	length = infile.tellg();
-//	infile.seekg(0, infile.beg);
-//	buffer = new char[length+1];
-//	std::string line;
-//	int head = 0;
-//	while (std::getline(infile, line))
-//	{
-//		memcpy(&buffer[head], line.c_str(), line.size());
-//		head += line.size();
-//	}
-//	buffer[head] = '\0';
-//	infile.close();
-//
-//	out.open(importPath, std::ofstream::binary);
-//	out << buffer;
-//	out.close();
+	std::string metName("data/assets/");
+	metName.append(importPath.stem().string());
+	metName.append(".meta");
+	std::ifstream meta(metName);
+	std::string line;
+
+	//Delete old resources
+	while (std::getline(meta, line))
+	{
+		std::string input(line);
+		Json::Value deserializeRoot;
+		Json::Reader reader;
+
+		if(reader.parse(input, deserializeRoot))
+		{
+			std::string uuid = deserializeRoot.get("resource", 0).asString();
+			std::string name("data/library/");
+			name.append(uuid);
+			fs::path p = name;
+			std::string nameMeta = p.stem().string();
+			nameMeta.append(".meta");
+			std::remove(name.c_str());
+			std::remove(nameMeta.c_str());
+		}
+
+	}
 
 	//Load the FBX
 	if (Load())
@@ -79,6 +73,7 @@ bool ImportFBX::Import(fs::path path)
 		name.append(".prefab");
 		GameObject* go = new GameObject(App->objManager->root);
 		go->name = "testingGO";
+		go->CreateComponent(C_TRANSFORM);
 		JsonSerializer::DeserializeFormPath(go, name);
 		//TEMP
 	}
@@ -111,6 +106,7 @@ bool ImportFBX::Load()
 		{
 			yogConsole(CONSOLE_INFO, "FBX path: %s.", importPath);
 			LoadMeshes(scene);
+			LoadMaterials(scene);
 			LoadScene(scene, scene->mRootNode);
 			ret = true;
 		}
@@ -131,6 +127,11 @@ void ImportFBX::Save()
 		mesh->SaveMeshFile();
 		mesh->AddMeta(importPath.filename().string());
 	}
+	for (auto material : materials)
+	{
+		//material->SaveMeshFile();
+		material->AddMeta(importPath.filename().string());
+	}
 	std::string name = ("data/assets/");
 	name.append(oldPath.stem().string());
 	root->children[0]->name.assign(oldPath.stem().string());
@@ -143,7 +144,11 @@ void ImportFBX::Save()
 	std::ofstream meta(name);
 	for (int i = 0; i < meshes.size(); i++)
 	{
-		meta << "{ \"mesh\" : " << meshes[i]->uuid << "}" << std::endl;
+		meta << "{ \"resource\" : \"" << meshes[i]->uuid << ".mesh\"}" << std::endl;
+	}
+	for (int i = 0; i < materials.size(); i++)
+	{
+		meta << "{ \"resource\" : \"" << materials[i]->uuid << ".dds\"}" << std::endl;
 	}
 	meta.close();
 }
@@ -156,6 +161,54 @@ void ImportFBX::LoadMeshes(const aiScene* scene)
 		mesh->Load(scene->mMeshes[i]);
 		meshes.push_back(mesh);
 	}	
+}
+
+void ImportFBX::LoadMaterials(const aiScene* scene)
+{
+	if (scene->HasMaterials())
+	{
+		aiMaterial** mat = scene->mMaterials;
+		int i = 0;
+		while (i < scene->mNumMaterials)
+		{
+			aiString ai_path;
+			mat[i]->GetTexture(aiTextureType_DIFFUSE, 0, &ai_path);
+			fs::path p_material = ai_path.C_Str();
+			std::string f_name("data/assets/");
+			f_name.append(p_material.filename().string());
+			yogConsole(CONSOLE_INFO, "Texture name: %s", f_name.c_str());
+			std::string olp(oldPath.parent_path().string());
+			olp.append("\\");
+			olp.append(p_material.filename().string());
+			yogConsole(CONSOLE_INFO, "Texture path: %s", olp.c_str());
+
+			std::ifstream input(olp, std::ios::binary);
+			// file size
+			input.seekg(0, std::ios::end);
+			int length = input.tellg();
+			input.seekg(0, input.beg);
+
+			// allocate memory for buffer
+			char* buffer = new char[length];
+
+			// copy file    
+			input.read(buffer, length);
+			input.close();
+			std::ofstream out(f_name, std::ios::binary);
+			out.write(buffer, length);
+			out.close();
+			//if (strcmp(f_name.c_str(), "data/assets/") != 0)
+			{
+				R_Material* material = new R_Material();
+
+				material->SaveMaterialFile(f_name.c_str());
+				materials.push_back(material);
+			}
+
+
+			++i;
+		}
+	}
 }
 
 void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
@@ -234,14 +287,21 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 		}
 		else if (top->mNumMeshes == 1)
 		{
-			const aiMesh* ai_mesh = scene->mMeshes[top->mMeshes[0]];
-
 			C_Mesh* mesh = new C_Mesh(gameObject);
-
 			mesh->rMesh = meshes[top->mMeshes[0]];
-
 			gameObject->Mesh = mesh;
+			int i = scene->mMeshes[top->mMeshes[0]]->mMaterialIndex;
+
+			if(scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+			{
+				C_Material* material = new C_Material(gameObject);
+				material->rMaterial = materials[i];
+				gameObject->Material = material;
+				gameObject->Mesh->associatedMaterial = material;
+			}
+						
 		}
+
 
 		nodes.pop();
 		for (int it = 0; it < top->mNumChildren; ++it)
@@ -249,6 +309,8 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 			nodes.push(top->mChildren[it]);
 		}
 	}
+
+	
 
 
 }

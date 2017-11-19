@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FDDBE41D-EF09-4103-A2D2-B981141D6E84}</ProjectGuid>
     <RootNamespace>YogSothoth</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -99,7 +99,7 @@
     <IncludePath>$(SolutionDir)SDL2\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL2\lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\OutputFiles\Yog-Sothoth_$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <TargetName>$(ProjectName)_$(Configuration)2</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
@@ -108,7 +108,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\OutputFiles\Yog-Sothoth_$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <TargetName>$(ProjectName)_$(Configuration)2</TargetName>
     <IncludePath>$(SolutionDir)SDL2\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -212,6 +212,7 @@
     <ClCompile Include="Engine\GameObjects\Components\C_Mesh.cpp" />
     <ClCompile Include="Engine\Resources\R_Material.cpp" />
     <ClCompile Include="Engine\Resources\R_Mesh.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\AssetsExplorer.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIGizmos.cpp" />
     <ClCompile Include="Engine\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjects\M_ObjectManager.cpp" />
@@ -291,8 +292,10 @@
     <ClInclude Include="Engine\GameObjects\Components\C_Material.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Transform.h" />
     <ClInclude Include="Engine\GameObjects\Components\C_Mesh.h" />
+    <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Engine\Resources\R_Material.h" />
     <ClInclude Include="Engine\Resources\R_Mesh.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\AssetsExplorer.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIGizmos.h" />
     <ClInclude Include="Engine\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\GameObjects\M_ObjectManager.h" />

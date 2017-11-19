@@ -33,6 +33,27 @@ void GameObject::DoPostUpdate()
 {
 }
 
+void GameObject::RefreshTransform()
+{
+	bool ret = false;
+	std::stack<GameObject*> stack;
+	stack.push(this);
+	while (!stack.empty())
+	{
+		GameObject* top = stack.top();
+		if (top->Transform != nullptr)
+		{
+			top->Transform->RefreshTransform();
+		}		
+
+		stack.pop();
+		for (int it = 0; it != top->children.size(); ++it)
+		{
+			stack.push(top->children[it]);
+		}
+	}
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	children.push_back(child);
@@ -450,7 +471,15 @@ void GameObject::Deserialize(Json::Value& root)
 				}
 			}
 		}
+		if (go->Mesh && go->Material)
+		{
+			go->Mesh->associatedMaterial = go->Material;
+		}
 	}
+	Transform->RefreshTransform();
+
+	
+	UpdateBoundingBoxes();
 }
 
 std::vector<GameObject*> GameObject::GetChildren()
