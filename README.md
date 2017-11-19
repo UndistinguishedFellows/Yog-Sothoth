@@ -3,6 +3,8 @@
 
 # Yog-Sothoth
 GameEngine
+Repository: https://github.com/UndistinguishedFellows/Yog-Sothoth
+Releases: https://github.com/UndistinguishedFellows/Yog-Sothoth/releases
 
 # Basic Usage
 
