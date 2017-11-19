@@ -67,13 +67,13 @@ bool ImportFBX::Import(fs::path path)
 	{
 		Save();
 		//TEMP
-		std::string name = ("data/assets/");
-		name.append(oldPath.stem().string());
-		name.append(".prefab");
-		GameObject* go = new GameObject(App->objManager->root);
-		go->name = "testingGO";
-		go->CreateComponent(C_TRANSFORM);
-		JsonSerializer::DeserializeFormPath(go, name);
+//		std::string name = ("data/assets/");
+//		name.append(oldPath.stem().string());
+//		name.append(".prefab");
+//		GameObject* go = new GameObject(App->objManager->root);
+//		go->name = "testingGO";
+//		go->CreateComponent(C_TRANSFORM);
+//		JsonSerializer::DeserializeFormPath(go, name);
 		//TEMP
 	}
 	//Save the resources and prefab
