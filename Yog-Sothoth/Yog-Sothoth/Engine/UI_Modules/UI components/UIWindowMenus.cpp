@@ -1,6 +1,9 @@
 ﻿#include "UIWindowMenus.h"
 #include "../../../imGUI/imgui.h"
 #include "../../../Application.h"
+#include <filesystem>
+
+namespace fs = std::experimental::filesystem;
 
 UIWindowMenus::UIWindowMenus()
 {
@@ -51,7 +54,36 @@ void UIWindowMenus::Draw()
 
 			if (ImGui::Button("Load scene"))
 			{
-				App->objManager->LoadScenePrefab("data/assets/Scene1.prefab");
+				ImGui::OpenPopup("ScenesList");
+			}
+			if (ImGui::BeginPopup("ScenesList"))
+			{
+				ImGui::MenuItem("Scenes", NULL, false, false);
+				ImGui::Separator();
+
+				std::string path("data/assets/");
+
+				for (auto p : fs::directory_iterator(path.c_str()))
+				{
+					fs::path file(p);
+					std::string name(file.stem().string());
+					std::string ext(file.extension().string());
+					std::string completePath("");
+
+					if (strcmp(ext.c_str(), ".prefab") == 0)
+					{
+						if (ImGui::MenuItem(name.c_str()))
+						{
+							completePath.append(path);
+							completePath.append(name);
+							completePath.append(ext);
+							App->objManager->LoadScenePrefab(completePath);
+							int i;
+						}
+					}
+				}
+
+				ImGui::EndPopup();
 			}
 
 			if (ImGui::Button("Quit"))
