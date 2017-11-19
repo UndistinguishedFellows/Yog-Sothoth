@@ -254,13 +254,13 @@ void ImportFBX::LoadScene(const aiScene* scene, const aiNode* node)
 		float4x4 matrix(rotation, position);
 		matrix.Scale(scale);
 		
-		C_Transform* transform = new C_Transform(gameObject);
+		C_Transform* transform = gameObject->Transform;
 		transform->scale = scale;
 		transform->rotation = rotation;
 		transform->position = position;
 		transform->localTransform = matrix;
 
-		gameObject->Transform = transform;
+		//gameObject->Transform = transform;
 
 		if (gameObject->parent != nullptr)
 		{
