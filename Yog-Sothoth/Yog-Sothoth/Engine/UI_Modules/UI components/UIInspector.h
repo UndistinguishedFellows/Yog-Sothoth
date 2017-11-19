@@ -15,5 +15,7 @@ public:
 	void Light();
 	void Camera();
 
+	void ShowAddComponentMenu();
+
 	ImGuiWindowFlags inspectorWindowFlags = 0;
 };

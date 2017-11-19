@@ -43,6 +43,19 @@ void UIInspector::Draw()
 		Mesh();
 		Material();
 		Camera();
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+		if (ImGui::Button("Add Component"))
+			ImGui::OpenPopup("AddComponent");
+		if (ImGui::BeginPopup("AddComponent"))
+		{
+			ShowAddComponentMenu();
+			ImGui::EndPopup();
+		}
 	}
 
 	ImGui::Spacing();
@@ -54,6 +67,39 @@ void UIInspector::Draw()
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+}
+
+void UIInspector::ShowAddComponentMenu()
+{
+	ImGui::MenuItem("Component", NULL, false, false);
+	ImGui::Separator();
+
+	bool enabler;
+	enabler = true;
+
+	if (App->objManager->GetFocusGO()->Mesh != nullptr)
+		enabler = false;
+	if (ImGui::MenuItem("Mesh"))
+	{
+
+	}
+	enabler = true;
+
+	if (App->objManager->GetFocusGO()->Material != nullptr)
+		enabler = false;
+	if (ImGui::MenuItem("Material"))
+	{
+		
+	}
+	enabler = true;
+
+	if (App->objManager->GetFocusGO()->Camera != nullptr)
+		enabler = false;
+	if (ImGui::MenuItem("Camera", "", false, enabler))
+	{
+
+	}
+	enabler = true;
 }
 
 void UIInspector::Transform()
@@ -104,34 +150,53 @@ void UIInspector::Transform()
 			ImGui::DragFloat3("GScale", Gscale.ptr(), 0.01f);
 
 			//Grot = Quat::FromEulerXYZ(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-			ImGui::Separator();
 		}
 
 }
 
 void UIInspector::Mesh()
 {
-	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->Mesh;
-	if (mesh != nullptr)
-		if (ImGui::CollapsingHeader("Mesh"))
-		{
-			ImGui::Text("Triangle count: "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.numIndices/3);
+	static bool closableMesh = true;
 
-			ImGui::Text("Num Vertices: "); 
-			ImGui::SameLine(); 
+	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->Mesh;
+	if (mesh != nullptr && closableMesh)
+	{
+		if (ImGui::CollapsingHeader("Mesh", &closableMesh))
+		{
+			if (ImGui::Button("Set Mesh"))
+				ImGui::OpenPopup("SetMesh");
+			if (ImGui::BeginPopup("SetMesh"))
+			{
+				ImGui::MenuItem("Meshes", NULL, false, false);
+				ImGui::Separator();
+
+				//Meshes List
+				ImGui::MenuItem("Mesh 1");
+				ImGui::MenuItem("Mesh 2");
+				ImGui::MenuItem("Mesh 3");
+				ImGui::MenuItem("Mesh 4");
+				
+				ImGui::EndPopup();
+			}
+			ImGui::Spacing();
+
+			ImGui::Text("Triangle count: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.numIndices / 3);
+
+			ImGui::Text("Num Vertices: ");
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->vertices.numVertices);
 			ImGui::SameLine();
-			ImGui::Text("Id Vertices: "); 
-			ImGui::SameLine(); 
+			ImGui::Text("Id Vertices: ");
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->vertices.idVertices);
 
-			ImGui::Text("Num Indices: "); 
-			ImGui::SameLine(); 
+			ImGui::Text("Num Indices: ");
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.numIndices);
 			ImGui::SameLine();
-			ImGui::Text("Id Indices: "); 
-			ImGui::SameLine(); 
+			ImGui::Text("Id Indices: ");
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%d", mesh->rMesh->indices.idIndices);
 
 			ImGui::Text("Num Normals: ");
@@ -155,19 +220,46 @@ void UIInspector::Mesh()
 			if (ImGui::Checkbox("Normals", &mesh->drawNormals)) {}
 			ImGui::SameLine();
 			if (ImGui::Checkbox("Wireframe##mesh", &mesh->wireframe)) {}
-
-			ImGui::Separator();
 		}
+	}
+	else
+	{
+		if (!closableMesh) {
+			//Delete component mesh
+
+			closableMesh = true;
+		}
+	}
 }
 
 void UIInspector::Material()
 {
+	static bool closableMaterial = true;
+
 	C_Material* material = (C_Material*)App->objManager->GetFocusGO()->Material;
 	C_Mesh* mesh = (C_Mesh*)App->objManager->GetFocusGO()->Mesh;
 	Color color;
-	if (material != nullptr && mesh != nullptr)
-		if (ImGui::CollapsingHeader("Material"))
+	if (material != nullptr && mesh != nullptr && closableMaterial)
+	{
+		if (ImGui::CollapsingHeader("Material", &closableMaterial))
 		{
+			if (ImGui::Button("Set Material"))
+				ImGui::OpenPopup("SetMaterial");
+			if (ImGui::BeginPopup("SetMaterial"))
+			{
+				ImGui::MenuItem("Materials", NULL, false, false);
+				ImGui::Separator();
+
+				//Meshes List
+				ImGui::MenuItem("Material 1");
+				ImGui::MenuItem("Material 2");
+				ImGui::MenuItem("Material 3");
+				ImGui::MenuItem("Material 4");
+
+				ImGui::EndPopup();
+			}
+			ImGui::Spacing();
+
 			ImGui::Text("Name: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "%s", material->imInfo.name.c_str());
 
 			color = mesh->color;
@@ -185,6 +277,15 @@ void UIInspector::Material()
 
 			if (ImGui::Checkbox("Checkers##mat", &material->checkers)) {}
 		}
+	}
+	else
+	{
+		if (!closableMaterial) {
+			//Delete component material
+
+			closableMaterial = true;
+		}
+	}
 }
 
 void UIInspector::Light()
@@ -198,9 +299,12 @@ void UIInspector::Light()
 
 void UIInspector::Camera()
 {
+	static bool closableCamera = true;
+
 	C_Camera* camera = App->objManager->GetFocusGO()->Camera;
-	if (camera != nullptr)
-		if (ImGui::CollapsingHeader("Camera##inspector"))
+	if (camera != nullptr && closableCamera)
+	{
+		if (ImGui::CollapsingHeader("Camera##inspector", &closableCamera))
 		{
 			if (App->objManager->GetFocusGO() == App->objManager->activeCamera)
 			{
@@ -244,5 +348,13 @@ void UIInspector::Camera()
 			{}
 			ImGui::Text("Aspect Ratio: %f", camera->frustum.AspectRatio());
 		}
+	}
+	else
+	{
+		if (!closableCamera) {
+			//Delete component camera
 
+			closableCamera = true;
+		}
+	}
 }
