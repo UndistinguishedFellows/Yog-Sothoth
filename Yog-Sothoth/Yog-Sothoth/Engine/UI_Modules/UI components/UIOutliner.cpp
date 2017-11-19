@@ -95,12 +95,15 @@ void UIOutliner::TreeNodes(GameObject* node)
 
 				if (ImGui::IsItemClicked(1))
 				{
-					ImGui::OpenPopup("toggle");
+					ImGui::OpenPopup("secondaryMenu");
 				}
 
 			}
-			if (ImGui::BeginPopup("toggle"))
+			if (ImGui::BeginPopup("secondaryMenu"))
 			{
+				bool enabler;
+				enabler = true;
+
 				if (ImGui::BeginMenu("Add GameObject"))
 				{
 					//Prefab List
@@ -129,12 +132,50 @@ void UIOutliner::TreeNodes(GameObject* node)
 					ImGui::MenuItem("Prefab 4");
 					ImGui::EndMenu();
 				}
-				if (ImGui::MenuItem("Delete"))
+
+				if (App->objManager->GetFocusGO() == App->objManager->root
+					|| App->objManager->GetFocusGO() == App->objManager->activeCamera
+					|| App->objManager->GetFocusGO() == App->objManager->cullingCamera)
+				{
+					enabler = false;
+				}
+
+				if (ImGui::BeginMenu("Rename"))
+				{
+					static char goName[128];
+					static char newGoName[128];
+					static bool edited = false;
+
+					strcpy_s(goName, 128, App->objManager->GetFocusGO()->name.c_str());
+
+					if (!edited)
+					{
+						strcpy_s(newGoName, 128, goName);
+					}
+
+					if (ImGui::InputText("##goName", goName, 128))
+					{
+						edited = true;
+						strcpy_s(newGoName, 128, goName);
+					}
+
+					ImGui::SameLine();
+
+					if (ImGui::Button("Apply")){
+						edited = false;
+						App->objManager->GetFocusGO()->name = newGoName;
+					}
+					ImGui::EndMenu();
+				}
+
+				if (ImGui::MenuItem("Delete", "", false, enabler))
 				{
 					GameObject* tmp = App->objManager->GetFocusGO();
 					App->objManager->SetFocusGO(nullptr);
 					App->objManager->DeleteGameObject(tmp);
 				}
+				enabler = true;
+
 				ImGui::EndPopup();
 			}
 			for (uint i = 0; i < node->children.size(); ++i)
