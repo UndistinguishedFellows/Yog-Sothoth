@@ -20,7 +20,7 @@ public:
 
 	Color color;
 
-	uint texture;
+	//uint texture;
 
 	ImageInfo imInfo;
 

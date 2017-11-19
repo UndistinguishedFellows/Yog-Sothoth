@@ -98,6 +98,7 @@ protected:
 	void LookAt(float3 pos);
 	void SetPos(float3 pos);
 	AABB UpdateBoundingBoxes();
+	void RefreshTransform();
 
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type);

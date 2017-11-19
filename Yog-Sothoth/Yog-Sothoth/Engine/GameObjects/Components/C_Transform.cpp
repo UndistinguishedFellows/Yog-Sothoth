@@ -25,7 +25,7 @@ const float4x4 C_Transform::GetGlobalTransform() const
 
 void C_Transform::RefreshTransform()
 {
-	if (ownerParent != nullptr)
+	if (ownerParent != nullptr && ownerParent->parent->Transform != nullptr)
 	{
 		globalTransform = ownerParent->parent->Transform->globalTransform * localTransform;
 	}
@@ -219,25 +219,22 @@ void C_Transform::Serialize(Json::Value& root)
 	float3 position;
 	float3 scale;
 	Quat rotation;
-	float3 eulerRotation;
 
 	localTransform.Decompose(position, rotation, scale);
-	eulerRotation = rotation.ToEulerXYZ();
-	eulerRotation.x = RadToDeg(eulerRotation.x);
-	eulerRotation.y = RadToDeg(eulerRotation.y);
-	eulerRotation.z = RadToDeg(eulerRotation.z);
+
 
 	root["position"].append(position.x);
 	root["position"].append(position.y);
 	root["position"].append(position.z);
 
-	root["rotation"].append(eulerRotation.x);
-	root["rotation"].append(eulerRotation.y);
-	root["rotation"].append(eulerRotation.z);
+	root["rotation"].append(rotation.x);
+	root["rotation"].append(rotation.y);
+	root["rotation"].append(rotation.z);
+	root["rotation"].append(rotation.w);
 
-	root["scale"].append(position.x);
-	root["scale"].append(position.y);
-	root["scale"].append(position.z);
+	root["scale"].append(scale.x);
+	root["scale"].append(scale.y);
+	root["scale"].append(scale.z);
 
 	root["type"] = type;
 }
@@ -246,24 +243,24 @@ void C_Transform::Deserialize(Json::Value& root)
 {
 	float3 pos;
 	float3 scale;
-	float3 eulerRot;
 	Quat rot;
 
 
 	//Position
-	Json::Value jpos = root.get("position", 0);
+	Json::Value jpos = root["position"];
 	for (int i = 0; i != jpos.size(); i++)
 		*(pos.ptr() + i) = jpos[i].asFloat();
 
 	//Scale
-	Json::Value jscale = root.get("scale", 0);
+	Json::Value jscale = root["scale"];
 	for (int i = 0; i != jscale.size(); i++)
 		*(scale.ptr() + i) = jscale[i].asFloat();
 
 	//Rotation
-	Json::Value jeulerRot = root.get("rotation", 0);
-	for (int i = 0; i != jeulerRot.size(); i++)
-		*(eulerRot.ptr() + i) = jeulerRot[i].asFloat();
+	Json::Value jRot = root["rotation"];
+	for (int i = 0; i != jRot.size(); i++)
+		*(rot.ptr() + i) = jRot[i].asFloat();
 
-	rot = rot.FromEulerXYZ(eulerRot.x, eulerRot.y, eulerRot.z);
+	localTransform = float4x4::FromTRS(pos, rot, scale);
+
 }

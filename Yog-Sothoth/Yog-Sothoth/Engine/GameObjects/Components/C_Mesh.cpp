@@ -55,6 +55,7 @@ void C_Mesh::Load(const aiMesh* mesh)
 	if (mesh->HasTextureCoords(0))
 	{
 		rMesh->uv.uv = new float[rMesh->vertices.numVertices * 2];
+		rMesh->uv.numUV = rMesh->vertices.numVertices;
 		aiVector3D* tmp = mesh->mTextureCoords[0];
 		for (uint i = 0; i < rMesh->vertices.numVertices * 2; i += 2)
 		{
@@ -75,7 +76,7 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	shader.setInt("tex", 0);
 	if (associatedMaterial != nullptr)
 	{
-		if(associatedMaterial->texture != 0 || associatedMaterial->checkers)
+		if(associatedMaterial->rMaterial->texture != 0 || associatedMaterial->checkers)
 		{
 			shader.setInt("hasTex", 1);
 		}
@@ -106,16 +107,17 @@ void C_Mesh::Draw(Shader shader, C_Camera* camera) const
 	shader.setVec3("viewPos", &camera->frustum.pos);
 
 	glActiveTexture(GL_TEXTURE0);
-
-	if(associatedMaterial->checkers)
+	if (associatedMaterial != nullptr)
 	{
-		glBindTexture(GL_TEXTURE_2D, App->renderer->checkTexture);
+		if (associatedMaterial->checkers)
+		{
+			glBindTexture(GL_TEXTURE_2D, App->renderer->checkTexture);
+		}
+		else
+		{
+			glBindTexture(GL_TEXTURE_2D, associatedMaterial->rMaterial->texture);
+		}
 	}
-	else
-	{
-		glBindTexture(GL_TEXTURE_2D, associatedMaterial->texture);
-	}
-
 	glDrawElements(GL_TRIANGLES, rMesh->indices.numIndices, GL_UNSIGNED_INT, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 

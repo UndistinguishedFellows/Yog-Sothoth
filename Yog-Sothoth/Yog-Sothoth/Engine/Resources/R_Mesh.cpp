@@ -83,38 +83,49 @@ void R_Mesh::SaveMeshFile()
 	memcpy(cursor, header, bytes);
 	cursor += bytes;
 
-	bytes = sizeof(unsigned int) * indices.numIndices;
+	bytes = sizeof(unsigned int) * indices.numIndices;	
 	memcpy(cursor, indices.indices, bytes);
 	cursor += bytes;
 
-	bytes = sizeof(float) * vertices.numVertices * 3;
+	bytes = sizeof(float) * vertices.numVertices * 3;	
 	memcpy(cursor, vertices.vertices, bytes);
 	cursor += bytes;
 
 	bytes = sizeof(float) * normals.numNormals * 3;
 	memcpy(cursor, normals.normals, bytes);
 	cursor += bytes;
+	if (uv.numUV > 0)
+	{
+		bytes = sizeof(float) * uv.numUV * 2;
+		memcpy(cursor, uv.uv, bytes);
 
-	bytes = sizeof(float) * uv.numUV * 2;
-	memcpy(cursor, uv.uv, bytes);
+	}
 
 	std::ofstream file(filename, std::ofstream::out | std::ios::binary);
 
-	file << data;
+	file.write(data, size);	
 
 	file.close();
 }
 
 void R_Mesh::LoadMeshFile(const char* filename)
 {
-	std::ifstream file(filename, std::ios::binary);
+	std::ifstream file(filename, std::ios::in | std::ios::binary);
 
 	char* buffer = nullptr;
-	file.read(buffer, file.tellg());
-	char* cursor = buffer;
+
+	// file size
+	file.seekg(0, std::ios::end);
+	int length = file.tellg();
+	file.seekg(0, file.beg);
+
+	buffer = new char[length];
+	file.read(buffer, length);
 
 	unsigned int header[5];
 	unsigned int bytes = sizeof(header);
+
+	char* cursor = buffer;
 
 	memcpy(header, cursor, bytes);
 	cursor += bytes;
@@ -126,19 +137,32 @@ void R_Mesh::LoadMeshFile(const char* filename)
 	uv.numUV = header[4];
 
 	bytes = sizeof(unsigned int) * indices.numIndices;
+	indices.indices = new unsigned int[indices.numIndices];
 	memcpy(indices.indices, cursor, bytes);
 	cursor += bytes;
 
 	bytes = sizeof(float) * vertices.numVertices * 3;
+	vertices.vertices = new float[vertices.numVertices * 3];
 	memcpy(vertices.vertices, cursor, bytes);
 	cursor += bytes;
 
-	bytes = sizeof(float) * normals.numNormals *3;
-	memcpy(normals.normals, cursor, bytes);
-	cursor += bytes;
+	if (normals.numNormals > 0)
+	{
+		bytes = sizeof(float) * normals.numNormals * 3;
+		normals.normals = new float[normals.numNormals * 3];
+		memcpy(normals.normals, cursor, bytes);
+		cursor += bytes;
+	}
 
-	bytes = sizeof(float) * uv.numUV * 2;
-	memcpy(uv.uv, cursor, bytes);
+	if (uv.numUV > 0)
+	{
+		bytes = sizeof(float) * uv.numUV * 2;
+		uv.uv = new float[uv.numUV * 2];
+		memcpy(uv.uv, cursor, bytes);
+
+	}
+
+	RELEASE(buffer);
 
 	GenBuffers();
 }
@@ -179,6 +203,7 @@ void R_Mesh::Load(const aiMesh* aiMesh)
 	if (aiMesh->HasTextureCoords(0))
 	{
 		uv.uv = new float[vertices.numVertices * 2];
+		uv.numUV = vertices.numVertices;
 		aiVector3D* tmp = aiMesh->mTextureCoords[0];
 		for (uint i = 0; i < vertices.numVertices * 2; i += 2)
 		{
