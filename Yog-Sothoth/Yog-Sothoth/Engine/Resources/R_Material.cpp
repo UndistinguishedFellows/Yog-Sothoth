@@ -108,8 +108,10 @@ void R_Material::LoadMaterialFile(const char* filename)
 	{
 		yogConsole(CONSOLE_ERROR, "Could not load texture resource ... from file ... .");
 	}
-
-	RELEASE_ARRAY(buffer);
+	if (length > 0)
+	{
+		RELEASE_ARRAY(buffer);
+	}
 }
 
 void R_Material::Serialize(Json::Value& root)

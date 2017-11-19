@@ -502,3 +502,8 @@ void GameObject::Save(std::string fileName)
 	std::string output;
 	JsonSerializer::Serialize(this, output, fileName);
 }
+
+void GameObject::Load(std::string fileName)
+{
+	JsonSerializer::DeserializeFormPath(this, fileName);
+}

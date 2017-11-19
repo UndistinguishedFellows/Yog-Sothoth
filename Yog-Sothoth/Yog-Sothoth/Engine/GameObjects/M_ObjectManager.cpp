@@ -256,24 +256,24 @@ void M_ObjectManager::MousePick()
 		}
 	}
 
-	//Sort GameObjects must be refactored to get a beter eficient aproach
-	for (int i = 0; i < toCheck.size(); ++i)
-	{
-		for (std::vector<GameObject*>::iterator it = toCheck.begin();
-			 it != toCheck.end(); ++it)
-		{
-			float dist1 = (*it)->Transform->GetPosition().Distance(frustum.pos);
-			if ((it+1) != toCheck.end())
-			{
-				float dist2 = (*(it + 1))->Transform->GetPosition().Distance(frustum.pos);
-
-				if (dist1 > dist2)
-				{
-					std::swap((*it), (*(it+1)));
-				}
-			}
-		}
-	}
+//	//Sort GameObjects must be refactored to get a beter eficient aproach
+//	for (int i = 0; i < toCheck.size(); ++i)
+//	{
+//		for (std::vector<GameObject*>::iterator it = toCheck.begin();
+//			 it != toCheck.end(); ++it)
+//		{
+//			float dist1 = (*it)->Transform->GetPosition().Distance(frustum.pos);
+//			if ((it+1) != toCheck.end())
+//			{
+//				float dist2 = (*(it + 1))->Transform->GetPosition().Distance(frustum.pos);
+//
+//				if (dist1 > dist2)
+//				{
+//					std::swap((*it), (*(it+1)));
+//				}
+//			}
+//		}
+//	}
 //	for (int i = 0; i < toCheck.size(); ++i)
 //	{
 //		for (int j = 0; j < toCheck.size() - i; j++)
@@ -292,35 +292,71 @@ void M_ObjectManager::MousePick()
 //	}
 //
 	//Check Polyhedron
+	std::map<Triangle, GameObject*> triangles;
+	float dist = -1;
+	GameObject* bestCandidate = nullptr;
 	for (auto go : toCheck)
 	{
-		if (go->Mesh != nullptr)
+//		if (go->Mesh != nullptr)
+//		{
+//			Polyhedron mesh;
+//			for (int i = 0; i < go->Mesh->rMesh->vertices.numVertices*3; i+=3)
+//			{
+//				float3 vertice(go->Mesh->rMesh->vertices.vertices[i],
+//							   go->Mesh->rMesh->vertices.vertices[i+1],
+//							   go->Mesh->rMesh->vertices.vertices[i+2]);
+//				mesh.v.push_back(vertice);
+//			}
+//			for (int i = 0; i < go->Mesh->rMesh->indices.numIndices; i += 3)
+//			{
+//				Polyhedron::Face face;
+//				face.v.push_back(go->Mesh->rMesh->indices.indices[i]);
+//				face.v.push_back(go->Mesh->rMesh->indices.indices[i+1]);
+//				face.v.push_back(go->Mesh->rMesh->indices.indices[i+2]);
+//				mesh.f.push_back(face);
+//			}
+//			//Transform polyhedron to global space
+//			mesh.Transform(go->Transform->GetGlobalTransform());
+//			//Check if segment intersects with polyhedron
+//			if (mesh.Intersects(picking))
+//			{
+//				focus = go;
+//				break;
+//			}
+//		}
+		if(go->Mesh != nullptr)
 		{
-			Polyhedron mesh;
-			for (int i = 0; i < go->Mesh->rMesh->vertices.numVertices*3; i+=3)
+			picking.Transform(go->Transform->GetGlobalTransform().Inverted());
+			Triangle tri;
+			for (int i = 0; i < go->Mesh->rMesh->indices.numIndices;)
 			{
-				float3 vertice(go->Mesh->rMesh->vertices.vertices[i],
-							   go->Mesh->rMesh->vertices.vertices[i+1],
-							   go->Mesh->rMesh->vertices.vertices[i+2]);
-				mesh.v.push_back(vertice);
+				tri.a.Set(&go->Mesh->rMesh->vertices.vertices[go->Mesh->rMesh->indices.indices[i++] * 3]);
+				tri.b.Set(&go->Mesh->rMesh->vertices.vertices[go->Mesh->rMesh->indices.indices[i++] * 3]);
+				tri.c.Set(&go->Mesh->rMesh->vertices.vertices[go->Mesh->rMesh->indices.indices[i++] * 3]);
+
+				float distance;
+				float3 hit_point;
+				if (picking.Intersects(tri, &distance, &hit_point))
+				{
+					if (distance < dist)
+					{
+						dist = distance;
+						bestCandidate = go;
+					}
+					else if (dist == -1)
+					{
+						dist = distance;
+						bestCandidate = go;
+					}
+				}
 			}
-			for (int i = 0; i < go->Mesh->rMesh->indices.numIndices; i += 3)
-			{
-				Polyhedron::Face face;
-				face.v.push_back(go->Mesh->rMesh->indices.indices[i]);
-				face.v.push_back(go->Mesh->rMesh->indices.indices[i+1]);
-				face.v.push_back(go->Mesh->rMesh->indices.indices[i+2]);
-				mesh.f.push_back(face);
-			}
-			//Transform polyhedron to global space
-			mesh.Transform(go->Transform->GetGlobalTransform());
-			//Check if segment intersects with polyhedron
-			if (mesh.Intersects(picking))
-			{
-				focus = go;
-				break;
-			}
+
 		}
+	}
+	if (bestCandidate)
+	{
+		focus = bestCandidate;
+
 	}
 
 

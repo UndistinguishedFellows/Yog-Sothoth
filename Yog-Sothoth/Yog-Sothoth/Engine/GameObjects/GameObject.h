@@ -114,7 +114,7 @@ protected:
 	void Deserialize(Json::Value& root) override;
 
 	void Save(std::string fileName);
-	void Load();
+	void Load(std::string fileName);
 
 
 public:
