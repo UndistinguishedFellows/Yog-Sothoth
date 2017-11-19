@@ -231,6 +231,14 @@ void Application::loadHardwareInfo()
 
 void Application::updateGameStatus()
 {
-	if (gameStatus == game_status::TO_PLAY) gameStatus = game_status::PLAY;
-	if (gameStatus == game_status::TO_STOP) gameStatus = game_status::STOP;
+	if (gameStatus == game_status::TO_PLAY)
+	{
+		objManager->SaveScene("data/library/defaultScene.scene");
+		gameStatus = game_status::PLAY;
+	}
+	if (gameStatus == game_status::TO_STOP)
+	{
+		objManager->LoadScenePrefab("data/library/defaultScene.scene");
+		gameStatus = game_status::STOP;
+	}
 }

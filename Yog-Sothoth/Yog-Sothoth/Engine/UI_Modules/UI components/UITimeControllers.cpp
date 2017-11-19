@@ -57,7 +57,7 @@ void UITimeControllers::Draw()
 		}
 
 		ImGui::SameLine();
-		ImGui::Text("Time: %.3f", App->appTimer.GetGameTimeSinceLevelLoaded());
+		ImGui::Text("Game DT: %.3f", App->appTimer.GetGameDT());
 	}
 
 	ImGui::End();
