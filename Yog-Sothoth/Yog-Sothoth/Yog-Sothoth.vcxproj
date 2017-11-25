@@ -98,8 +98,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)SDL2\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL2\lib\x86;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\OutputFiles\Yog-Sothoth_$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)OutputFiles\Yog-Sothoth_$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
@@ -126,8 +127,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)Devil\libx86;$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ILUT.lib;ILU.lib;DevIL.lib;SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)OutputFiles/RenderManager_Debug;$(SolutionDir)Devil\libx86;$(Solutiondir)PhysFS\libx86;$(Solutiondir)Glew\libx86;$(SolutionDir)VirtuosoConsole;$(SolutionDir)Assimp\Assimp\libx86;$(Solutiondir)SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;DevIL.lib;SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;physfs.lib;VirtuosoConsole.lib;assimp.lib;RenderManager_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
