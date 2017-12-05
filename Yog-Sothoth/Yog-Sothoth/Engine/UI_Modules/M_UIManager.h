@@ -10,6 +10,7 @@
 #include "UI components/UIInspector.h"
 #include "UI components/UIGizmos.h"
 #include "UI components/UITimeControllers.h"
+#include "UI components/UIWaterShader.h"
 
 class M_UIManager : public Module
 {
@@ -23,6 +24,7 @@ public:
 	UIInspector* inspector = nullptr;
 	UIGizmos *gizmos = nullptr;
 	UITimeControllers *timeControllers = nullptr;
+	UIWaterShader * water_shader = nullptr;
 
 	bool outlinerSelected = false;
 	bool isUsingMouse;

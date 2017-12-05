@@ -40,6 +40,7 @@ bool M_UIManager::Init()
 	inspector = new UIInspector();
 	gizmos = new UIGizmos();
 	timeControllers = new UITimeControllers();
+	water_shader = new UIWaterShader();
 	return ret;
 }
 
@@ -91,7 +92,7 @@ update_status M_UIManager::PostUpdate(float dt)
 	menus->Draw();
 	gizmos->Draw();
 	timeControllers->Draw();
-	
+	water_shader->Draw();
 	return UPDATE_CONTINUE;
 }
 

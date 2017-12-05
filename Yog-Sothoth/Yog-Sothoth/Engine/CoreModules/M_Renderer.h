@@ -108,4 +108,12 @@ public:
 	//tmp
 
 	std::vector<Primitive*> primitives;
+
+	//WATEEEER
+	float offset1 = 1.0;
+	float Hz1 = 10.0;
+	float A1 = .02;
+	float offset2 = .0;
+	float Hz2 = 5.0;
+	float A2 = .02;
 };

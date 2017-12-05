@@ -4,6 +4,7 @@ out vec4 FragColor;
 in vec3 Normal;  
 in vec3 FragPos;  
 in vec2 TexCoords;
+in vec3 WaterColor;
   
 uniform vec3 lightPos; 
 uniform vec3 viewPos; 
@@ -37,7 +38,7 @@ void main()
 	vec3 diffuse = diff * lightColor * texResult;    
     vec3 specular = specularStrength * spec * lightColor * texResult;   
 
-    vec3 result = (ambient + diffuse + specular) * objectColor;
+    vec3 result = (ambient + diffuse + specular) * objectColor * WaterColor;
 
     FragColor = vec4(result, 1.0);
 }

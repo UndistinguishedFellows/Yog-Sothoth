@@ -198,6 +198,16 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setVec3("lightPos", &App->objManager->testLight->Transform->GetPosition());
 			activeshader->setVec3("viewPos", &App->objManager->activeCamera->Camera->frustum.pos);
 
+			//WATEEEEEER
+			offset1 += dt;
+			offset2 += dt;
+			activeshader->setFloat("offset1", offset1);
+			activeshader->setFloat("Hz1", Hz1);
+			activeshader->setFloat("A1", A1);
+			activeshader->setFloat("offset2", offset2);
+			activeshader->setFloat("Hz2", Hz2);
+			activeshader->setFloat("A2", A2);
+
 			glActiveTexture(GL_TEXTURE0);
 			if (game_object->Mesh->associatedMaterial != nullptr)
 			{

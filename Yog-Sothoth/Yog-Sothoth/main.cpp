@@ -23,8 +23,6 @@ int main(int argc, char** argv)
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
 
-	std::cout << RenderManager::Shader::Suma(2, 8) << std::endl;
-
 	while (state != MAIN_EXIT)
 	{
 		switch (state)
