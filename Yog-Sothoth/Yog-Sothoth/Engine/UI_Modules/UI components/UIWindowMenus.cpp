@@ -127,6 +127,7 @@ void UIWindowMenus::Draw()
 		{
 //			ImGui::MenuItem("FPS info", NULL, &showfpsInfo, true);
 			ImGui::MenuItem("Outliner", nullptr, &App->uiManager->outliner->active, true);
+			ImGui::MenuItem("Shader Editor...", nullptr, &App->uiManager->shaderEditor->active, true);
 //			ImGui::MenuItem("Inspector", NULL, &App->editor->show_inspector, true);
 //			ImGui::MenuItem("Settings", NULL, &App->editor->show_settings, true);
 			ImGui::EndMenu();

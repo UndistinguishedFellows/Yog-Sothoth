@@ -88,6 +88,8 @@
     <ClCompile Include="Tools\Octree.cpp" />
     <ClCompile Include="Tools\OctreeNode.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWaterShader.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIShaderEditor.cpp" />
+    <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -208,6 +210,8 @@
     <ClInclude Include="Tools\Octree.h" />
     <ClInclude Include="Tools\OctreeNode.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWaterShader.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIShaderEditor.h" />
+    <ClInclude Include="ImGuiColorTextEdit\TextEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
