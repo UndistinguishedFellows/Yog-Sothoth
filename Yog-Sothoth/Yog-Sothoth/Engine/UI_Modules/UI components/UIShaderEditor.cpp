@@ -132,8 +132,6 @@ void UIShaderEditor::Draw()
 							std::ifstream t(completePath);
 							std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 							editor.SetText(str);
-
-							//App->objManager->LoadScenePrefab(completePath);
 						}
 					}
 				}
@@ -206,6 +204,12 @@ void UIShaderEditor::Draw()
 		editor.GetLanguageDefinition().mName.c_str(), nameExt.c_str());
 
 	editor.Render("TextEditor");
+
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		editor.returnKeyPressed = true;
+	}
+
 	ImGui::End();
 
 	//

@@ -448,6 +448,13 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 			for (size_t i = 0; i < sizeof(io.InputCharacters) / sizeof(io.InputCharacters[0]); i++)
 			{
 				auto c = (unsigned char)io.InputCharacters[i];
+
+				if (returnKeyPressed)
+				{
+					c = '\r';
+					returnKeyPressed = false;
+				}
+
 				if (c != 0)
 				{
 					if (isprint(c) || isspace(c))

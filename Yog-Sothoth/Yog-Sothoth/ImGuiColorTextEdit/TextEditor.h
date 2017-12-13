@@ -212,6 +212,8 @@ public:
 	static const Palette& GetDarkPalette();
 	static const Palette& GetLightPalette();
 
+	bool returnKeyPressed = false;
+
 private:
 	typedef std::vector<std::pair<std::regex, PaletteIndex>> RegexList;
 
