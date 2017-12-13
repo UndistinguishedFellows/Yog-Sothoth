@@ -19,5 +19,7 @@ public:
 	ImGuiWindowFlags shaderEditorWindowFlags = 0;
 
 	TextEditor editor;
+	std::string path;
 	std::string nameExt;
+	bool fileOpen;
 };

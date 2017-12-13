@@ -7,6 +7,9 @@ namespace fs = std::experimental::filesystem;
 UIShaderEditor::UIShaderEditor()
 {
 	active = false;
+	fileOpen = false;
+
+	path = "data/shaders/";
 
 	///////////////////////////////////////////////////////////////////////
 	// TEXT EDITOR INIT
@@ -101,8 +104,6 @@ void UIShaderEditor::Draw()
 				ImGui::MenuItem("Shaders", NULL, false, false);
 				ImGui::Separator();
 
-				std::string path("data/shaders/");
-
 				for (auto p : fs::directory_iterator(path.c_str()))
 				{
 					fs::path file(p);
@@ -125,6 +126,8 @@ void UIShaderEditor::Draw()
 							nameExt.append(name);
 							nameExt.append(ext);
 
+							fileOpen = true;
+
 							//File to edit
 							std::ifstream t(completePath);
 							std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
@@ -138,10 +141,17 @@ void UIShaderEditor::Draw()
 				ImGui::EndPopup();
 			}
 
-			if (ImGui::Button("Save"))
+			if (ImGui::MenuItem("Save",NULL,false,fileOpen))
 			{
 				auto t = editor.GetText();
-				/// save text in t....
+				std::string savePath("");
+
+				savePath.append(path);
+				savePath.append(nameExt);
+
+				std::ofstream file(savePath, std::ofstream::out);
+
+				file.write(t.c_str(), t.size());
 			}
 
 			ImGui::PopStyleColor(3);
