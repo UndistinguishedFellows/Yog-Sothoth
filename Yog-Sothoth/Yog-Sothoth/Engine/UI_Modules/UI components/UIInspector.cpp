@@ -51,6 +51,7 @@ void UIInspector::Draw()
 		Mesh();
 		Material();
 		Camera();
+		Shader();
 
 		ImGui::Spacing();
 		ImGui::Separator();
@@ -369,3 +370,40 @@ void UIInspector::Camera()
 		}
 	}
 }
+
+void UIInspector::Shader()
+{
+	static bool closableShader = true;
+	if (ImGui::CollapsingHeader("Shader##inspector", &closableShader))
+	{
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
+		flags |= ImGuiTreeNodeFlags_OpenOnArrow;
+		flags |= ImGuiTreeNodeFlags_DefaultOpen;
+		flags |= ImGuiTreeNodeFlags_Selected;
+		ImGuiTreeNodeFlags nodeFlags = 0;
+		nodeFlags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+		nodeFlags |= ImGuiTreeNodeFlags_OpenOnArrow;
+		nodeFlags |= ImGuiTreeNodeFlags_Leaf;
+		//nodeFlags |= ImGuiTreeNodeFlags_Selected;
+
+		std::vector<std::string> shaderNames;
+		for (auto shader : App->resourceManager->shaders)
+		{
+			shaderNames.push_back(shader.first);
+		}
+
+		if (ImGui::TreeNodeEx("", flags))
+		{
+			for (auto item : shaderNames)
+			{
+				ImGui::TreeNodeEx(item.c_str(), nodeFlags);
+				ImGui::TreePop();
+			}
+
+			ImGui::TreePop();
+		}
+
+		
+	}
+}
+

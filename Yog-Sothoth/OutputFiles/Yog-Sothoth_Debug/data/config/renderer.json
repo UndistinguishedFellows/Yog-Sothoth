@@ -2,7 +2,7 @@
    "cullFace" : true,
    "depthTest" : true,
    "fbxViewer" : false,
-   "grid" : true,
+   "grid" : false,
    "vsync" : true,
    "wireframe" : false
 }

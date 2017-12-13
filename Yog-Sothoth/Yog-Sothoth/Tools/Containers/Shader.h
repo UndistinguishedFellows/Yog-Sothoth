@@ -7,10 +7,16 @@ class Shader
 {
 public:
 	unsigned int ID;
-	Shader(const char* vertexPath,
-		   const char* fragmentPath,
-		   const char* geometryPath = nullptr);
+	std::string vertexPath;
+	std::string fragmentPath;
+	std::string geometryPath;
+
+	Shader(const char* _vertexPath,
+			const char* _fragmentPath,
+			const char* _geometryPath = nullptr);
 	~Shader();
+
+	void LoadShader();
 
 	// activate the shader
 	// ------------------------------------------------------------------------
