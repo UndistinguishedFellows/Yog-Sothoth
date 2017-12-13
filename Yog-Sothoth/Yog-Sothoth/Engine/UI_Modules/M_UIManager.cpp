@@ -34,6 +34,7 @@ bool M_UIManager::Init()
 	frameCounter = new UIFrameCounter();
 	frameCounter->active = true;
 	outliner = new UIOutliner();
+	shaderEditor = new UIShaderEditor();
 	tests = new UITests();
 	configuration = new UIConfiguration();
 	menus = new UIWindowMenus();
@@ -79,6 +80,10 @@ update_status M_UIManager::PostUpdate(float dt)
 	if (outliner->active)
 	{
 		outliner->Draw();
+	}
+	if (shaderEditor->active)
+	{
+		shaderEditor->Draw();
 	}
 	if (tests->active)
 	{

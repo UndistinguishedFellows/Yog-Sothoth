@@ -221,10 +221,12 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIFrameCounter.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIInspector.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIOutliner.cpp" />
+    <ClCompile Include="Engine\UI_Modules\UI components\UIShaderEditor.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITests.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UITimeControllers.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWaterShader.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIWindowMenus.cpp" />
+    <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Capsule.cpp" />
@@ -308,10 +310,12 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIFrameCounter.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIInspector.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIOutliner.h" />
+    <ClInclude Include="Engine\UI_Modules\UI components\UIShaderEditor.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITests.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UITimeControllers.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWaterShader.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIWindowMenus.h" />
+    <ClInclude Include="ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB2D.h" />

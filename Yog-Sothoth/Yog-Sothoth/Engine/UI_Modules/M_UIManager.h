@@ -4,6 +4,7 @@
 #include "UI components\UIConsole.h"
 #include "UI components\UIFrameCounter.h"
 #include "UI components/UIOutliner.h"
+#include "UI components/UIShaderEditor.h"
 #include "UI components/UItests.h"
 #include "UI components/UIConfiguration.h"
 #include "UI components/UIWindowMenus.h"
@@ -18,6 +19,7 @@ public:
 	UIConsole* console = nullptr;
 	UIFrameCounter* frameCounter = nullptr;
 	UIOutliner* outliner = nullptr;
+	UIShaderEditor* shaderEditor = nullptr;
 	UITests* tests = nullptr;
 	UIConfiguration* configuration = nullptr;
 	UIWindowMenus* menus = nullptr;
