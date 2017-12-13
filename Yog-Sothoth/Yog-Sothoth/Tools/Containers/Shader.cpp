@@ -4,9 +4,25 @@
 #include <glew.h>
 
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+Shader::Shader(const char* _vertexPath, const char* _fragmentPath, const char* _geometryPath)
 {
 	// 1. retrieve the vertex/fragment source code from filePath
+	vertexPath = _vertexPath;
+	fragmentPath = _fragmentPath;
+	if (_geometryPath != nullptr)
+	{
+		geometryPath = _geometryPath;		
+	}
+
+	LoadShader();
+}
+
+Shader::~Shader()
+{
+}
+
+void Shader::LoadShader()
+{
 	std::string vertexCode;
 	std::string fragmentCode;
 	std::string geometryCode;
@@ -20,8 +36,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	try
 	{
 		// open files
-		vShaderFile_size = App->fs->Load(vertexPath, &vShaderFile);
-		fShaderFile_size = App->fs->Load(fragmentPath, &fShaderFile);
+		vShaderFile_size = App->fs->Load(vertexPath.c_str(), &vShaderFile);
+		fShaderFile_size = App->fs->Load(fragmentPath.c_str(), &fShaderFile);
 		if (true)
 			int i;
 		else
@@ -47,9 +63,9 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 		}
 
 		// if geometry shader path is present, also load a geometry shader
-		if (geometryPath != nullptr)
+		if (geometryPath.size() > 0)
 		{
-			gShaderFile_size = App->fs->Load(geometryPath, &gShaderFile);
+			gShaderFile_size = App->fs->Load(geometryPath.c_str(), &gShaderFile);
 			if (gShaderFile_size == 0)
 			{
 				yogConsole(CONSOLE_ERROR, "Error loading %s", geometryPath);
@@ -95,7 +111,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	checkCompileErrors(fragment, "FRAGMENT");
 	// if geometry shader is given, compile geometry shader
 	unsigned int geometry;
-	if (geometryPath != nullptr)
+	if (geometryPath.size() > 0)
 	{
 		const char * gShaderCode = geometryCode.c_str();
 		geometry = glCreateShader(GL_GEOMETRY_SHADER);
@@ -107,19 +123,15 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	ID = glCreateProgram();
 	glAttachShader(ID, vertex);
 	glAttachShader(ID, fragment);
-	if (geometryPath != nullptr)
+	if (geometryPath.size() > 0)
 		glAttachShader(ID, geometry);
 	glLinkProgram(ID);
 	checkCompileErrors(ID, "PROGRAM");
 	// delete the shaders as they're linked into our program now and no longer necessery
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
-	if (geometryPath != nullptr)
+	if (geometryPath.size() > 0)
 		glDeleteShader(geometry);
-}
-
-Shader::~Shader()
-{
 }
 
 // activate the shader

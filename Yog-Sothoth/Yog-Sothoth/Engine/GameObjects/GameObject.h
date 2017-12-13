@@ -43,7 +43,7 @@ public:
 	bool isStatic = false;
 	bool serializable = true;
 
-	Shader* shader = nullptr;
+	std::pair<std::string, Shader*> shader;
 
 private:
 	//For now there will be only one attribute of each

@@ -17,7 +17,8 @@ GameObject::GameObject(GameObject* parent)
 {
 	this->parent = parent;
 	parent->children.push_back(this);
-	shader = App->resourceManager->shaders["objectShader"];
+	shader.first = "objectShader";
+	shader.second = App->resourceManager->shaders["objectShader"];
 }
 
 GameObject::~GameObject()
@@ -394,6 +395,7 @@ void GameObject::Serialize(Json::Value& root)
 
 			gameObject["uuid"] = top->uuid;
 			gameObject["active"] = top->active;
+			gameObject["shader"] = shader.first;
 
 			for (std::vector<Component*>::iterator it = top->components.begin(); it != top->components.end(); ++it)
 			{
@@ -426,6 +428,18 @@ void GameObject::Deserialize(Json::Value& root)
 		go->parent_uuid = j_go[i].get("parent_uuid", 0).asInt64();
 		go->type = (GameObjectType)j_go[i].get("type", 0).asInt();
 		go->uuid = j_go[i].get("uuid", 0).asInt64();
+
+		std::string shaderName = j_go[i].get("shader", "noShader").asString();
+		if (shaderName.compare("noShader") == 0)
+		{
+			go->shader.second = App->resourceManager->shaders["objectShader"];
+			go->shader.first = "objectShader";
+		}
+		else
+		{
+			go->shader.second = App->resourceManager->shaders[shaderName];
+			go->shader.first = shaderName;
+		}		
 
 		Json::Value j_comp = j_go[i]["components"];
 		for (int j = 0; j != j_comp.size(); j++)
