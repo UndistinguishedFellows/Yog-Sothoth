@@ -38,8 +38,12 @@ update_status M_ResourceManager::PreUpdate(float dt)
 		it = resourcesToDelete.erase(it);
 		RELEASE(res);
 	}
-	if (reloadShaders)
+	if (shaders.size() > 2)
 	{
+		printf(">2");
+	}
+	if (reloadShaders)
+	{		
 		for (auto item : shaders)
 		{
 			item.second->LoadShader();

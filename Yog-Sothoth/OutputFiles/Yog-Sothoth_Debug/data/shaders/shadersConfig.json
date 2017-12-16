@@ -1,5 +1,5 @@
 {
-	"objectShader" : 
+	"default" : 
 	{
 		"info" : "This shader is the basic shader to render game objects, they will be afected by light",
 		"vertex" : "data/shaders/1.basic_lighting.vs",
