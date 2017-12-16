@@ -105,7 +105,7 @@ bool M_Renderer::Init()
 
 bool M_Renderer::Start()
 {
-	lightShader = new Shader("data/shaders/1.basic_lighting.vs", "data/shaders/1.basic_lighting.fs");
+	//lightShader = new Shader("data/shaders/1.basic_lighting.vs", "data/shaders/1.basic_lighting.fs");
 	basicShader = new Shader("data/shaders/camera.vs", "data/shaders/basicFragment.fs");	//basicShader loaded to render normals in direct mode ??? idk why but its necessary at the moment
 	lampShader = new Shader("data/shaders/1.lamp.vs", "data/shaders/1.lamp.fs");
 	wireframeShader = new Shader("data/shaders/wireframe.vs", "data/shaders/wireframe.fs");
@@ -160,7 +160,7 @@ update_status M_Renderer::PostUpdate(float dt)
 
 			float4x4 view = App->objManager->activeCamera->Camera->frustum.ViewMatrix();
 			//Shader* activeshader = game_object->shader;
-			Shader* activeshader = lightShader;
+			Shader* activeshader = game_object->shader.second;
 
 			activeshader->Use();
 			activeshader->setInt("tex", 0);
@@ -207,6 +207,8 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setFloat("offset2", offset2);
 			activeshader->setFloat("Hz2", Hz2);
 			activeshader->setFloat("A2", A2);
+			activeshader->setInt("heightMap", 1);
+
 
 			glActiveTexture(GL_TEXTURE0);
 			if (game_object->Mesh->associatedMaterial != nullptr)
