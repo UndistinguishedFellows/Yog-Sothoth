@@ -2,9 +2,14 @@
 #include "../../../Application.h"
 #include <filesystem>
 
+namespace fs = std::experimental::filesystem;
+
 UIShaderEditor::UIShaderEditor()
 {
 	active = false;
+	fileOpen = false;
+
+	path = "data/shaders/";
 
 	///////////////////////////////////////////////////////////////////////
 	// TEXT EDITOR INIT
@@ -53,11 +58,6 @@ UIShaderEditor::UIShaderEditor()
 	//	bpts.insert(24);
 	//editor.SetBreakpoints(bpts);
 
-	//File to edit
-	std::ifstream t("data/shaders/1.basic_lighting.fs");
-	std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-	editor.SetText(str);
-
 	//
 	//////////////////////////////////////////////////////////////////////
 }
@@ -89,11 +89,71 @@ void UIShaderEditor::Draw()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Save"))
+			ImColor color(66, 66, 66);
+			ImColor colorHover(92, 92, 92);
+			ImGui::PushStyleColor(ImGuiCol_Button, color);
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, colorHover);
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, colorHover);
+
+			if (ImGui::Button("Open..."))
+			{
+				ImGui::OpenPopup("ShadersList");
+			}
+			if (ImGui::BeginPopup("ShadersList"))
+			{
+				ImGui::MenuItem("Shaders", NULL, false, false);
+				ImGui::Separator();
+
+				for (auto p : fs::directory_iterator(path.c_str()))
+				{
+					fs::path file(p);
+					std::string name(file.stem().string());
+					std::string ext(file.extension().string());
+					std::string completePath("");
+					std::string nameExtMenu("");
+
+					if (strcmp(ext.c_str(), ".fs") == 0 || strcmp(ext.c_str(), ".vs") == 0 || strcmp(ext.c_str(), ".gs") == 0)
+					{
+						nameExtMenu.append(name);
+						nameExtMenu.append(ext);
+						if (ImGui::MenuItem(nameExtMenu.c_str()))
+						{
+							completePath.append(path);
+							completePath.append(name);
+							completePath.append(ext);
+							
+							nameExt = "";
+							nameExt.append(name);
+							nameExt.append(ext);
+
+							fileOpen = true;
+
+							//File to edit
+							std::ifstream t(completePath);
+							std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+							editor.SetText(str);
+						}
+					}
+				}
+
+				ImGui::EndPopup();
+			}
+
+			if (ImGui::MenuItem("Save",NULL,false,fileOpen))
 			{
 				auto t = editor.GetText();
-				/// save text in t....
+				std::string savePath("");
+
+				savePath.append(path);
+				savePath.append(nameExt);
+
+				std::ofstream file(savePath, std::ofstream::out);
+
+				file.write(t.c_str(), t.size());
 			}
+
+			ImGui::PopStyleColor(3);
+
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit"))
@@ -141,9 +201,15 @@ void UIShaderEditor::Draw()
 	ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
 		editor.IsOverwrite() ? "Ovr" : "Ins",
 		editor.CanUndo() ? "*" : " ",
-		editor.GetLanguageDefinition().mName.c_str(), "$$FileName$$");
+		editor.GetLanguageDefinition().mName.c_str(), nameExt.c_str());
 
 	editor.Render("TextEditor");
+
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		editor.returnKeyPressed = true;
+	}
+
 	ImGui::End();
 
 	//
