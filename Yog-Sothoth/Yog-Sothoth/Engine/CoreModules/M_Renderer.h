@@ -116,4 +116,8 @@ public:
 	float offset2 = .0;
 	float Hz2 = 5.0;
 	float A2 = .02;
+
+	uint perlin = -1;
+	uint caustics = -1;
+	uint caustics2 = -1;
 };

@@ -16,6 +16,8 @@
 #include "../../Tools/Primitive.h"
 #include "../../Tools/GPUDetect/DeviceId.h"
 #include "../../Tools/Primitives.h"
+#include <il.h>
+#include <ilut.h>
 
 M_Renderer::M_Renderer(bool enabled) : Module(enabled)
 {
@@ -116,6 +118,119 @@ bool M_Renderer::Start()
 	createCheckersTexture();
 	
 
+#pragma region MyRegion
+	char * buffer = nullptr;
+	std::ifstream file;
+	std::ofstream out;
+	file.open("data/engineAssets/textures/PerlinNoise.png", std::ios::in | std::ios::binary);
+	// file size
+	file.seekg(0, std::ios::end);
+	int length = file.tellg();
+	file.seekg(0, file.beg);
+
+	buffer = new char[length];
+	file.read(buffer, length);
+	file.close();
+
+	if (buffer && length > 0)
+	{
+		ILuint image = 0;
+		ilGenImages(1, &image);
+		ilBindImage(image);
+
+		if (ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, length))
+		{
+			perlin = ilutGLBindTexImage();
+			ilDeleteImages(1, &image);
+		}
+		else
+		{
+			yogConsole(CONSOLE_ERROR, "Devil could not load the texture resource ... from file ... .");
+		}
+	}
+	else
+	{
+		yogConsole(CONSOLE_ERROR, "Could not load texture resource ... from file ... .");
+	}
+	if (length > 0)
+	{
+		RELEASE_ARRAY(buffer);
+	}
+#pragma endregion
+#pragma region MyRegion
+	file.open("data/engineAssets/textures/Caustics1.png", std::ios::in | std::ios::binary);
+	// file size
+	file.seekg(0, std::ios::end);
+	length = file.tellg();
+	file.seekg(0, file.beg);
+
+	buffer = new char[length];
+	file.read(buffer, length);
+	file.close();
+
+	if (buffer && length > 0)
+	{
+		ILuint image = 0;
+		ilGenImages(1, &image);
+		ilBindImage(image);
+
+		if (ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, length))
+		{
+			caustics = ilutGLBindTexImage();
+			ilDeleteImages(1, &image);
+		}
+		else
+		{
+			yogConsole(CONSOLE_ERROR, "Devil could not load the texture resource ... from file ... .");
+		}
+	}
+	else
+	{
+		yogConsole(CONSOLE_ERROR, "Could not load texture resource ... from file ... .");
+	}
+	if (length > 0)
+	{
+		RELEASE_ARRAY(buffer);
+	}
+#pragma endregion
+
+#pragma region MyRegion
+	file.open("data/engineAssets/textures/Caustics2.png", std::ios::in | std::ios::binary);
+	// file size
+	file.seekg(0, std::ios::end);
+	length = file.tellg();
+	file.seekg(0, file.beg);
+
+	buffer = new char[length];
+	file.read(buffer, length);
+	file.close();
+
+	if (buffer && length > 0)
+	{
+		ILuint image = 0;
+		ilGenImages(1, &image);
+		ilBindImage(image);
+
+		if (ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, length))
+		{
+			caustics2 = ilutGLBindTexImage();
+			ilDeleteImages(1, &image);
+		}
+		else
+		{
+			yogConsole(CONSOLE_ERROR, "Devil could not load the texture resource ... from file ... .");
+		}
+	}
+	else
+	{
+		yogConsole(CONSOLE_ERROR, "Could not load texture resource ... from file ... .");
+	}
+	if (length > 0)
+	{
+		RELEASE_ARRAY(buffer);
+	}
+#pragma endregion
+
 	return true;
 }
 
@@ -172,6 +287,9 @@ update_status M_Renderer::PostUpdate(float dt)
 
 			activeshader->Use();
 			activeshader->setInt("tex", 0);
+			activeshader->setInt("perlin", 1);
+			activeshader->setInt("caustics", 2);
+			activeshader->setInt("caustics2", 3);
 			if (game_object->Mesh->associatedMaterial != nullptr)
 			{
 				if (game_object->Mesh->associatedMaterial->rMaterial->texture != 0 || game_object->Mesh->associatedMaterial->checkers)
@@ -218,7 +336,7 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setInt("heightMap", 1);
 
 
-			glActiveTexture(GL_TEXTURE0);
+			
 			if (game_object->Mesh->associatedMaterial != nullptr)
 			{
 				if (game_object->Mesh->associatedMaterial->checkers)
@@ -234,10 +352,17 @@ update_status M_Renderer::PostUpdate(float dt)
 			//glBindTexture(GL_TEXTURE_2D, textureBuffer);
 			if (textureBuffer != prevTextureBuffer)
 			{
+				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, textureBuffer);
+				
 				prevTextureBuffer = textureBuffer;
 			}
-
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, perlin);
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, caustics);
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, caustics2);
 			glDrawElements(GL_TRIANGLES, game_object->Mesh->rMesh->indices.numIndices, GL_UNSIGNED_INT, 0);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
