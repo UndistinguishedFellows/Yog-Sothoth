@@ -139,8 +139,9 @@ void UIInspector::Transform()
 
 			if (ImGui::DragFloat3("Scale", scale.ptr(), 0.01f, 0.01f))
 			{
-//				if (!App->renderer->fbxViewer)
-//					transform->SetScale(scale);
+				if (!App->renderer->fbxViewer)
+					if (scale.x > 0 && scale.y > 0 && scale.z > 0)
+						transform->SetScale(scale);
 			}
 
 
