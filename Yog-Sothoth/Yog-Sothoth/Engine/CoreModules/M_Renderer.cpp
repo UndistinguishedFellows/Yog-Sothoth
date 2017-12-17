@@ -325,8 +325,12 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setVec3("viewPos", &App->objManager->activeCamera->Camera->frustum.pos);
 
 			//WATEEEEEER
-			offset1 += App->appTimer.GetGameDT();
-			offset2 += App->appTimer.GetGameDT();
+			if (App->gameStatus != PAUSE)
+			{
+				offset1 += App->appTimer.GetGameDT();
+				offset2 += App->appTimer.GetGameDT();
+			}
+			
 			activeshader->setFloat("offset1", offset1);
 			activeshader->setFloat("Hz1", Hz1);
 			activeshader->setFloat("A1", A1);
@@ -359,10 +363,13 @@ update_status M_Renderer::PostUpdate(float dt)
 			}
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, perlin);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, caustics);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glActiveTexture(GL_TEXTURE3);
 			glBindTexture(GL_TEXTURE_2D, caustics2);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glDrawElements(GL_TRIANGLES, game_object->Mesh->rMesh->indices.numIndices, GL_UNSIGNED_INT, 0);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
