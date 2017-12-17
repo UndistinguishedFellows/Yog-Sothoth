@@ -17,8 +17,8 @@ GameObject::GameObject(GameObject* parent)
 {
 	this->parent = parent;
 	parent->children.push_back(this);
-	shader.first = "objectShader";
-	shader.second = App->resourceManager->shaders["objectShader"];
+	shader.first = "default";
+	shader.second = App->resourceManager->shaders.find("default")->second;
 }
 
 GameObject::~GameObject()
@@ -395,7 +395,14 @@ void GameObject::Serialize(Json::Value& root)
 
 			gameObject["uuid"] = top->uuid;
 			gameObject["active"] = top->active;
-			gameObject["shader"] = shader.first;
+			if (top->shader.first.compare("") == 0)
+			{
+				gameObject["shader"] = "noShader";
+			}
+			else
+			{
+				gameObject["shader"] = top->shader.first;
+			}			
 
 			for (std::vector<Component*>::iterator it = top->components.begin(); it != top->components.end(); ++it)
 			{
@@ -432,12 +439,12 @@ void GameObject::Deserialize(Json::Value& root)
 		std::string shaderName = j_go[i].get("shader", "noShader").asString();
 		if (shaderName.compare("noShader") == 0)
 		{
-			go->shader.second = App->resourceManager->shaders["objectShader"];
-			go->shader.first = "objectShader";
+			go->shader.second = App->resourceManager->shaders.find("default")->second;
+			go->shader.first = "default";
 		}
 		else
 		{
-			go->shader.second = App->resourceManager->shaders[shaderName];
+			go->shader.second = App->resourceManager->shaders.find(shaderName)->second;
 			go->shader.first = shaderName;
 		}		
 

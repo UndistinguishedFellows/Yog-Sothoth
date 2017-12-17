@@ -1,27 +1,14 @@
 {
-	"objectShader" : 
+	"default" : 
 	{
 		"info" : "This shader is the basic shader to render game objects, they will be afected by light",
 		"vertex" : "data/shaders/1.basic_lighting.vs",
 		"fragment" : "data/shaders/1.basic_lighting.fs"
 	},
-	"normalShader" : 
+	"waterShader" : 
 	{
-		"info" : "This shader is the basic shader to render game object normalst",
-		"vertex" : "data/shaders/normalDisplay.vs",
-		"geometry" : "data/shaders/normalDisplay.gs",
-		"fragment" : "data/shaders/normalDisplay.fs"
-	},
-	"wireframeShader" : 
-	{
-		"info" : "This shader is the basic shader to render game objects in wireframe",
-		"vertex" : "data/shaders/wireframe.vs",
-		"fragment" : "data/shaders/wireframe.fs"
-	},
-	"colorShader" : 
-	{
-		"info" : "This shader is the basic shader to render game objects with only a solid color",
-		"vertex" : "data/shaders/1.colors.vs",
-		"fragment" : "data/shaders/1.colors.fs"
+		"info" : "water",
+		"vertex" : "data/shaders/water_shader.vs",
+		"fragment" : "data/shaders/water_shader.fs"
 	}
 }

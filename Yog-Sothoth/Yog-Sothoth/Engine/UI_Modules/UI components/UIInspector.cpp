@@ -376,6 +376,7 @@ void UIInspector::Shader()
 	static bool closableShader = true;
 	if (ImGui::CollapsingHeader("Shader##inspector", &closableShader))
 	{
+		if (ImGui::Button("Reload Shaders")) App->resourceManager->reloadShaders = true;
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		flags |= ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
@@ -396,7 +397,19 @@ void UIInspector::Shader()
 		{
 			for (auto item : shaderNames)
 			{
+				if (App->objManager->GetFocusGO()->shader.first.compare(item) == 0)
+				{
+					nodeFlags |= ImGuiTreeNodeFlags_Selected;
+				}
+				else
+				{
+					nodeFlags &= ~ImGuiTreeNodeFlags_Selected;
+				}
 				ImGui::TreeNodeEx(item.c_str(), nodeFlags);
+				if (ImGui::IsItemClicked(0))
+				{
+					App->objManager->GetFocusGO()->shader = App->resourceManager->GetShader(item);
+				}
 				ImGui::TreePop();
 			}
 

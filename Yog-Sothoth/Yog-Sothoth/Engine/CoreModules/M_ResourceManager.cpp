@@ -38,6 +38,18 @@ update_status M_ResourceManager::PreUpdate(float dt)
 		it = resourcesToDelete.erase(it);
 		RELEASE(res);
 	}
+	if (shaders.size() > 2)
+	{
+		printf(">2");
+	}
+	if (reloadShaders)
+	{		
+		for (auto item : shaders)
+		{
+			item.second->LoadShader();
+		}
+		reloadShaders = false;
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -63,7 +75,6 @@ void M_ResourceManager::Serialize(Json::Value& root)
 void M_ResourceManager::Deserialize(Json::Value& root)
 {
 	Json::Value::Members members = root.getMemberNames();
-
 	for (int it = 0; it < members.size(); ++it)
 	{
 		Json::Value shdr = root.get(members[it], "noShader");
@@ -85,7 +96,7 @@ void M_ResourceManager::Deserialize(Json::Value& root)
 		{
 			shader = new Shader(vertex.c_str(), fragment.c_str(), geometry.c_str());
 		}
-
+		
 		shaders.insert(std::pair<std::string, Shader*>(shaderName, shader));
 	}
 }
@@ -183,4 +194,11 @@ Resource* M_ResourceManager::UnloadResource(UUID32 uuid)
 
 
 	return ret;
+}
+
+std::pair<std::string, Shader*> M_ResourceManager::GetShader(std::string shaderName)
+{
+	std::map<std::string, Shader*>::iterator iterator = shaders.find(shaderName);
+
+	return *iterator;
 }

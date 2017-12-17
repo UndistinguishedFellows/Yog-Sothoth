@@ -160,7 +160,15 @@ update_status M_Renderer::PostUpdate(float dt)
 
 			float4x4 view = App->objManager->activeCamera->Camera->frustum.ViewMatrix();
 			//Shader* activeshader = game_object->shader;
-			Shader* activeshader = lightShader;
+			Shader* activeshader;
+			if (game_object->shader.second != nullptr)
+			{
+				activeshader = game_object->shader.second;
+			}
+			else
+			{
+				activeshader = App->resourceManager->shaders.find("default")->second;
+			}
 
 			activeshader->Use();
 			activeshader->setInt("tex", 0);
@@ -199,14 +207,16 @@ update_status M_Renderer::PostUpdate(float dt)
 			activeshader->setVec3("viewPos", &App->objManager->activeCamera->Camera->frustum.pos);
 
 			//WATEEEEEER
-			offset1 += dt;
-			offset2 += dt;
+			offset1 += App->appTimer.GetGameDT();
+			offset2 += App->appTimer.GetGameDT();
 			activeshader->setFloat("offset1", offset1);
 			activeshader->setFloat("Hz1", Hz1);
 			activeshader->setFloat("A1", A1);
 			activeshader->setFloat("offset2", offset2);
 			activeshader->setFloat("Hz2", Hz2);
 			activeshader->setFloat("A2", A2);
+			activeshader->setInt("heightMap", 1);
+
 
 			glActiveTexture(GL_TEXTURE0);
 			if (game_object->Mesh->associatedMaterial != nullptr)
