@@ -75,21 +75,40 @@
           <p>
             Description
           </p>
-          <h3>3</h3>
+          <h3>Render</h3>
           <p>
-            Description
+            Render contains shader pipeline to draw
+          </p>
+         <h3>Resource Manager</h3>
+          <p>
+            Manages all resources needed by engine
+          </p>
+          <h3>Object Manager</h3>
+          <p>
+            Manages all game objects, most of the game objects operations must be done through objManager. Game objects are encapuslated
+            to evade possible user errors.
+          </p>
+          <h3>Shader Container</h3>
+          <p>
+            Stores and manages shader info.
+          </p>
+          <h3>ImGUI</h3>
+          <p>
+            Let us draw editor UI.
+          </p>
+          <h3>Import FBX</h3>
+          <p>
+            Importer to manage fbx.
           </p>
           <h2>Shaders Pipeline</h2>
           <p>
             Shader pipeline is located inside "M_Renderer" file.
             It orders printable objects by texture to minimize OpenGl texture changing.
             Accepts 3 types of shader vs, gs and fs.
+            Shaders must be declared into "data/shaders/shaderConfig.json".
+            Shaders can be edited and reloaded from inside engine.
+            
           </p>
-          <img src="images/shader.gif">
-          <p>
-            Shaders must be declared into "data/shaders/shaderConfig.json" and can be edited and reloaded from inside engine shader editor.
-          </p>
-          <img src="images/editor.gif">
           <h2>Video demo</h2>
           <p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/UvZL4kzrQ00?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
