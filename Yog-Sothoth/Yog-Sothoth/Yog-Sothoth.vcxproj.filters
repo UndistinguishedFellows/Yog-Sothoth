@@ -90,6 +90,7 @@
     <ClCompile Include="Engine\UI_Modules\UI components\UIWaterShader.cpp" />
     <ClCompile Include="Engine\UI_Modules\UI components\UIShaderEditor.cpp" />
     <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="FastNoise\FastNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Engine\UI_Modules\UI components\UIWaterShader.h" />
     <ClInclude Include="Engine\UI_Modules\UI components\UIShaderEditor.h" />
     <ClInclude Include="ImGuiColorTextEdit\TextEditor.h" />
+    <ClInclude Include="FastNoise\FastNoise.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\Matrix.inl" />
