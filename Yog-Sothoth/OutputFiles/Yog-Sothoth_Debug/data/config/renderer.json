@@ -1,8 +1,0 @@
-{
-   "cullFace" : true,
-   "depthTest" : true,
-   "fbxViewer" : false,
-   "grid" : true,
-   "vsync" : true,
-   "wireframe" : false
-}
