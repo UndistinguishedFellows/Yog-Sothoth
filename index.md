@@ -1,37 +1,36 @@
-## Welcome to GitHub Pages
+## What is Yog-Sothoth?
 
-You can use the [editor on GitHub](https://github.com/UndistinguishedFellows/Yog-Sothoth/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Yog-Sothoth is a game engine developed in c ++ for the subject of Game Engine at the CITM-UPC University under the [GNU license](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Team
 
-### Markdown
+~{Photo}~ ![Image](src)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Aleix Cardona ([@CapitanLiteral](https://github.com/CapitanLiteral))
 
-```markdown
-Syntax highlighted code block
+~{Description.}~
 
-# Header 1
-## Header 2
-### Header 3
+### Daniel Triviño ([@dibu13](https://github.com/dibu13))
 
-- Bulleted
-- List
+~{Description.}~
 
-1. Numbered
-2. List
+## Sub-systems
+### 1
 
-**Bold** and _Italic_ and `Code` text
+~{Description.}~
 
-[Link](url) and ![Image](src)
-```
+### 2
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+~{Description.}~
 
-### Jekyll Themes
+### 3
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/UndistinguishedFellows/Yog-Sothoth/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+~{Description.}~
 
-### Support or Contact
+## Shaders Pipeline
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+~{Detailed explanation.}~
+
+## Video demo
+
+~{Video.}~
