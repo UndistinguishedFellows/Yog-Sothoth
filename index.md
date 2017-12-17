@@ -4,7 +4,7 @@ Yog-Sothoth is a game engine developed in c ++ for the subject of Game Engine at
 
 ## Team
 
-![Image](./img/img/teamPhoto.png =400x400)
+![Image](https://github.com/UndistinguishedFellows/Yog-Sothoth/blob/gh-pages/img/teamPhoto.png)
 
 ### Aleix Cardona ([@CapitanLiteral](https://github.com/CapitanLiteral))
 
